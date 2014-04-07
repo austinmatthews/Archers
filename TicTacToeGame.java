@@ -1,9 +1,12 @@
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -13,50 +16,41 @@ import java.awt.event.WindowEvent;
 import java.util.Stack;
 
 
+
 //implemented interfaces
 public class TicTacToeGame implements MouseListener, KeyListener
 {
-	//constants
-	private final int Z_KEY=17;
-	private final int CONTROL_KEY =90;
-	
-	//class variables
-	private boolean zKeyPressed=false;
-	private boolean controlKeyPressed=false;
 
+	//class variables
 	JFrame theJFrame;
-	boolean theFlag = true;
+	int theFlag = 2;
 	int theY;
 	int theX;
 	boolean won;
 	//a game board is a 3X3 2D array of X's and O's
 	char[][] charArray = new char[3][3];
+	int turn;
 	Stack<Moves> theMoves = new Stack<Moves>(); 
-	Graphics moreGraphics;
-	int xWins;
-	int yWins;
 
 	//constructor
 	public TicTacToeGame()
 	{
-
+		turn = 0;
 		won = false;
 		//initialize the JFrame
 		theJFrame = new JFrame("player O");
 		theJFrame.setSize(1000, 700);
-		theJFrame.setBackground(Color.WHITE);
 		theJFrame.setVisible(true);
 		//add listeners
 		theJFrame.addMouseListener(this);
-		theJFrame.addKeyListener(this);
-
+		
 		//initialize the board array
 		for (int counter = 0; counter < 3; counter++){
 			for(int counterTwo = 0; counterTwo < 3; counterTwo++){
-				//make the char array all a's
-				charArray[counter][counterTwo] = '_';
+			//make the char array all a's
+			charArray[counter][counterTwo] = '_';
 			}
-
+		
 		}
 
 
@@ -76,7 +70,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		//exit on close
 		theJFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.drawTheBoard();
-
+		
 
 		theJFrame.setVisible(true);
 	}
@@ -90,7 +84,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 	//draw the gameboard, 9 boxes are made
 	public void drawTheBoard(){
-		moreGraphics = theJFrame.getGraphics();
+		Graphics moreGraphics = theJFrame.getGraphics();
 		moreGraphics.drawLine(200, 0, 200, 600);
 		moreGraphics.drawLine(400, 0, 400, 600);
 		moreGraphics.drawLine(0, 200, 600, 200);
@@ -98,344 +92,13 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		moreGraphics.drawLine(600, 0, 600, 600);
 	}
 
-	//undoes a move
-		public void undoMove(Moves pMove){
 
-
-			int x = pMove.getX();
-			int y = pMove.getY();
-
-
-			Graphics2D theGraphics2D;
-
-			//draw the board
-			Graphics moreGraphics = theJFrame.getGraphics();
-
-
-			//tell the player it is their turn
-			if(theFlag == false){
-				//it is now player x's turn
-				theJFrame.setTitle("player X");
-				//swap the flag
-				theFlag = true;
-			}else{
-				//it is now player 0's turn
-				theJFrame.setTitle("player O");
-				//swap the flag
-				theFlag = false;
-			}
-
-
-			//if the flag is false, undo the last circle
-			if (theFlag == false)
-			{
-				//reset each respective matching position
-				if ((x < 200) && (y < 200)) { theX = 0; theY = 0; charArray[0][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = '_'; }
-				if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { theX = 200; theY= 200; charArray[1][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { theX = 400; theY= 200; charArray[1][2] = '_'; }
-				if ((x < 200) && (y > 400) && (y < 600)) { theX = 0; theY= 400; charArray[2][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = '_'; }
-
-				//draw a white circle over the old circle
-				moreGraphics.setColor(Color.WHITE);
-				theGraphics2D = (Graphics2D)moreGraphics;
-				theGraphics2D.setStroke(new BasicStroke(10.0F));
-				moreGraphics.drawOval(theX + 10,theY+ 10, 160, 160);
-
-
-			}
-
-			//if theFlag is a true, undo the last X
-			if (theFlag == true)
-			{
-
-
-				//reset each respective matching position
-				if ((x < 200) && (y < 200)) { theX = 0; theY = 0; charArray[0][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = '_'; }
-				if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { theX = 200; theY= 200; charArray[1][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { theX = 400; theY= 200; charArray[1][2] = '_'; }
-				if ((x < 200) && (y > 400) && (y < 600)) { theX = 0; theY= 400; charArray[2][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = '_'; }
-
-
-				//draw a white X over the old X
-				theGraphics2D = (Graphics2D)moreGraphics;
-				theGraphics2D.setStroke(new BasicStroke(10.0F));
-				theGraphics2D.setColor(Color.WHITE);
-				theGraphics2D.drawLine(theX + 10,theY+ 10,theX+ 170,theY+ 160);
-				theGraphics2D.drawLine(theX + 170,theY+ 10,theX+ 10,theY+ 170);
-
-			}
-		}
-
-
-
-	public void makeMove(int x, int y){
-
+	public void mousePressed(MouseEvent e) { 
 
 		Graphics2D theGraphics2D;
 
 		//draw the board
 		Graphics moreGraphics = theJFrame.getGraphics();
-
-
-		//if the flag is false, draw a circle
-		if (theFlag == false)
-		{
-			if ((x < 200) && (y < 200)) {
-				if (charArray[0][0] != '_'){
-					theJFrame.setTitle("player O that space already is taken");
-					return;
-				}
-				
-				theX = 0; theY = 0; charArray[0][0] = 'O'; 
-				}
-			
-			if ((x > 200) && (x < 400) && (y < 200)) { 
-				if (charArray[0][1] != '_'){
-					theJFrame.setTitle("player O that space already is taken");
-					return;
-				}
-				
-				theX = 200; theY= 0; charArray[0][1] = 'O'; 
-				}
-			
-			if ((x > 400) && (x < 600) && (y < 200)) { 
-				if (charArray[0][2] != '_'){
-					theJFrame.setTitle("player O that space already is taken");
-					return;
-				}
-				
-				theX = 400; theY= 0; charArray[0][2] = 'O'; 
-				
-				}
-			if ((x < 200) && (y > 200) && (y < 400)) { 
-				if (charArray[1][0] != '_'){
-					theJFrame.setTitle("player O that space already is taken");
-					return;
-				}
-				
-				theX = 0; theY= 200; charArray[1][0] = 'O'; 
-
-				
-				}
-			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { 
-				if (charArray[1][1] != '_'){
-					theJFrame.setTitle("player O that space already is taken");
-					return;
-				}
-				
-				theX = 200; theY= 200; charArray[1][1] = 'O'; 
-				}
-			
-			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { 
-				if (charArray[1][2] != '_'){
-					theJFrame.setTitle("player O that space already is taken");
-					return;
-				}
-				
-				theX = 400; theY= 200; charArray[1][2] = 'O'; 
-				}
-			
-			if ((x < 200) && (y > 400) && (y < 600)) { 
-				if (charArray[2][0] != '_'){
-					theJFrame.setTitle("player O that space already is taken");
-					return;
-				}
-				
-				theX = 0; theY= 400; charArray[2][0] = 'O'; 
-				}
-			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { 
-				if (charArray[2][1] != '_'){
-					theJFrame.setTitle("player O that space already is taken");
-					return;
-				}
-				theX = 200; theY= 400; charArray[2][1] = 'O'; 
-				
-				}
-			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { 
-				if (charArray[2][2] != '_'){
-					theJFrame.setTitle("player O that space already is taken");
-					return;
-				}
-				theX = 400; theY= 400; charArray[2][2] = 'O'; 
-				}
-
-			//draw a circle
-			moreGraphics.setColor(Color.BLACK);
-			theGraphics2D = (Graphics2D)moreGraphics;
-			theGraphics2D.setStroke(new BasicStroke(10.0F));
-			moreGraphics.drawOval(theX + 10,theY+ 10, 160, 160);
-
-		}
-
-		//if theflag is true, draw an X
-		if (theFlag == true)
-		{
-			if ((x < 200) && (y < 200)) { 
-				if (charArray[0][0] != '_'){
-					theJFrame.setTitle("player X that space already is taken");
-					return;
-				}
-				theX = 0; theY = 0; charArray[0][0] = 'X';
-				}
-			
-			if ((x > 200) && (x < 400) && (y < 200)) { 
-				if (charArray[0][1] != '_'){
-					theJFrame.setTitle("player X that space already is taken");
-					return;
-				}
-				theX = 200; theY= 0; charArray[0][1] = 'X'; 
-				}
-			
-			if ((x > 400) && (x < 600) && (y < 200)) { 
-				if (charArray[0][2] != '_'){
-					theJFrame.setTitle("player X that space already is taken");
-					return;
-				}
-				theX = 400; theY= 0; charArray[0][2] = 'X';
-				}
-			
-			if ((x < 200) && (y > 200) && (y < 400)) { 
-				if (charArray[1][0] != '_'){
-					theJFrame.setTitle("player X that space already is taken");
-					return;
-				}
-				theX = 0; theY= 200; charArray[1][0] = 'X'; 
-				}
-			
-			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { 
-				if (charArray[1][1] != '_'){
-					theJFrame.setTitle("player X that space already is taken");
-					return;
-				}
-				theX = 200; theY= 200; charArray[1][1] = 'X';
-				
-				}
-			
-			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) {
-				if (charArray[1][2] != '_'){
-					theJFrame.setTitle("player X that space already is taken");
-					return;
-				}
-				theX = 400; theY= 200; charArray[1][2] = 'X'; 
-				}
-			
-			if ((x < 200) && (y > 400) && (y < 600)) { 
-				if (charArray[2][0] != '_'){
-					theJFrame.setTitle("player X that space already is taken");
-					return;
-				}
-				theX = 0; theY= 400; charArray[2][0] = 'X'; 
-				}
-			
-			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { 
-				if (charArray[2][1] != '_'){
-					theJFrame.setTitle("player X that space already is taken");
-					return;
-				}
-				theX = 200; theY= 400; charArray[2][1] = 'X';
-				}
-			
-			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { 
-				if (charArray[2][2] != '_'){
-					theJFrame.setTitle("player X that space already is taken");
-					return;
-				}
-				theX = 400; theY= 400; charArray[2][2] = 'X'; 
-				}
-
-
-			//drawing an X
-			theGraphics2D = (Graphics2D)moreGraphics;
-			theGraphics2D.setStroke(new BasicStroke(10.0F));
-			theGraphics2D.setColor(Color.RED);
-			theGraphics2D.drawLine(theX + 10,theY+ 10,theX+ 170,theY+ 160);
-			theGraphics2D.drawLine(theX + 170,theY+ 10,theX+ 10,theY+ 170);
-
-		}
-
-		//tell the player it is their turn
-		if(theFlag == false){
-			theJFrame.setTitle("player X");
-			theFlag = true;
-		}else{
-			theJFrame.setTitle("player O");
-			theFlag = false;
-		}
-		
-		//check to see if the game has ended
-		this.winner();
-
-		//print array for testing this.printArray();
-
-
-		//push the turn to the stack
-		theMoves.push(new Moves(x, y));
-
-	}
-
-
-	//is the there a winner?
-	public void winner(){
-
-		//is there a winner on a row or a column?
-		for (int counter = 0; counter< 3; counter++){
-
-			if((charArray[counter][0] == charArray[counter][1]) && (charArray[counter][0] == charArray[counter][2]) && charArray[counter][0] != '_') {
-				won = true;
-			}
-
-			if((charArray[0][counter] == charArray[1][counter]) && (charArray[1][counter] == charArray[2][counter]) && charArray[0][counter] != '_'){
-				won = true;
-			}
-		}
-
-		//is there a diagonal winner?
-
-		if(charArray[0][0] == charArray[1][1] && charArray [0][0] == charArray[2][2] && charArray[1][1] != '_'){
-			won = true;
-		}
-
-		if(charArray[0][2] == charArray[1][1] && charArray[0][2] == charArray[2][0] && charArray[1][1] != '_'){
-			won = true;
-		}
-
-		if(won == true){
-
-		}
-	}
-
-	//print the 2D char array for testing purposes
-
-	/* public void printArray(){
-
-		for(int counter = 0; counter < 3; counter++){
-
-			for(int counterTwo = 0; counterTwo < 3; counterTwo++){
-				System.out.print(charArray[counter][counterTwo] + ",");
-			}
-			System.out.println();
-		}
-		System.out.println();
-	}
-	 */
-	
-	//*************************************************
-	//the following methods are form their respective interfaces
-	
-	//*************************************************
-	// following from MouseListener
-	
-	public void mousePressed(MouseEvent e) { 
 
 		//get the location the mouse was pressed
 		int x = e.getX();
@@ -445,62 +108,124 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		if(x > 600 || x< 0 || y < 0 || y > 600 ){
 			return;
 		}
-
-		this.makeMove(x, y);
-	}
-	
-
-	//**********************************************
-	//following From KeyListener
-
-	@Override
-	public void keyPressed(KeyEvent e) {
 		
-
-		//was the z key pressed?
-		if(Z_KEY==e.getKeyCode())
+		//subtract one from the flag on each pass through
+		theFlag -= 1;
+		
+		//tell the player it is their turn
+		if(theFlag == 1){
+			theJFrame.setTitle("player X");
+		}else{
+			theJFrame.setTitle("player O");
+		}
+		
+		//if the flag is a 1, draw a circle
+		if (theFlag == 1)
 		{
-			//yes
-			zKeyPressed=true;
+			if ((x < 200) && (y < 200)) {
+				theX = 0; theY = 0; charArray[0][0] = 'O'; }
+			if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = 'O'; }
+			if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = 'O'; }
+			if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = 'O'; }
+			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { theX = 200; theY= 200; charArray[1][1] = 'O'; }
+			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { theX = 400; theY= 200; charArray[1][2] = 'O'; }
+			if ((x < 200) && (y > 400) && (y < 600)) { theX = 0; theY= 400; charArray[2][0] = 'O'; }
+			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = 'O'; }
+			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = 'O'; }
+
+			//draw a circle
+			moreGraphics.setColor(Color.BLACK);
+			theGraphics2D = (Graphics2D)moreGraphics;
+			theGraphics2D.setStroke(new BasicStroke(10.0F));
+			moreGraphics.drawOval(theX + 10,theY+ 10, 160, 160);
+
 		}
 
-		//was the control key pressed?
-		if(CONTROL_KEY==e.getKeyCode())
+		//if theflag is a 0, draw an X
+		if (theFlag == 0)
 		{
-			//yes
-			controlKeyPressed=true;
+			if ((x < 200) && (y < 200)) { theX = 0; theY = 0; charArray[0][0] = 'X'; }
+			if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = 'X'; }
+			if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = 'X'; }
+			if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = 'X'; }
+			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { theX = 200; theY= 200; charArray[1][1] = 'X'; }
+			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { theX = 400; theY= 200; charArray[1][2] = 'X'; }
+			if ((x < 200) && (y > 400) && (y < 600)) { theX = 0; theY= 400; charArray[2][0] = 'X'; }
+			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = 'X'; }
+			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = 'X'; }
+			
+			
+			//drawing an X
+			theGraphics2D = (Graphics2D)moreGraphics;
+			theGraphics2D.setStroke(new BasicStroke(10.0F));
+			theGraphics2D.setColor(Color.RED);
+			theGraphics2D.drawLine(theX + 10,theY+ 10,theX+ 170,theY+ 160);
+			theGraphics2D.drawLine(theX + 170,theY+ 10,theX+ 10,theY+ 170);
+
+			//cycle back through the flag, setting the flag to 2
+			theFlag = 2;
+
 		}
 
-		//were both the control and the zkey pressed?
-		if(controlKeyPressed==true && zKeyPressed==true)
-		{
+		//check to see if the game has ended
+		this.winner();
+		
+		//print array for testing this.printArray();
+		
+		//at a turn to the counter
+		turn += 1;
+		
+		//push the turn to the stack
+		theMoves.push(new Moves(x, y, turn));
+	
+	}
 
-			//are there moves in the stack?
-			if (theMoves.isEmpty() == false){
-				//yes, undo last move
-				this.undoMove(theMoves.pop());
+	
+	//is the there a winner?
+	public void winner(){
+
+		//is there a winner on a row or a column?
+		for (int counter = 0; counter< 3; counter++){
+			
+			if((charArray[counter][0] == charArray[counter][1]) && (charArray[counter][0] == charArray[counter][2]) && charArray[counter][0] != '_') {
+				won = true;
+			}
+			
+			if((charArray[0][counter] == charArray[1][counter]) && (charArray[1][counter] == charArray[2][counter]) && charArray[0][counter] != '_'){
+				won = true;
 			}
 		}
+		
+		//is there a diagonal winner?
 
-	}
-
-	
-	
-	@Override
-	public void keyReleased(KeyEvent e) {
-
-		if(Z_KEY==e.getKeyCode())
-		{
-			zKeyPressed=false;
+		if(charArray[0][0] == charArray[1][1] && charArray [0][0] == charArray[2][2] && charArray[1][1] != '_'){
+				won = true;
 		}
+		
+		if(charArray[0][2] == charArray[1][1] && charArray[0][2] == charArray[2][0] && charArray[1][1] != '_'){
+			won = true;
+		}
+		
+		if(won == true){
 
-		if(CONTROL_KEY==e.getKeyCode())
-		{
-			controlKeyPressed=false;
 		}
 	}
+
+	//print the 2D char array for testing purposes
 	
-	
+	/* public void printArray(){
+		
+		for(int counter = 0; counter < 3; counter++){
+			
+			for(int counterTwo = 0; counterTwo < 3; counterTwo++){
+				System.out.print(charArray[counter][counterTwo] + ",");
+			}
+			System.out.println();
+		}
+		System.out.println();
+	}
+	*/
+
 
 	// main method for testing
 
@@ -520,9 +245,9 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	//**********************************************
 	//following methods unused. override interfaces
 
-
-	//*************************************************
-	// following from MouseListener
+	
+	//**************************************
+	// form MouseListener
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
@@ -546,19 +271,42 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	}
 
 
-
+	
 
 	//**********************************************
-	//following From KeyListener
+	//From KeyListener
+	
+	
+	//checks for two keys pressed, 'control' and 'z'
+	public void keyPressed(KeyEvent arg1, KeyEvent arg2) {
+
+		
+	}
+	
+	
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		//method unused
+		
+	}
+	
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		//unused method
+	public void keyReleased(KeyEvent arg0) {
+		//method unused
+		
 	}
 
-	
-}
 
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		//method unused
+		
+	}
+
+
+
+}
 
 
 
