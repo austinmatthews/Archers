@@ -3,11 +3,9 @@ import java.awt.Color;
 import java.awt.Dialog;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -23,28 +21,37 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	//constants
 	private final int Z_KEY=17;
 	private final int CONTROL_KEY =90;
-	
+
 	//class variables
 	private boolean zKeyPressed=false;
 	private boolean controlKeyPressed=false;
+	private int theY;
+	private int theX;
+	private boolean theFlag = true;
+	private boolean won;
 
-	JFrame theJFrame;
-	boolean theFlag = true;
-	int theY;
-	int theX;
-	boolean won;
+	//count wins
+	private int xWins;
+	private int yWins;
+
+	//Frame
+	private JFrame theJFrame;
+	//graphics on frame
+	private Graphics moreGraphics;
+
 	//a game board is a 3X3 2D array of X's and O's
-	char[][] charArray = new char[3][3];
-	Stack<Moves> theMoves = new Stack<Moves>(); 
-	Graphics moreGraphics;
-	int xWins;
-	int yWins;
-	int turns;
+	private char[][] charArray = new char[3][3];
+
+	//stack to keep track of moves
+	private Stack<Moves> theMoves = new Stack<Moves>(); 
+
+
+
 	//constructor
 	public TicTacToeGame()
 	{
 
-		turns = 0;
+
 		won = false;
 		//initialize the JFrame
 		theJFrame = new JFrame("player O");
@@ -104,86 +111,86 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	}
 
 	//undoes a move
-		public void undoMove(Moves pMove){
+	private void undoMove(Moves pMove){
 
 
-			int x = pMove.getX();
-			int y = pMove.getY();
+		int x = pMove.getX();
+		int y = pMove.getY();
 
 
-			Graphics2D theGraphics2D;
+		Graphics2D theGraphics2D;
 
-			//draw the board
-			Graphics moreGraphics = theJFrame.getGraphics();
-
-
-			//tell the player it is their turn
-			if(theFlag == false){
-				//it is now player x's turn
-				theJFrame.setTitle("player X");
-				//swap the flag
-				theFlag = true;
-			}else{
-				//it is now player 0's turn
-				theJFrame.setTitle("player O");
-				//swap the flag
-				theFlag = false;
-			}
+		//draw the board
+		Graphics moreGraphics = theJFrame.getGraphics();
 
 
-			//if the flag is false, undo the last circle
-			if (theFlag == false)
-			{
-				//reset each respective matching position
-				if ((x < 200) && (y < 200)) { theX = 0; theY = 0; charArray[0][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = '_'; }
-				if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { theX = 200; theY= 200; charArray[1][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { theX = 400; theY= 200; charArray[1][2] = '_'; }
-				if ((x < 200) && (y > 400) && (y < 600)) { theX = 0; theY= 400; charArray[2][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = '_'; }
-
-				//draw a white circle over the old circle
-				moreGraphics.setColor(Color.WHITE);
-				theGraphics2D = (Graphics2D)moreGraphics;
-				theGraphics2D.setStroke(new BasicStroke(10.0F));
-				moreGraphics.drawOval(theX + 10,theY+ 10, 160, 160);
-
-
-			}
-
-			//if theFlag is a true, undo the last X
-			if (theFlag == true)
-			{
-
-
-				//reset each respective matching position
-				if ((x < 200) && (y < 200)) { theX = 0; theY = 0; charArray[0][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = '_'; }
-				if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { theX = 200; theY= 200; charArray[1][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { theX = 400; theY= 200; charArray[1][2] = '_'; }
-				if ((x < 200) && (y > 400) && (y < 600)) { theX = 0; theY= 400; charArray[2][0] = '_'; }
-				if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = '_'; }
-				if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = '_'; }
-
-
-				//draw a white X over the old X
-				theGraphics2D = (Graphics2D)moreGraphics;
-				theGraphics2D.setStroke(new BasicStroke(10.0F));
-				theGraphics2D.setColor(Color.WHITE);
-				theGraphics2D.drawLine(theX + 10,theY+ 10,theX+ 170,theY+ 160);
-				theGraphics2D.drawLine(theX + 170,theY+ 10,theX+ 10,theY+ 170);
-
-			}
+		//tell the player it is their turn
+		if(theFlag == false){
+			//it is now player x's turn
+			theJFrame.setTitle("player X");
+			//swap the flag
+			theFlag = true;
+		}else{
+			//it is now player 0's turn
+			theJFrame.setTitle("player O");
+			//swap the flag
+			theFlag = false;
 		}
 
 
+		//if the flag is false, undo the last circle
+		if (theFlag == false)
+		{
+			//reset each respective matching position
+			if ((x < 200) && (y < 200)) { theX = 0; theY = 0; charArray[0][0] = '_'; }
+			if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = '_'; }
+			if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = '_'; }
+			if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = '_'; }
+			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { theX = 200; theY= 200; charArray[1][1] = '_'; }
+			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { theX = 400; theY= 200; charArray[1][2] = '_'; }
+			if ((x < 200) && (y > 400) && (y < 600)) { theX = 0; theY= 400; charArray[2][0] = '_'; }
+			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = '_'; }
+			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = '_'; }
 
-	public void makeMove(int x, int y){
+			//draw a white circle over the old circle
+			moreGraphics.setColor(Color.WHITE);
+			theGraphics2D = (Graphics2D)moreGraphics;
+			theGraphics2D.setStroke(new BasicStroke(10.0F));
+			moreGraphics.drawOval(theX + 10,theY+ 10, 160, 160);
+
+
+		}
+
+		//if theFlag is a true, undo the last X
+		if (theFlag == true)
+		{
+
+
+			//reset each respective matching position
+			if ((x < 200) && (y < 200)) { theX = 0; theY = 0; charArray[0][0] = '_'; }
+			if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = '_'; }
+			if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = '_'; }
+			if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = '_'; }
+			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { theX = 200; theY= 200; charArray[1][1] = '_'; }
+			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { theX = 400; theY= 200; charArray[1][2] = '_'; }
+			if ((x < 200) && (y > 400) && (y < 600)) { theX = 0; theY= 400; charArray[2][0] = '_'; }
+			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = '_'; }
+			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = '_'; }
+
+
+			//draw a white X over the old X
+			theGraphics2D = (Graphics2D)moreGraphics;
+			theGraphics2D.setStroke(new BasicStroke(10.0F));
+			theGraphics2D.setColor(Color.WHITE);
+			theGraphics2D.drawLine(theX + 10,theY+ 10,theX+ 170,theY+ 160);
+			theGraphics2D.drawLine(theX + 170,theY+ 10,theX+ 10,theY+ 170);
+
+		}
+	}
+
+
+
+	private void makeMove(int x, int y){
 
 
 		Graphics2D theGraphics2D;
@@ -200,79 +207,79 @@ public class TicTacToeGame implements MouseListener, KeyListener
 					theJFrame.setTitle("player O that space already is taken");
 					return;
 				}
-				
+
 				theX = 0; theY = 0; charArray[0][0] = 'O'; 
-				}
-			
+			}
+
 			if ((x > 200) && (x < 400) && (y < 200)) { 
 				if (charArray[0][1] != '_'){
 					theJFrame.setTitle("player O that space already is taken");
 					return;
 				}
-				
+
 				theX = 200; theY= 0; charArray[0][1] = 'O'; 
-				}
-			
+			}
+
 			if ((x > 400) && (x < 600) && (y < 200)) { 
 				if (charArray[0][2] != '_'){
 					theJFrame.setTitle("player O that space already is taken");
 					return;
 				}
-				
+
 				theX = 400; theY= 0; charArray[0][2] = 'O'; 
-				
-				}
+
+			}
 			if ((x < 200) && (y > 200) && (y < 400)) { 
 				if (charArray[1][0] != '_'){
 					theJFrame.setTitle("player O that space already is taken");
 					return;
 				}
-				
+
 				theX = 0; theY= 200; charArray[1][0] = 'O'; 
 
-				
-				}
+
+			}
 			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { 
 				if (charArray[1][1] != '_'){
 					theJFrame.setTitle("player O that space already is taken");
 					return;
 				}
-				
+
 				theX = 200; theY= 200; charArray[1][1] = 'O'; 
-				}
-			
+			}
+
 			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { 
 				if (charArray[1][2] != '_'){
 					theJFrame.setTitle("player O that space already is taken");
 					return;
 				}
-				
+
 				theX = 400; theY= 200; charArray[1][2] = 'O'; 
-				}
-			
+			}
+
 			if ((x < 200) && (y > 400) && (y < 600)) { 
 				if (charArray[2][0] != '_'){
 					theJFrame.setTitle("player O that space already is taken");
 					return;
 				}
-				
+
 				theX = 0; theY= 400; charArray[2][0] = 'O'; 
-				}
+			}
 			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { 
 				if (charArray[2][1] != '_'){
 					theJFrame.setTitle("player O that space already is taken");
 					return;
 				}
 				theX = 200; theY= 400; charArray[2][1] = 'O'; 
-				
-				}
+
+			}
 			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { 
 				if (charArray[2][2] != '_'){
 					theJFrame.setTitle("player O that space already is taken");
 					return;
 				}
 				theX = 400; theY= 400; charArray[2][2] = 'O'; 
-				}
+			}
 
 			//draw a circle
 			moreGraphics.setColor(Color.BLACK);
@@ -291,72 +298,72 @@ public class TicTacToeGame implements MouseListener, KeyListener
 					return;
 				}
 				theX = 0; theY = 0; charArray[0][0] = 'X';
-				}
-			
+			}
+
 			if ((x > 200) && (x < 400) && (y < 200)) { 
 				if (charArray[0][1] != '_'){
 					theJFrame.setTitle("player X that space already is taken");
 					return;
 				}
 				theX = 200; theY= 0; charArray[0][1] = 'X'; 
-				}
-			
+			}
+
 			if ((x > 400) && (x < 600) && (y < 200)) { 
 				if (charArray[0][2] != '_'){
 					theJFrame.setTitle("player X that space already is taken");
 					return;
 				}
 				theX = 400; theY= 0; charArray[0][2] = 'X';
-				}
-			
+			}
+
 			if ((x < 200) && (y > 200) && (y < 400)) { 
 				if (charArray[1][0] != '_'){
 					theJFrame.setTitle("player X that space already is taken");
 					return;
 				}
 				theX = 0; theY= 200; charArray[1][0] = 'X'; 
-				}
-			
+			}
+
 			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { 
 				if (charArray[1][1] != '_'){
 					theJFrame.setTitle("player X that space already is taken");
 					return;
 				}
 				theX = 200; theY= 200; charArray[1][1] = 'X';
-				
-				}
-			
+
+			}
+
 			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) {
 				if (charArray[1][2] != '_'){
 					theJFrame.setTitle("player X that space already is taken");
 					return;
 				}
 				theX = 400; theY= 200; charArray[1][2] = 'X'; 
-				}
-			
+			}
+
 			if ((x < 200) && (y > 400) && (y < 600)) { 
 				if (charArray[2][0] != '_'){
 					theJFrame.setTitle("player X that space already is taken");
 					return;
 				}
 				theX = 0; theY= 400; charArray[2][0] = 'X'; 
-				}
-			
+			}
+
 			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { 
 				if (charArray[2][1] != '_'){
 					theJFrame.setTitle("player X that space already is taken");
 					return;
 				}
 				theX = 200; theY= 400; charArray[2][1] = 'X';
-				}
-			
+			}
+
 			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { 
 				if (charArray[2][2] != '_'){
 					theJFrame.setTitle("player X that space already is taken");
 					return;
 				}
 				theX = 400; theY= 400; charArray[2][2] = 'X'; 
-				}
+			}
 
 
 			//drawing an X
@@ -382,59 +389,75 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 		//push the turn to the stack
 		theMoves.push(new Moves(x, y));
-		
+
 		//check to see if the game has ended
 		this.winner();
-		
+
 	}
 
 
 	//is the there a winner?
-	public void winner(){
-		
+	private void winner(){
+
 
 		//is there a winner on a row or a column?
 		for (int counter = 0; counter< 3; counter++){
 
 			if((charArray[counter][0] == charArray[counter][1]) && (charArray[counter][0] == charArray[counter][2]) && charArray[counter][0] != '_') {
+				//yes, there is a win
 				won = true;
-				
+				break;
+
 			}
 
+
 			if((charArray[0][counter] == charArray[1][counter]) && (charArray[1][counter] == charArray[2][counter]) && charArray[0][counter] != '_'){
+				//yes, there is a win
 				won = true;
+				break;
 			}
 		}
 
 		//is there a diagonal winner?
 
 		if(charArray[0][0] == charArray[1][1] && charArray [0][0] == charArray[2][2] && charArray[1][1] != '_'){
+			//yes there is a diagonal win
 			won = true;
+
 		}
+
 
 		if(charArray[0][2] == charArray[1][1] && charArray[0][2] == charArray[2][0] && charArray[1][1] != '_'){
+			//yes there is a diaganol win
 			won = true;
+
 		}
 
+		//did someone win?
 		if(won == true){
-			
+
 			int dialogButton = JOptionPane.YES_NO_OPTION;
 			int dialogResult = JOptionPane.showConfirmDialog(new JFrame(), "Play again?", "Player O:  "+ "Player X: ", dialogButton);
+
+			//play again?
 			if(dialogResult==0){
-			  System.out.println("Yes option");
+				//yes, reset won to false
+				won = false;
+
+				//loop through the stack, undoing all moves and reseting the board
 				for(int counter = theMoves.size(); counter > 0; counter --){
 					this.undoMove(theMoves.pop());
 				}
-				
+
 			}else{
-			 System.out.println("No Option");
-			 
+
+
 			}
-	
-			
+
+
 		}
-		
-		}
+
+	}
 
 	//print the 2D char array for testing purposes
 
@@ -450,13 +473,13 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		System.out.println();
 	}
 	 */
-	
+
 	//*************************************************
 	//the following methods are form their respective interfaces
-	
+
 	//*************************************************
 	// following from MouseListener
-	
+
 	public void mousePressed(MouseEvent e) { 
 
 		//get the location the mouse was pressed
@@ -470,14 +493,14 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 		this.makeMove(x, y);
 	}
-	
+
 
 	//**********************************************
 	//following From KeyListener
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+
 
 		//was the z key pressed?
 		if(Z_KEY==e.getKeyCode())
@@ -506,8 +529,8 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 	}
 
-	
-	
+
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 
@@ -562,23 +585,21 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		//unused method
 	}
 
-	
 
-	// main method for testing
+
+	/* main method for testing
 
 	public static void main(String[] args)
 	{
-		
-		WinCounter wins = new WinCounter();
+
 		//initialize the game, and then draw the board
 		TicTacToeGame theGame = new TicTacToeGame();
 		theGame.drawTheBoard();
-		
-		
-		
-	}
 
-	
+
+	}
+	*/
+
 }
 
 
