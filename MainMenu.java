@@ -19,9 +19,11 @@ public class MainMenu extends JFrame {
 		frame.setTitle("M&M Arcade");
 		frame.setSize(1000, 1000);
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
 		mainMenu.setBounds(0, 0, 1000, 1000);
 		mainMenu.setBackground(Color.black);
 		frame.getContentPane().add(mainMenu);
-
+		ScorchedEarth scorched = new ScorchedEarth();
 	}
 }
