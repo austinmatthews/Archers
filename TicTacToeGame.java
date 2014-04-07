@@ -65,7 +65,8 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		//initialize the JFrame
 		theJFrame = new JFrame("Turn: player O ||  O has "+ oWins +"  & X has " +xWins + " wins");
 		theJFrame.setSize(1000, 700);
-		theJFrame.setBackground(Color.WHITE);
+		theJFrame.getBackground();
+
 		theJFrame.setVisible(true);
 		//add listeners
 		theJFrame.addMouseListener(this);
@@ -162,8 +163,8 @@ public class TicTacToeGame implements MouseListener, KeyListener
 			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = '_'; }
 			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = '_'; }
 
-			//draw a white circle over the old circle
-			moreGraphics.setColor(Color.WHITE);
+			//draw a circle of the same color as the background over the old circle
+			moreGraphics.setColor(theJFrame.getBackground());
 			theGraphics2D = (Graphics2D)moreGraphics;
 			theGraphics2D.setStroke(new BasicStroke(10.0F));
 			moreGraphics.drawOval(theX + 10,theY+ 10, 160, 160);
@@ -188,10 +189,10 @@ public class TicTacToeGame implements MouseListener, KeyListener
 			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = '_'; }
 
 
-			//draw a white X over the old X
+			//draw an X over the old X, same color as the background
 			theGraphics2D = (Graphics2D)moreGraphics;
 			theGraphics2D.setStroke(new BasicStroke(10.0F));
-			theGraphics2D.setColor(Color.WHITE);
+			theGraphics2D.setColor(theJFrame.getBackground());
 			theGraphics2D.drawLine(theX + 10,theY+ 10,theX+ 170,theY+ 160);
 			theGraphics2D.drawLine(theX + 170,theY+ 10,theX+ 10,theY+ 170);
 
