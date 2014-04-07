@@ -1,4 +1,9 @@
-import java.util.Stack;
+/**
+ * 
+ * @author Matthew Vollkommer and Austin Matthews
+ * 
+ *
+ */
 
 
 public class Moves  {

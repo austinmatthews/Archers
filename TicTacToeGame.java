@@ -1,6 +1,14 @@
+
+/**
+ * 
+ * @author Matthew Vollkommer and Austin Matthews
+ * 
+ *
+ */
+
+
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dialog;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JFrame;
@@ -14,7 +22,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.util.Stack;
 
-
 //implemented interfaces
 public class TicTacToeGame implements MouseListener, KeyListener
 {
@@ -27,12 +34,12 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	private boolean controlKeyPressed=false;
 	private int theY;
 	private int theX;
-	private boolean theFlag = true;
+	private boolean theFlag;
 	private boolean won;
-
+	private boolean tie;
 	//count wins
 	private int xWins;
-	private int yWins;
+	private int oWins;
 
 	//Frame
 	private JFrame theJFrame;
@@ -45,16 +52,18 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	//stack to keep track of moves
 	private Stack<Moves> theMoves = new Stack<Moves>(); 
 
-
-
 	//constructor
 	public TicTacToeGame()
 	{
 
-
+		int xWins = 0;
+		int oWins = 0;
+		
 		won = false;
+		theFlag = true;
+		tie = false;
 		//initialize the JFrame
-		theJFrame = new JFrame("player O");
+		theJFrame = new JFrame("Turn: player O ||  O has "+ oWins +"  & X has " +xWins + " wins");
 		theJFrame.setSize(1000, 700);
 		theJFrame.setBackground(Color.WHITE);
 		theJFrame.setVisible(true);
@@ -62,6 +71,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		theJFrame.addMouseListener(this);
 		theJFrame.addKeyListener(this);
 
+		
 		//initialize the board array
 		for (int counter = 0; counter < 3; counter++){
 			for(int counterTwo = 0; counterTwo < 3; counterTwo++){
@@ -127,12 +137,12 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		//tell the player it is their turn
 		if(theFlag == false){
 			//it is now player x's turn
-			theJFrame.setTitle("player X");
+			theJFrame.setTitle("Turn: player X ||  O has "+ oWins +"  & X has " +xWins + " wins");
 			//swap the flag
 			theFlag = true;
 		}else{
 			//it is now player 0's turn
-			theJFrame.setTitle("player O");
+			theJFrame.setTitle("Turn: player O ||  O has "+ oWins +"  & X has " +xWins + " wins");
 			//swap the flag
 			theFlag = false;
 		}
@@ -377,10 +387,10 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 		//tell the player it is their turn
 		if(theFlag == false){
-			theJFrame.setTitle("player X");
+			theJFrame.setTitle("Turn: player X ||  O has "+ oWins +"  & X has " +xWins +" wins");
 			theFlag = true;
 		}else{
-			theJFrame.setTitle("player O");
+			theJFrame.setTitle("Turn: player O ||  O has "+ oWins +"  & X has " +xWins + " wins");
 			theFlag = false;
 		}
 
@@ -399,7 +409,10 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	//is the there a winner?
 	private void winner(){
 
-
+		if(charArray[0][0] != '_' && charArray[1][0] != '_' && charArray[2][0] != '_' && charArray[0][1] != '_' && charArray[1][1] != '_' && charArray[2][1] != '_' && charArray[0][2] != '_' && charArray[1][2] != '_' && charArray[2][2] != '_' ){
+			tie = true;
+		}
+		
 		//is there a winner on a row or a column?
 		for (int counter = 0; counter< 3; counter++){
 
@@ -432,25 +445,41 @@ public class TicTacToeGame implements MouseListener, KeyListener
 			won = true;
 
 		}
-
+		
 		//did someone win?
-		if(won == true){
+		if(won == true || tie == true){
 
+			if(theFlag == false && tie == false){
+				xWins = xWins+1;
+				
+			}else if (theFlag == true && tie == false){
+				oWins = oWins+1;
+			}
+			
+			
 			int dialogButton = JOptionPane.YES_NO_OPTION;
-			int dialogResult = JOptionPane.showConfirmDialog(new JFrame(), "Play again?", "Player O:  "+ "Player X: ", dialogButton);
+			int dialogResult = JOptionPane.showConfirmDialog(new JFrame(), "Play again?", "Player O: " + oWins + " vs Player X: " + xWins, dialogButton);
 
 			//play again?
 			if(dialogResult==0){
-				//yes, reset won to false
+				//yes, reset won and tie to false
 				won = false;
-
+				tie = false;
+				//who goes first is random
+			
+				
+				
 				//loop through the stack, undoing all moves and reseting the board
 				for(int counter = theMoves.size(); counter > 0; counter --){
 					this.undoMove(theMoves.pop());
+				
 				}
+				
 
 			}else{
-
+				
+				theJFrame.dispose();
+				//return to main menu
 
 			}
 
@@ -587,7 +616,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 
 
-	/* main method for testing
+	 //main method for testing
 
 	public static void main(String[] args)
 	{
@@ -598,7 +627,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 
 	}
-	*/
+	
 
 }
 
