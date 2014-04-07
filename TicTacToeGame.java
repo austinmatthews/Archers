@@ -3,16 +3,22 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
+import java.util.Stack;
+
 
 
 //implemented interfaces
-public class TicTacToeGame implements MouseListener
+public class TicTacToeGame implements MouseListener, KeyListener
 {
 
 	//class variables
@@ -23,12 +29,13 @@ public class TicTacToeGame implements MouseListener
 	boolean won;
 	//a game board is a 3X3 2D array of X's and O's
 	char[][] charArray = new char[3][3];
-	
+	int turn;
+	Stack<Moves> theMoves = new Stack<Moves>(); 
 
 	//constructor
 	public TicTacToeGame()
 	{
-		
+		turn = 0;
 		won = false;
 		//initialize the JFrame
 		theJFrame = new JFrame("player O");
@@ -101,7 +108,7 @@ public class TicTacToeGame implements MouseListener
 		if(x > 600 || x< 0 || y < 0 || y > 600 ){
 			return;
 		}
-
+		
 		//subtract one from the flag on each pass through
 		theFlag -= 1;
 		
@@ -115,7 +122,8 @@ public class TicTacToeGame implements MouseListener
 		//if the flag is a 1, draw a circle
 		if (theFlag == 1)
 		{
-			if ((x < 200) && (y < 200)) { theX = 0; theY = 0; charArray[0][0] = 'O'; }
+			if ((x < 200) && (y < 200)) {
+				theX = 0; theY = 0; charArray[0][0] = 'O'; }
 			if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = 'O'; }
 			if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = 'O'; }
 			if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = 'O'; }
@@ -163,6 +171,13 @@ public class TicTacToeGame implements MouseListener
 		this.winner();
 		
 		//print array for testing this.printArray();
+		
+		//at a turn to the counter
+		turn += 1;
+		
+		//push the turn to the stack
+		theMoves.push(new Moves(x, y, turn));
+	
 	}
 
 	
@@ -216,6 +231,7 @@ public class TicTacToeGame implements MouseListener
 
 	public static void main(String[] args)
 	{
+		//initialize the game, and then draw the board
 		TicTacToeGame theGame = new TicTacToeGame();
 		theGame.drawTheBoard();
 
@@ -229,6 +245,9 @@ public class TicTacToeGame implements MouseListener
 	//**********************************************
 	//following methods unused. override interfaces
 
+	
+	//**************************************
+	// form MouseListener
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
@@ -249,6 +268,40 @@ public class TicTacToeGame implements MouseListener
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		//method unused
+	}
+
+
+	
+
+	//**********************************************
+	//From KeyListener
+	
+	
+	//checks for two keys pressed, 'control' and 'z'
+	public void keyPressed(KeyEvent arg1, KeyEvent arg2) {
+
+		
+	}
+	
+	
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		//method unused
+		
+	}
+	
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		//method unused
+		
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		//method unused
+		
 	}
 
 
