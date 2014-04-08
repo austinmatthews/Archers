@@ -58,42 +58,7 @@ public class ScorchedEarth {
 	
 
 	public ScorchedEarth(){
-		drawMenu();
-	}
-
-	public void drawMenu() {
-		//
-		scorchedMenu.setBounds(0, 0, 1000, 1000);
-		scorchedMenu.setBackground(Color.white);
-		scorchedMenu.setLayout(new BoxLayout(scorchedMenu, BoxLayout.Y_AXIS));
-		final JLabel play;
-		JLabel exit;
-		JLabel title;
-
-
-		//A label is created and displayed for the title of the game "Archers!"
-		title = new JLabel("Archers!");
-		title.setFont(new Font("Andalus", Font.BOLD, 100));
-		title.setAlignmentX(Component.CENTER_ALIGNMENT);
-		scorchedMenu.add(Box.createRigidArea(new Dimension(5,50)));
-		scorchedMenu.add(title);
-
-		//displays the play button
-		scorchedMenu.add(Box.createRigidArea(new Dimension(5,50)));	
-		play = new JLabel("Play");
-		play.setFont(new Font("Andalus", Font.BOLD, 60));
-		play.setAlignmentX(Component.CENTER_ALIGNMENT);
-		scorchedMenu.add(Box.createRigidArea(new Dimension(5,50)));
-		scorchedMenu.add(play);
-
-		MainMenu.mainMenu.add(scorchedMenu, "ScorchedMenu");
-		play.addMouseListener(new MouseInputAdapter(){
-			//recursive method that calls itself whenever the shape is pressed, the majority of the game happens in this method
-			public void mousePressed(MouseEvent e)
-			{
-				playGame();
-			}
-		});
+		playGame();
 	}
 
 	public void playGame() {
@@ -111,13 +76,13 @@ public class ScorchedEarth {
 		scorchedInfo.setBackground(Color.white);
 		filler.setBackground(Color.black);
 		scorchedArena.setBackground(Color.white);
-		filler2.setBackground(Color.black);
-		scorchedTurns.setBackground(Color.white);
+		filler2.setBackground(Color.green);
+		scorchedTurns.setBackground(Color.black);
 		scorchedTurns.setLocation(0,754);
 
 		//adds the game panels to the main game panel, and switches from the menu panel to the game panel 
 		scorchedGame.setLayout(new BoxLayout(scorchedGame, BoxLayout.Y_AXIS));
-		MainMenu.mainMenu.add(scorchedGame, "scorchedGame");
+		P4Arcade.mainPanel.add(scorchedGame, "scorchedGame");
 		scorchedGame.add(scorchedInfo);
 		scorchedGame.add(filler);
 		scorchedGame.add(scorchedArena);
@@ -126,7 +91,7 @@ public class ScorchedEarth {
 		//setInfo();
 		//setArena();
 		setTurns();
-		MainMenu.cardLayout.show(MainMenu.mainMenu, "scorchedGame");
+		P4Arcade.cardLayout.show(P4Arcade.mainPanel, "scorchedGame");
 
 	}
 
@@ -170,24 +135,28 @@ public class ScorchedEarth {
 		
 		p1Power = new JLabel("P1 Power");
 		p1Power.setFont(new Font("Andalus", Font.BOLD, 40));
+		p1Power.setForeground(Color.white);
 		
 		p2Power = new JLabel("P2 Power");
 		p2Power.setFont(new Font("Andalus", Font.BOLD, 40));
+		p2Power.setForeground(Color.white);
 		
 		p1Angle = new JLabel("P1 Angle");
 		p1Angle.setFont(new Font("Andalus", Font.BOLD, 40));
+		p1Angle.setForeground(Color.white);
 		
 		p2Angle = new JLabel("P2 Angle");
 		p2Angle.setFont(new Font("Andalus", Font.BOLD, 40));
+		p2Angle.setForeground(Color.white);
 		
 		scorchedTurns.add(p1Power);
-		scorchedTurns.add(Box.createRigidArea(new Dimension(280,5)));
+		scorchedTurns.add(Box.createRigidArea(new Dimension(290,5)));
 		scorchedTurns.add(p2Power);
 		scorchedTurns.add(p1PowerSlider);
 		scorchedTurns.add(Box.createRigidArea(new Dimension(60,5)));
 		scorchedTurns.add(p2PowerSlider);
 		scorchedTurns.add(p1Angle);
-		scorchedTurns.add(Box.createRigidArea(new Dimension(290,5)));
+		scorchedTurns.add(Box.createRigidArea(new Dimension(300,5)));
 		scorchedTurns.add(p2Angle);
 		scorchedTurns.add(p1AngleSlider);
 		scorchedTurns.add(next);
@@ -212,32 +181,24 @@ public class ScorchedEarth {
 	public class p1PowerListener implements ChangeListener {
 		public void stateChanged (ChangeEvent event) {
 			int power = p1PowerSlider.getValue();
-
-
 		}
 	}
 	
 	public class p2PowerListener implements ChangeListener {
 		public void stateChanged (ChangeEvent event) {
 			int power = p2PowerSlider.getValue();
-
-
 		}
 	}
 	
 	public class p1AngleListener implements ChangeListener {
 		public void stateChanged (ChangeEvent event) {
 			int angle = p1AngleSlider.getValue();
-
-
 		}
 	}
 	
 	public class p2AngleListener implements ChangeListener {
 		public void stateChanged (ChangeEvent event) {
 			int angle = p2AngleSlider.getValue();
-
-
 		}
 	}
 }

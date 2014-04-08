@@ -11,9 +11,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
+
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -55,17 +57,20 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	//constructor
 	public TicTacToeGame()
 	{
-
+		P4Arcade.frame.setVisible(false);
+		
 		int xWins = 0;
 		int oWins = 0;
-		
 		won = false;
 		theFlag = true;
 		tie = false;
+		
 		//initialize the JFrame
 		theJFrame = new JFrame("Turn: player O ||  O has "+ oWins +"  & X has " +xWins + " wins");
 		theJFrame.setSize(1000, 700);
 		theJFrame.getBackground();
+		theJFrame.setBackground(Color.white);
+		
 
 		theJFrame.setVisible(true);
 		//add listeners
@@ -99,8 +104,6 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		//exit on close
 		theJFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.drawTheBoard();
-
-
 		theJFrame.setVisible(true);
 	}
 
@@ -654,7 +657,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 
 	 //main method for testing
-
+/*
 	public static void main(String[] args)
 	{
 
@@ -664,7 +667,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 
 	}
-	
+	*/
 
 }
 
