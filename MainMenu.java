@@ -26,10 +26,41 @@ public class MainMenu {
 
 	public MainMenu(){
 		drawMenu();
+
+		/*
+		BufferedImage arcadeImage = null;
+
+		try {
+			arcadeImage = ImageIO.read(new File("arcade.jpg"));
+		} catch (Exception e) {
+			System.out.println("No Image");
+		}
+
+		JLabel picLabel = new JLabel(new ImageIcon(arcadeImage));
+		 */
+
+
+
 	}
 
+
+
+	//flag for testing
+	//	int flag = 2;
+	/*
+		if (flag ==1 ){
+			//play tic tac toe, and then draw the board
+			TicTacToeGame theGame = new TicTacToeGame();
+			theGame.drawTheBoard();
+		}
+
+	}
+
+	 */
+
 	public void drawMenu() {
-		
+
+
 		mainMenu.setBounds(0, 0, 1000, 1000);
 		mainMenu.setBackground(Color.white);
 		mainMenu.setLayout(new BoxLayout(mainMenu, BoxLayout.Y_AXIS));
