@@ -26,42 +26,11 @@ public class MainMenu {
 
 	public MainMenu(){
 		drawMenu();
-
-		/*
-		BufferedImage arcadeImage = null;
-
-		try {
-			arcadeImage = ImageIO.read(new File("arcade.jpg"));
-		} catch (Exception e) {
-			System.out.println("No Image");
-		}
-
-		JLabel picLabel = new JLabel(new ImageIcon(arcadeImage));
-		 */
-
-
-
 	}
-
-
-
-	//flag for testing
-	//	int flag = 2;
-	/*
-		if (flag ==1 ){
-			//play tic tac toe, and then draw the board
-			TicTacToeGame theGame = new TicTacToeGame();
-			theGame.drawTheBoard();
-		}
-
-	}
-
-	 */
 
 	public void drawMenu() {
-
-
-		mainMenu.setBounds(0, 0, 1000, 1000);
+		
+		mainMenu.setBounds(0, 0, 1000, 800);
 		mainMenu.setBackground(Color.white);
 		mainMenu.setLayout(new BoxLayout(mainMenu, BoxLayout.Y_AXIS));
 		final JLabel archers;
@@ -118,8 +87,7 @@ public class MainMenu {
 		ticTacToe.addMouseListener(new MouseInputAdapter(){
 			//recursive method that calls itself whenever the shape is pressed, the majority of the game happens in this method
 			public void mousePressed(MouseEvent e){
-				TicTacToeGame theGame = new TicTacToeGame();
-				theGame.drawTheBoard();
+				new TicTacToeGame();
 			}
 			public void mouseEntered(MouseEvent e){
 				ticTacToe.setForeground(Color.red);

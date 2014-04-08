@@ -18,10 +18,10 @@ public class P4Arcade extends JFrame {
 		mainPanel.setLayout(cardLayout);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("M&M Arcade");
-		frame.setSize(1000, 1000);
+		frame.setSize(1000, 850);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
-		mainPanel.setBounds(0, 0, 1000, 1000);
+		mainPanel.setBounds(0, 0, 1000, 800);
 		mainPanel.setBackground(Color.black);
 		frame.getContentPane().add(mainPanel);
 		frame.setVisible(true);

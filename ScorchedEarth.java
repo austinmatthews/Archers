@@ -1,11 +1,14 @@
-import static javax.swing.GroupLayout.Alignment.BASELINE;
+
 import static javax.swing.GroupLayout.Alignment.LEADING;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -56,7 +59,7 @@ public class ScorchedEarth {
 	JLabel p2Power = new JLabel();
 	JLabel p1Angle = new JLabel();
 	JLabel p2Angle = new JLabel();
-
+	JLabel picLabel;
 
 	public ScorchedEarth(){
 		playGame();
@@ -65,12 +68,14 @@ public class ScorchedEarth {
 	public void playGame() {
 
 		//sets the bounds of the game panels
-		scorchedGame.setBounds(0, 0, 1000, 1000);
-		scorchedInfo.setMaximumSize(new Dimension(1000, 148));
+		scorchedGame.setBounds(0, 0, 1000, 800);
+		scorchedInfo.setMaximumSize(new Dimension(1000, 140));
 		filler.setMaximumSize(new Dimension(1000, 4));
-		scorchedArena.setMaximumSize(new Dimension(1000, 596));
+		scorchedArena.setMaximumSize(new Dimension(1000, 450));
+		scorchedArena.setLayout(null);
 		filler2.setMaximumSize(new Dimension(1000, 4));
-		scorchedTurns.setMaximumSize(new Dimension(1000, 248));
+		scorchedTurns.setMaximumSize(new Dimension(1000, 260));
+		
 
 		//sets the background colors of the game panels
 		scorchedGame.setBackground(Color.black);
@@ -89,10 +94,10 @@ public class ScorchedEarth {
 		scorchedGame.add(scorchedArena);
 		scorchedGame.add(filler2);
 		scorchedGame.add(scorchedTurns);
-		//setInfo();
-		//setArena();
-		setTurns();
+		setInfo();
 		setArena();
+		setTurns();
+		//setArena();
 		P4Arcade.cardLayout.show(P4Arcade.mainPanel, "scorchedGame");
 
 	}
@@ -166,17 +171,83 @@ public class ScorchedEarth {
 	}
 
 	public void setArena() {
-
+		importWall();
+		scorchedArena.add(picLabel);
+		picLabel.setBounds(450, 200, 100, 275);
 		
+
+	}
+
+	public void importWall(){
+		
+		BufferedImage myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File("wall.png"));
+		} catch (IOException e) {
+			//do nothing
+		}
+		picLabel = new JLabel(new ImageIcon(myPicture));
+		picLabel.setPreferredSize(new Dimension (100, 275));
+	}
+	
+	public void setInfo() {
+		JLabel p1Name;
+		JLabel p2Name;
+		JLabel round;
+		JLabel p1Health;
+		JLabel p2Health;
+		JLabel p1HealthNum;
+		JLabel p2HealthNum;
+ 
+
+		p1Name = new JLabel("Player 1");
+		p1Name.setFont(new Font("Andalus", Font.BOLD, 40));
+		p1Name.setForeground(Color.black);
+
+		p2Name = new JLabel("Player 2");
+		p2Name.setFont(new Font("Andalus", Font.BOLD, 40));
+		p2Name.setForeground(Color.black);
+
+		round = new JLabel("Round 1");
+		round.setFont(new Font("Andalus", Font.BOLD, 40));
+		round.setForeground(Color.black);
+
+		p1Health = new JLabel("P1 Health - ");
+		p1Health.setFont(new Font("Andalus", Font.BOLD, 40));
+		p1Health.setForeground(Color.black);
+
+		p2Health = new JLabel("P2 Health - ");
+		p2Health.setFont(new Font("Andalus", Font.BOLD, 40));
+		p2Health.setForeground(Color.black);
+
+		p1HealthNum = new JLabel("10");
+		p1HealthNum.setFont(new Font("Andalus", Font.BOLD, 40));
+		p1HealthNum.setForeground(Color.black);
+
+		p2HealthNum = new JLabel("10");
+		p2HealthNum.setFont(new Font("Andalus", Font.BOLD, 40));
+		p2HealthNum.setForeground(Color.black);
+
+		scorchedInfo.add(Box.createRigidArea(new Dimension(100,5)));
+		scorchedInfo.add(p1Name);
+		scorchedInfo.add(Box.createRigidArea(new Dimension(130,5)));
+		scorchedInfo.add(round);
+		scorchedInfo.add(Box.createRigidArea(new Dimension(130,5)));
+		scorchedInfo.add(p2Name);
+		scorchedInfo.add(Box.createRigidArea(new Dimension(100,5)));
+		scorchedInfo.add(p1Health);
+		scorchedInfo.add(p1HealthNum);
+		scorchedInfo.add(Box.createRigidArea(new Dimension(300,5)));
+		scorchedInfo.add(p2Health);
+		scorchedInfo.add(p2HealthNum);
+
+		/*
 		Icon arrowImage = new ImageIcon("arrow.png");
 		JLabel arrow = new JLabel();
 		arrow.setIcon(arrowImage);
 		arrow.setPreferredSize(new Dimension (100, 30));
 		scorchedArena.add(arrow);
-		
-	}
-
-	public void setInfo() {
+		 */
 
 
 	}
@@ -209,5 +280,27 @@ public class ScorchedEarth {
 			int angle = p2AngleSlider.getValue();
 		}
 	}
+
+	/*	public class MakeWall extends JPanel{
+		Graphics wall;
+		public MakeWall(){
+			super();
+			setSize(1000,1000);
+			setVisible(true);
+		}
+
+		public void paintComponent(Graphics g){
+
+			wall = g;
+			super.paintComponent(g);
+			wall.fillRect(490, 596, 20, 200);
+			wall.drawRect(490, 596, 20, 200);
+			wall.setColor(Color.red);
+
+		}
+
+
+	}*/
+
 }
 
