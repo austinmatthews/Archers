@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -55,7 +56,7 @@ public class ScorchedEarth {
 	JLabel p2Power = new JLabel();
 	JLabel p1Angle = new JLabel();
 	JLabel p2Angle = new JLabel();
-	
+
 
 	public ScorchedEarth(){
 		playGame();
@@ -91,6 +92,7 @@ public class ScorchedEarth {
 		//setInfo();
 		//setArena();
 		setTurns();
+		setArena();
 		P4Arcade.cardLayout.show(P4Arcade.mainPanel, "scorchedGame");
 
 	}
@@ -105,7 +107,7 @@ public class ScorchedEarth {
 		p1PowerListener powerListener = new p1PowerListener();
 		p1PowerSlider.addChangeListener(powerListener);
 		p1PowerSlider.setPreferredSize(new Dimension (400, 40));
-		
+
 		p2PowerSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
 		p2PowerSlider.setMajorTickSpacing(10);
 		p2PowerSlider.setPaintTicks(true);
@@ -114,7 +116,7 @@ public class ScorchedEarth {
 		p2PowerListener p2PowerListener = new p2PowerListener();
 		p2PowerSlider.addChangeListener(p2PowerListener);
 		p2PowerSlider.setPreferredSize(new Dimension (400, 40));
-		
+
 		p1AngleSlider = new JSlider(JSlider.HORIZONTAL, 0, 90, 0);
 		p1AngleSlider.setMajorTickSpacing(5);
 		p1AngleSlider.setPaintTicks(true);
@@ -123,7 +125,7 @@ public class ScorchedEarth {
 		p1AngleListener p1AngleListener = new p1AngleListener();
 		p1AngleSlider.addChangeListener(p1AngleListener);
 		p1AngleSlider.setPreferredSize(new Dimension (400, 40));
-		
+
 		p2AngleSlider = new JSlider(JSlider.HORIZONTAL, 0, 90, 0);
 		p2AngleSlider.setMajorTickSpacing(5);
 		p2AngleSlider.setPaintTicks(true);
@@ -132,23 +134,23 @@ public class ScorchedEarth {
 		p2AngleListener p2AngleListener = new p2AngleListener();
 		p2AngleSlider.addChangeListener(p2AngleListener);
 		p2AngleSlider.setPreferredSize(new Dimension (400, 40));
-		
+
 		p1Power = new JLabel("P1 Power");
 		p1Power.setFont(new Font("Andalus", Font.BOLD, 40));
 		p1Power.setForeground(Color.white);
-		
+
 		p2Power = new JLabel("P2 Power");
 		p2Power.setFont(new Font("Andalus", Font.BOLD, 40));
 		p2Power.setForeground(Color.white);
-		
+
 		p1Angle = new JLabel("P1 Angle");
 		p1Angle.setFont(new Font("Andalus", Font.BOLD, 40));
 		p1Angle.setForeground(Color.white);
-		
+
 		p2Angle = new JLabel("P2 Angle");
 		p2Angle.setFont(new Font("Andalus", Font.BOLD, 40));
 		p2Angle.setForeground(Color.white);
-		
+
 		scorchedTurns.add(p1Power);
 		scorchedTurns.add(Box.createRigidArea(new Dimension(290,5)));
 		scorchedTurns.add(p2Power);
@@ -165,7 +167,13 @@ public class ScorchedEarth {
 
 	public void setArena() {
 
-
+		
+		Icon arrowImage = new ImageIcon("arrow.png");
+		JLabel arrow = new JLabel();
+		arrow.setIcon(arrowImage);
+		arrow.setPreferredSize(new Dimension (100, 30));
+		scorchedArena.add(arrow);
+		
 	}
 
 	public void setInfo() {
@@ -183,19 +191,19 @@ public class ScorchedEarth {
 			int power = p1PowerSlider.getValue();
 		}
 	}
-	
+
 	public class p2PowerListener implements ChangeListener {
 		public void stateChanged (ChangeEvent event) {
 			int power = p2PowerSlider.getValue();
 		}
 	}
-	
+
 	public class p1AngleListener implements ChangeListener {
 		public void stateChanged (ChangeEvent event) {
 			int angle = p1AngleSlider.getValue();
 		}
 	}
-	
+
 	public class p2AngleListener implements ChangeListener {
 		public void stateChanged (ChangeEvent event) {
 			int angle = p2AngleSlider.getValue();
