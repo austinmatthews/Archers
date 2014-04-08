@@ -153,15 +153,33 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		if (theFlag == false)
 		{
 			//reset each respective matching position
-			if ((x < 200) && (y < 200)) { theX = 0; theY = 0; charArray[0][0] = '_'; }
-			if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = '_'; }
-			if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = '_'; }
-			if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = '_'; }
-			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { theX = 200; theY= 200; charArray[1][1] = '_'; }
-			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { theX = 400; theY= 200; charArray[1][2] = '_'; }
-			if ((x < 200) && (y > 400) && (y < 600)) { theX = 0; theY= 400; charArray[2][0] = '_'; }
-			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = '_'; }
-			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = '_'; }
+			if ((x < 200) && (y < 200)) { 
+				theX = 0; theY = 0; charArray[0][0] = '_'; 
+				}
+			if ((x > 200) && (x < 400) && (y < 200)) { 
+				theX = 200; theY= 0; charArray[0][1] = '_'; 
+				}
+			if ((x > 400) && (x < 600) && (y < 200)) { 
+				theX = 400; theY= 0; charArray[0][2] = '_'; 
+				}
+			if ((x < 200) && (y > 200) && (y < 400)) { 
+				theX = 0; theY= 200; charArray[1][0] = '_'; 
+				}
+			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { 
+				theX = 200; theY= 200; charArray[1][1] = '_'; 
+				}
+			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { 
+				theX = 400; theY= 200; charArray[1][2] = '_'; 
+				}
+			if ((x < 200) && (y > 400) && (y < 600)) { 
+				theX = 0; theY= 400; charArray[2][0] = '_'; 
+				}
+			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { 
+				theX = 200; theY= 400; charArray[2][1] = '_'; 
+				}
+			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) {
+				theX = 400; theY= 400; charArray[2][2] = '_'; 
+				}
 
 			//draw a circle of the same color as the background over the old circle
 			moreGraphics.setColor(theJFrame.getBackground());
@@ -178,15 +196,33 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 
 			//reset each respective matching position
-			if ((x < 200) && (y < 200)) { theX = 0; theY = 0; charArray[0][0] = '_'; }
-			if ((x > 200) && (x < 400) && (y < 200)) { theX = 200; theY= 0; charArray[0][1] = '_'; }
-			if ((x > 400) && (x < 600) && (y < 200)) { theX = 400; theY= 0; charArray[0][2] = '_'; }
-			if ((x < 200) && (y > 200) && (y < 400)) { theX = 0; theY= 200; charArray[1][0] = '_'; }
-			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { theX = 200; theY= 200; charArray[1][1] = '_'; }
-			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { theX = 400; theY= 200; charArray[1][2] = '_'; }
-			if ((x < 200) && (y > 400) && (y < 600)) { theX = 0; theY= 400; charArray[2][0] = '_'; }
-			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { theX = 200; theY= 400; charArray[2][1] = '_'; }
-			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) { theX = 400; theY= 400; charArray[2][2] = '_'; }
+			if ((x < 200) && (y < 200)) { 
+				theX = 0; theY = 0; charArray[0][0] = '_';
+				}
+			if ((x > 200) && (x < 400) && (y < 200)) { 
+				theX = 200; theY= 0; charArray[0][1] = '_'; 
+				}
+			if ((x > 400) && (x < 600) && (y < 200)) { 
+				theX = 400; theY= 0; charArray[0][2] = '_'; 
+				}
+			if ((x < 200) && (y > 200) && (y < 400)) { 
+				theX = 0; theY= 200; charArray[1][0] = '_'; 
+				}
+			if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { 
+				theX = 200; theY= 200; charArray[1][1] = '_'; 
+				}
+			if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) {
+				theX = 400; theY= 200; charArray[1][2] = '_'; 
+				}
+			if ((x < 200) && (y > 400) && (y < 600)) { 
+				theX = 0; theY= 400; charArray[2][0] = '_'; 
+				}
+			if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { 
+				theX = 200; theY= 400; charArray[2][1] = '_'; 
+				}
+			if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) {
+				theX = 400; theY= 400; charArray[2][2] = '_'; 
+				}
 
 
 			//draw an X over the old X, same color as the background
