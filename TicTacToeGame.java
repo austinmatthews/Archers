@@ -58,6 +58,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	//stack to keep track of moves
 	private Stack<Moves> theMoves = new Stack<Moves>(); 
 
+
 	//constructor
 	public TicTacToeGame()
 	{
@@ -165,55 +166,58 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 
 		//reset each respective matching position
-		if ((x < 200) && (y < 200)) { 
+		if ((x < 300) && (y < 200)) { 
 			theX = 0; theY = 0; charArray[0][0] = '_'; 
 		}
-		if ((x > 200) && (x < 400) && (y < 200)) { 
-			theX = 200; theY= 0; charArray[0][1] = '_'; 
+		if ((x > 300) && (x < 600) && (y < 200)) { 
+			theX = 300; theY= 0; charArray[0][1] = '_'; 
 		}
-		if ((x > 400) && (x < 600) && (y < 200)) { 
-			theX = 400; theY= 0; charArray[0][2] = '_'; 
+		if ((x > 600) && (x < 900) && (y < 200)) { 
+			theX = 600; theY= 0; charArray[0][2] = '_'; 
 		}
-		if ((x < 200) && (y > 200) && (y < 400)) { 
+		if ((x < 300) && (y > 200) && (y < 400)) { 
 			theX = 0; theY= 200; charArray[1][0] = '_'; 
 		}
-		if ((x > 200) && (x < 400) && (y > 200) && (y < 400)) { 
-			theX = 200; theY= 200; charArray[1][1] = '_'; 
+		if ((x > 300) && (x < 600) && (y > 200) && (y < 400)) { 
+			theX = 300; theY= 200; charArray[1][1] = '_'; 
 		}
-		if ((x > 400) && (x < 600) && (y > 200) && (y < 400)) { 
-			theX = 400; theY= 200; charArray[1][2] = '_'; 
+		if ((x > 600) && (x < 900) && (y > 200) && (y < 400)) { 
+			theX = 600; theY= 200; charArray[1][2] = '_'; 
 		}
-		if ((x < 200) && (y > 400) && (y < 600)) { 
+		if ((x < 300) && (y > 400) && (y < 600)) { 
 			theX = 0; theY= 400; charArray[2][0] = '_'; 
 		}
-		if ((x > 200) && (x < 400) && (y > 400) && (y < 600)) { 
-			theX = 200; theY= 400; charArray[2][1] = '_'; 
+		if ((x > 300) && (x < 600) && (y > 400) && (y < 600)) { 
+			theX = 300; theY= 400; charArray[2][1] = '_'; 
 		}
-		if ((x > 400) && (x < 600) && (y > 400) && (y < 600)) {
-			theX = 400; theY= 400; charArray[2][2] = '_'; 
+		if ((x > 600) && (x < 900) && (y > 400) && (y < 600)) {
+			theX = 600; theY= 400; charArray[2][2] = '_'; 
 		}
 
-		if(theFlag == false){
-			//draw a circle of the same color as the background over the old circle
-			moreGraphics.setColor(theJFrame.getBackground());
+		
+		if( theFlag == false){
+
+			//draw a circle
+			moreGraphics.setColor(Color.WHITE);
 			theGraphics2D = (Graphics2D)moreGraphics;
 			theGraphics2D.setStroke(new BasicStroke(10.0F));
-			moreGraphics.drawOval(theX + 10,theY+ 10, 160, 160);
+			moreGraphics.drawOval(theX + 40,theY+ 40, 120, 120);
+
 
 		}else{
 
 
-			//draw an X over the old X, same color as the background
+			//drawing an X
 			theGraphics2D = (Graphics2D)moreGraphics;
 			theGraphics2D.setStroke(new BasicStroke(10.0F));
-			theGraphics2D.setColor(theJFrame.getBackground());
-			theGraphics2D.drawLine(theX + 10,theY+ 10,theX+ 170,theY+ 160);
-			theGraphics2D.drawLine(theX + 170,theY+ 10,theX+ 10,theY+ 170);
+			moreGraphics.setColor(Color.WHITE);
+			theGraphics2D.drawLine(theX + 10,theY + 40,theX + 170,theY+ 130);
+			theGraphics2D.drawLine(theX + 170,theY + 40,theX+ 10,theY+ 160);
 
-		}
+		
 	}
 
-
+	}
 
 	private void makeMove(int x, int y){
 
@@ -225,15 +229,14 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 		char theMove = 'X';
 		//if the flag is false, draw a circle
-		if (theFlag == false)
-		{ theMove = 'O';
-
+		if (theFlag == false){ 
+			theMove = 'O';
 		}
 
 
 		if ((x < 300) && (y < 200)) {
 			if (charArray[0][0] != '_'){
-				theJFrame.setTitle("player O that space already is taken");
+				theJFrame.setTitle("player "+ theMove +" that space already is taken");
 				return;
 			}
 
@@ -242,7 +245,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 		if ((x > 300) && (x < 600) && (y < 200)) { 
 			if (charArray[0][1] != '_'){
-				theJFrame.setTitle("player O that space already is taken");
+				theJFrame.setTitle("player "+ theMove +" that space already is taken");
 				return;
 			}
 
@@ -251,7 +254,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 		if ((x > 600) && (x < 900) && (y < 200)) { 
 			if (charArray[0][2] != '_'){
-				theJFrame.setTitle("player O that space already is taken");
+				theJFrame.setTitle("player "+ theMove +" that space already is taken");
 				return;
 			}
 
@@ -260,7 +263,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		}
 		if ((x < 300) && (y > 200) && (y < 400)) { 
 			if (charArray[1][0] != '_'){
-				theJFrame.setTitle("player O that space already is taken");
+				theJFrame.setTitle("player "+ theMove +" that space already is taken");
 				return;
 			}
 
@@ -270,7 +273,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		}
 		if ((x > 300) && (x < 600) && (y > 200) && (y < 400)) { 
 			if (charArray[1][1] != '_'){
-				theJFrame.setTitle("player O that space already is taken");
+				theJFrame.setTitle("player "+ theMove +" that space already is taken");
 				return;
 			}
 
@@ -279,7 +282,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 		if ((x > 600) && (x < 900) && (y > 200) && (y < 400)) { 
 			if (charArray[1][2] != '_'){
-				theJFrame.setTitle("player O that space already is taken");
+				theJFrame.setTitle("player "+ theMove +" that space already is taken");
 				return;
 			}
 
@@ -288,15 +291,15 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 		if ((x < 300) && (y > 400) && (y < 600)) { 
 			if (charArray[2][0] != '_'){
-				theJFrame.setTitle("player O that space already is taken");
+				theJFrame.setTitle("player "+ theMove +" that space already is taken");
 				return;
 			}
 
-			theX = 0; theY= 400; charArray[2][0] = 'O'; 
+			theX = 0; theY= 400; charArray[2][0] = theMove; 
 		}
 		if ((x > 300) && (x < 600) && (y > 400) && (y < 600)) { 
 			if (charArray[2][1] != '_'){
-				theJFrame.setTitle("player O that space already is taken");
+				theJFrame.setTitle("player "+ theMove +" that space already is taken");
 				return;
 			}
 			theX = 300; theY= 400; charArray[2][1] = theMove; 
@@ -304,7 +307,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		}
 		if ((x > 600) && (x < 900) && (y > 400) && (y < 600)) { 
 			if (charArray[2][2] != '_'){
-				theJFrame.setTitle("player O that space already is taken");
+				theJFrame.setTitle("player "+ theMove +" that space already is taken");
 				return;
 			}
 			theX = 600; theY= 400; charArray[2][2] = theMove; 
@@ -316,7 +319,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 			moreGraphics.setColor(Color.BLACK);
 			theGraphics2D = (Graphics2D)moreGraphics;
 			theGraphics2D.setStroke(new BasicStroke(10.0F));
-			moreGraphics.drawOval(theX + 10,theY+ 10, 160, 160);
+			moreGraphics.drawOval(theX + 40,theY+ 40, 120, 120);
 
 
 		}else{
@@ -326,8 +329,8 @@ public class TicTacToeGame implements MouseListener, KeyListener
 			theGraphics2D = (Graphics2D)moreGraphics;
 			theGraphics2D.setStroke(new BasicStroke(10.0F));
 			theGraphics2D.setColor(Color.RED);
-			theGraphics2D.drawLine(theX + 10,theY+ 10,theX+ 170,theY+ 160);
-			theGraphics2D.drawLine(theX + 170,theY+ 10,theX+ 10,theY+ 170);
+			theGraphics2D.drawLine(theX + 10,theY + 40,theX + 170,theY+ 130);
+			theGraphics2D.drawLine(theX + 170,theY + 40,theX+ 10,theY+ 160);
 
 		}
 
@@ -341,7 +344,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 			theFlag = false;
 		}
 
-		//print array for testing this.printArray();
+		//this.printArray();
 
 
 		//push the turn to the stack
@@ -355,10 +358,6 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 	//is the there a winner?
 	private void winner(){
-
-		if(charArray[0][0] != '_' && charArray[1][0] != '_' && charArray[2][0] != '_' && charArray[0][1] != '_' && charArray[1][1] != '_' && charArray[2][1] != '_' && charArray[0][2] != '_' && charArray[1][2] != '_' && charArray[2][2] != '_' ){
-			tie = true;
-		}
 
 		//is there a winner on a row or a column?
 		for (int counter = 0; counter< 3; counter++){
@@ -388,9 +387,15 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 
 		if(charArray[0][2] == charArray[1][1] && charArray[0][2] == charArray[2][0] && charArray[1][1] != '_'){
-			//yes there is a diaganol win
+			//yes there is a diagonal win
 			won = true;
 
+		}
+
+		if(won == false){
+			if(charArray[0][0] != '_' && charArray[1][0] != '_' && charArray[2][0] != '_' && charArray[0][1] != '_' && charArray[1][1] != '_' && charArray[2][1] != '_' && charArray[0][2] != '_' && charArray[1][2] != '_' && charArray[2][2] != '_' ){
+				tie = true;
+			}
 		}
 
 		//did someone win?
@@ -436,8 +441,8 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	}
 
 	//print the 2D char array for testing purposes
-
-	/* public void printArray(){
+	/*
+	 public void printArray(){
 
 		for(int counter = 0; counter < 3; counter++){
 
@@ -448,7 +453,9 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		}
 		System.out.println();
 	}
-	 */
+	
+	*/
+	 
 
 	//*************************************************
 	//the following methods are form their respective interfaces
@@ -462,8 +469,9 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		int x = e.getX();
 		int y = e.getY();
 
+	
 		//do not count count if the press is out of the board
-		if(x > 600 || x< 0 || y < 0 || y > 600 ){
+		if(x > 900 || x< 0 || y < 0 || y > 600 ){
 			return;
 		}
 
