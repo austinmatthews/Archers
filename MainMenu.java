@@ -30,7 +30,7 @@ public class MainMenu {
 
 	public void drawMenu() {
 		
-		mainMenu.setBounds(0, 0, 1000, 800);
+		mainMenu.setBounds(0, 0, 1000, 850);
 		mainMenu.setBackground(Color.white);
 		mainMenu.setLayout(new BoxLayout(mainMenu, BoxLayout.Y_AXIS));
 		final JLabel archers;

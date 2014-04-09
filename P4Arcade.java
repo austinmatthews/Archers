@@ -21,12 +21,11 @@ public class P4Arcade extends JFrame {
 		frame.setSize(1000, 850);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
-		mainPanel.setBounds(0, 0, 1000, 800);
+		mainPanel.setBounds(0, 0, 1000, 850);
 		mainPanel.setBackground(Color.black);
 		frame.getContentPane().add(mainPanel);
-		frame.setVisible(true);
 		MainMenu mainMenu = new MainMenu();
-
+		frame.setVisible(true);
 
 	}
 }

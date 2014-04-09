@@ -68,7 +68,7 @@ public class ScorchedEarth {
 	public void playGame() {
 
 		//sets the bounds of the game panels
-		scorchedGame.setBounds(0, 0, 1000, 800);
+		scorchedGame.setBounds(0, 0, 1000, 850);
 		scorchedInfo.setMaximumSize(new Dimension(1000, 140));
 		filler.setMaximumSize(new Dimension(1000, 4));
 		scorchedArena.setMaximumSize(new Dimension(1000, 450));
