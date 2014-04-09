@@ -111,6 +111,8 @@ public class ScorchedEarth {
 	public void setTurns() {
 
 		p1PowerSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+		p1PowerSlider.setBackground(Color.BLACK);
+		p1PowerSlider.setForeground(Color.WHITE);
 		p1PowerSlider.setMajorTickSpacing(10);
 		p1PowerSlider.setPaintTicks(true);
 		p1PowerSlider.setPaintLabels(true);
@@ -120,6 +122,8 @@ public class ScorchedEarth {
 		p1PowerSlider.setPreferredSize(new Dimension (400, 40));
 
 		p2PowerSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+		p2PowerSlider.setBackground(Color.BLACK);
+		p2PowerSlider.setForeground(Color.WHITE);
 		p2PowerSlider.setMajorTickSpacing(10);
 		p2PowerSlider.setPaintTicks(true);
 		p2PowerSlider.setPaintLabels(true);
@@ -129,6 +133,8 @@ public class ScorchedEarth {
 		p2PowerSlider.setPreferredSize(new Dimension (400, 40));
 
 		p1AngleSlider = new JSlider(JSlider.HORIZONTAL, 0, 90, 0);
+		p1AngleSlider.setBackground(Color.BLACK);
+		p1AngleSlider.setForeground(Color.WHITE);
 		p1AngleSlider.setMajorTickSpacing(5);
 		p1AngleSlider.setPaintTicks(true);
 		p1AngleSlider.setPaintLabels(true);
@@ -309,4 +315,3 @@ public class ScorchedEarth {
 	}
 
 }
-
