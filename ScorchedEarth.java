@@ -59,13 +59,20 @@ public class ScorchedEarth {
 	JLabel p2Power = new JLabel();
 	JLabel p1Angle = new JLabel();
 	JLabel p2Angle = new JLabel();
-	JLabel picLabel;
+	JLabel wallLabel;
+	JLabel p1ArcherLabel;
+	JLabel p2ArcherLabel;
+	int archerHeight = 100;
+	int archerWidth = 71;
+	int archerY = 338;
+	int archer1X;
+	int archer2X;
 
 	public ScorchedEarth(){
-		playGame();
+		initializeGame();
 	}
 
-	public void playGame() {
+	public void initializeGame() {
 
 		//sets the bounds of the game panels
 		scorchedGame.setBounds(0, 0, 1000, 850);
@@ -75,7 +82,7 @@ public class ScorchedEarth {
 		scorchedArena.setLayout(null);
 		filler2.setMaximumSize(new Dimension(1000, 4));
 		scorchedTurns.setMaximumSize(new Dimension(1000, 260));
-		
+
 
 		//sets the background colors of the game panels
 		scorchedGame.setBackground(Color.black);
@@ -97,7 +104,6 @@ public class ScorchedEarth {
 		setInfo();
 		setArena();
 		setTurns();
-		//setArena();
 		P4Arcade.cardLayout.show(P4Arcade.mainPanel, "scorchedGame");
 
 	}
@@ -171,24 +177,54 @@ public class ScorchedEarth {
 	}
 
 	public void setArena() {
+		archersX();
 		importWall();
-		scorchedArena.add(picLabel);
-		picLabel.setBounds(450, 200, 100, 275);
+		scorchedArena.add(wallLabel);
+		wallLabel.setBounds(450, 200, 100, 275);
+		importArchers();
+		scorchedArena.add(p1ArcherLabel);
+		p1ArcherLabel.setBounds(archer1X, 338, 71, 100);
+		scorchedArena.add(p2ArcherLabel);
+		p2ArcherLabel.setBounds(archer2X, 338, 71, 100);
 		
-
 	}
 
 	public void importWall(){
-		
-		BufferedImage myPicture = null;
+
+		BufferedImage wall = null;
 		try {
-			myPicture = ImageIO.read(new File("wall.png"));
+			wall = ImageIO.read(new File("wall.png"));
 		} catch (IOException e) {
 			//do nothing
 		}
-		picLabel = new JLabel(new ImageIcon(myPicture));
-		picLabel.setPreferredSize(new Dimension (100, 275));
+		wallLabel = new JLabel(new ImageIcon(wall));
+		wallLabel.setPreferredSize(new Dimension (100, 275));
 	}
+
+	public void importArchers(){
+
+		BufferedImage archer1 = null;
+		BufferedImage archer2 = null;
+		try {
+			archer1 = ImageIO.read(new File("archer1.jpg"));
+			archer2 = ImageIO.read(new File("archer2.jpg"));	
+		} catch (IOException e) {
+			//do nothing
+		}
+		
+		p2ArcherLabel = new JLabel(new ImageIcon(archer2));
+		p2ArcherLabel.setPreferredSize(new Dimension (75, 100));
+		p1ArcherLabel = new JLabel(new ImageIcon(archer1));
+		p1ArcherLabel.setPreferredSize(new Dimension (75, 100));
+		
+	}
+	
+	public void archersX (){
+		archer1X = (int)(Math.random() * ((350) + 1));
+		archer2X =  650 + (int)(Math.random() * ((929 - 650) + 1));
+		
+	}
+
 	
 	public void setInfo() {
 		JLabel p1Name;
@@ -198,7 +234,7 @@ public class ScorchedEarth {
 		JLabel p2Health;
 		JLabel p1HealthNum;
 		JLabel p2HealthNum;
- 
+
 
 		p1Name = new JLabel("Player 1");
 		p1Name.setFont(new Font("Andalus", Font.BOLD, 40));
@@ -241,15 +277,6 @@ public class ScorchedEarth {
 		scorchedInfo.add(p2Health);
 		scorchedInfo.add(p2HealthNum);
 
-		/*
-		Icon arrowImage = new ImageIcon("arrow.png");
-		JLabel arrow = new JLabel();
-		arrow.setIcon(arrowImage);
-		arrow.setPreferredSize(new Dimension (100, 30));
-		scorchedArena.add(arrow);
-		 */
-
-
 	}
 
 	public void makeSelection() {
@@ -280,27 +307,6 @@ public class ScorchedEarth {
 			int angle = p2AngleSlider.getValue();
 		}
 	}
-
-	/*	public class MakeWall extends JPanel{
-		Graphics wall;
-		public MakeWall(){
-			super();
-			setSize(1000,1000);
-			setVisible(true);
-		}
-
-		public void paintComponent(Graphics g){
-
-			wall = g;
-			super.paintComponent(g);
-			wall.fillRect(490, 596, 20, 200);
-			wall.drawRect(490, 596, 20, 200);
-			wall.setColor(Color.red);
-
-		}
-
-
-	}*/
 
 }
 
