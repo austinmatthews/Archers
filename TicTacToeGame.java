@@ -11,12 +11,14 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
+
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -43,7 +45,6 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	private boolean theFlag;
 	private boolean won;
 	private boolean tie;
-	
 	//count wins
 	private int xWins;
 	private int oWins;
@@ -61,7 +62,8 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	//constructor
 	public TicTacToeGame()
 	{
-		
+
+
 		int xWins = 0;
 		int oWins = 0;
 		won = false;
@@ -74,7 +76,6 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		theJFrame.setSize(900, 600);
 		theJFrame.getBackground();
 		theJFrame.setBackground(Color.white);
-		theJFrame.setLocationRelativeTo(null);
 
 
 		theJFrame.setVisible(true);

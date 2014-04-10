@@ -70,6 +70,14 @@ public class ScorchedEarth {
 	int archer2X;
 	int click = 0;
 	int turn = 1;
+	private Queue<Moves> theMoves;
+	int intAngle;
+	int intPower;
+	
+	double xVelocity, yVelocity, x, y, velocity;
+	int gravity = 10;
+	int time = 0;
+	
 
 	public ScorchedEarth(){
 		initializeGame();
@@ -154,7 +162,75 @@ public class ScorchedEarth {
 		scorchedTurns.add(powerSlider);
 		scorchedTurns.add(next);
 		scorchedTurns.add(angleSlider);
-		MouseListener next = new MouseListener();
+		next.addMouseListener(new MouseInputAdapter(){
+
+			public void mousePressed(MouseEvent e){
+				if (click < 10){
+					click++;
+					
+					theMoves.add(new Moves(intPower, intAngle));
+					
+					
+					if (click == 9){
+						next.setText("Play!");
+						
+						turnIndicator.setText("P2 - Turn 5");
+					}
+					else if (click == 10){
+						turnIndicator.setForeground(Color.black);
+						this.playGame();
+					}
+					else if (click % 2 == 0){
+						turn++;
+						turnIndicator.setText("P1 - Turn " + turn);
+					}
+					else{
+						turnIndicator.setText("P2 - Turn " + turn);
+					}
+				}
+			}
+			public void mouseEntered(MouseEvent e){
+				next.setForeground(Color.red);
+			}
+			public void mouseExited(MouseEvent e){
+				next.setForeground(Color.white);
+			}
+			
+			public void playGame(){
+				
+				do{
+					this.getMove(theMoves.poll());
+				
+				} while(!(theMoves.peek().equals(null)));
+			
+				
+			}
+			
+			public void getMove(Moves theMove){
+				
+			
+				
+				intPower = theMove.getX();
+				intAngle = theMove.getY();
+				
+				
+				
+				xVelocity = intPower*Math.cos(intAngle);
+				
+				
+				yVelocity = intPower*Math.sin(intAngle);
+				
+				yVelocity = yVelocity - gravity * time;
+				
+				
+				x = x + xVelocity * time;
+				
+				
+				y = y +  yVelocity * time;
+				
+			}
+			
+		});
 	}
 
 	public void setArena() {
@@ -261,98 +337,26 @@ public class ScorchedEarth {
 	}
 
 	public class powerListener implements ChangeListener {
+		
 		public void stateChanged (ChangeEvent event) {
-			int power = powerSlider.getValue();
+			int intPower = powerSlider.getValue();
+			
+			
 		}
 	}
 
 	public class angleListener implements ChangeListener {
 		public void stateChanged (ChangeEvent event) {
-			int angle = angleSlider.getValue();
-		}
-	}
-
-	public class getMoves{
-
-		getMoves(){
-			next.addMouseListener(new MouseInputAdapter(){
-
-				public void mousePressed(MouseEvent e){
-					if (click < 10){
-						click++;
-						if (click == 9){
-							next.setText("Play!");
-							turnIndicator.setText("P2 - Turn 5");
-						}
-						else if (click == 10){
-							turnIndicator.setText("Begin");
-						}
-						else if (click % 2 == 0){
-							turn++;
-							turnIndicator.setText("P1 - Turn " + turn);
-						}
-						else{
-							turnIndicator.setText("P2 - Turn " + turn);
-						}
-					}
-					System.out.println("click " + click);
-				}
-				public void mouseEntered(MouseEvent e){
-					next.setForeground(Color.red);
-				}
-				public void mouseExited(MouseEvent e){
-					next.setForeground(Color.white);
-				}
-
-			});
-		}
-	}
-
-	public class MouseListener{
-		
-		MouseListener(){
-			
-			next.addMouseListener(new MouseInputAdapter(){
-
-				public void mousePressed(MouseEvent e){
-					if (click < 10){
-						click++;
-						if (click == 9){
-							next.setText("Play!");
-							turnIndicator.setText("P2 - Turn 5");
-						}
-						else if (click == 10){
-							turnIndicator.setForeground(Color.black);
-						}
-						else if (click % 2 == 0){
-							turn++;
-							turnIndicator.setText("P1 - Turn " + turn);
-						}
-						else{
-							turnIndicator.setText("P2 - Turn " + turn);
-						}
-					}
-				}
-				public void mouseEntered(MouseEvent e){
-					next.setForeground(Color.red);
-				}
-				public void mouseExited(MouseEvent e){
-					next.setForeground(Color.white);
-				}
-
-			});
+			int intAngle = angleSlider.getValue();
 		}
 	}
 	
 
-	public void playGame(){
-		
+
+	
 
 	}
 
 
-
-
-}
 
 
