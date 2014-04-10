@@ -7,7 +7,9 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Queue;
+
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -25,39 +27,39 @@ import javax.swing.JSlider;
 
 public class ScorchedEarth implements MouseListener {
 
-	JLabel p1Name;
-	JLabel p2Name;
-	JLabel round;
-	JLabel p1Health;
-	JLabel p2Health;
-	JLabel p1HealthNum;
-	JLabel p2HealthNum;
-	JPanel scorchedMenu = new JPanel();
-	JPanel scorchedGame = new JPanel();
-	JPanel scorchedInfo = new JPanel();
-	JPanel filler = new JPanel();
-	JPanel filler2 = new JPanel();
-	JPanel scorchedArena = new JPanel();
-	JPanel scorchedTurns = new JPanel();
-	JSlider powerSlider;
-	JSlider angleSlider;
-	JLabel next = new JLabel("Next");
-	JLabel power = new JLabel();
-	JLabel angle = new JLabel();
-	JLabel turnIndicator = new JLabel();
-	JLabel wallLabel;
-	JLabel p1ArcherLabel;
-	JLabel p2ArcherLabel;
-	int archerHeight = 100;
-	int archerWidth = 71;
-	int archerY = 338;
-	int archer1X;
-	int archer2X;
-	int click = 0;
-	int turn = 1;
-	int p1Num = 9;
-	int p2Num = 9;
-	Queue<Moves> theMoves;
+	private JLabel p1Name;
+	private JLabel p2Name;
+	private JLabel round;
+	private JLabel p1Health;
+	private JLabel p2Health;
+	private JLabel p1HealthNum;
+	private JLabel p2HealthNum;
+	private JPanel scorchedMenu = new JPanel();
+	private JPanel scorchedGame = new JPanel();
+	private JPanel scorchedInfo = new JPanel();
+	private JPanel filler = new JPanel();
+	private JPanel filler2 = new JPanel();
+	private JPanel scorchedArena = new JPanel();
+	private JPanel scorchedTurns = new JPanel();
+	private JSlider powerSlider;
+	private JSlider angleSlider;
+	private JLabel next = new JLabel("Next");
+	private JLabel power = new JLabel();
+	private JLabel angle = new JLabel();
+	private JLabel turnIndicator = new JLabel();
+	private JLabel wallLabel;
+	private JLabel p1ArcherLabel;
+	private JLabel p2ArcherLabel;
+	private int archerHeight = 100;
+	private final int archerWidth = 71;
+	private final int archerY = 338;
+	private int archer1X;
+	private int archer2X;
+	private int click = 0;
+	private int turn = 1;
+	private int p1Num = 9;
+	private int p2Num = 9;
+	private Queue<Moves> theMoves = new LinkedList();
 
 	double xVelocity, yVelocity, x, y, velocity;
 	int gravity = 10;
@@ -68,7 +70,9 @@ public class ScorchedEarth implements MouseListener {
 	public ScorchedEarth(){
 		initializeGame();
 	}
-
+	
+	//initializes the game board, which includes the info panel on the top, the arena panel which is in the middle and the 
+	//turns panel which is on the bottom
 	public void initializeGame() {
 
 		//sets the bounds of the game panels
@@ -105,24 +109,23 @@ public class ScorchedEarth implements MouseListener {
 
 	}
 
+	//sets up all of the things on the turns panel, which is on the bottom of the frame
 	public void setTurns() {
 
 		powerSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
 		powerSlider.setMajorTickSpacing(10);
 		powerSlider.setPaintTicks(true);
 		powerSlider.setPaintLabels(true);
-		powerSlider.setForeground(Color.WHITE);
-
-
+		powerSlider.setForeground(Color.white);
+		powerSlider.setBackground(Color.black);
 		powerSlider.setPreferredSize(new Dimension (400, 40));
 
 		angleSlider = new JSlider(JSlider.HORIZONTAL, 0, 90, 0);
 		angleSlider.setMajorTickSpacing(5);
 		angleSlider.setPaintTicks(true);
 		angleSlider.setPaintLabels(true);
-		angleSlider.setForeground(Color.WHITE);
-
-
+		angleSlider.setForeground(Color.white);
+		angleSlider.setBackground(Color.black);
 		angleSlider.setPreferredSize(new Dimension (400, 40));
 
 		turnIndicator = new JLabel("P1 - Turn " + turn);
@@ -152,12 +155,16 @@ public class ScorchedEarth implements MouseListener {
 		next.addMouseListener(this);
 	}
 	
-	
+	//where the game actually takes place, after the last turn is put in
+	//the game begins and goes through the queue to display to turns
 	public void mousePressed(MouseEvent e){
 		if (click < 10){
 			click++;
-
-			theMoves.add(new Moves(powerSlider.getValue(), angleSlider.getValue()));
+			System.out.println("Power value " + powerSlider.getValue());
+			System.out.println("Angle value " + angleSlider.getValue());
+			Moves theMove = new Moves(powerSlider.getValue(), angleSlider.getValue());
+			
+			theMoves.add(theMove);
 
 
 			if (click == 9){
@@ -178,9 +185,11 @@ public class ScorchedEarth implements MouseListener {
 			}
 		}
 	}
+	
 	public void mouseEntered(MouseEvent e){
 		next.setForeground(Color.red);
 	}
+	
 	public void mouseExited(MouseEvent e){
 		next.setForeground(Color.white);
 	}
