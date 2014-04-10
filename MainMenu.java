@@ -7,27 +7,50 @@
 
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 
-
+//this class makes the main menu
 public class MainMenu {
+
+	
+	//constansts
+	public static final int UP_KEY = 38;
+	public static final int DOWN_KEY = 40;
+	public static final int LEFT_KEY = 37;
+	public static final int RIGHT_KEY = 39;
+	public static final int B_KEY = 66;
+	public static final int A_KEY = 65;
+
+	//class variables
+	public static int leftKeyPress;
+	public static int rightKeyPress;
+	public static int upKeyPress;
+	public static int downKeyPress;
+	public static int aKeyPress;
+	public static int bKeyPress;
 
 	//make mainMenu panel
 	public static JPanel mainMenu = new JPanel();
-
+	
+	//constructor
 	public MainMenu(){
+
+		mainMenu.addKeyListener(new KonamiCode());
+		mainMenu.setFocusable(true);
+		mainMenu.requestFocusInWindow();
+		
+		//draw the menu when the constructor is called
 		drawMenu();
 	}
 
+	
+	//this method draws and displays the menu
 	public void drawMenu() {
 
 		mainMenu.setBounds(0, 0, 1000, 850);
@@ -84,6 +107,7 @@ public class MainMenu {
 			}
 		});
 
+		
 		ticTacToe.addMouseListener(new MouseInputAdapter(){
 			//recursive method that calls itself whenever the shape is pressed, the majority of the game happens in this method
 			public void mousePressed(MouseEvent e){
@@ -111,5 +135,5 @@ public class MainMenu {
 		});
 	}
 
-
-}
+		
+}	
