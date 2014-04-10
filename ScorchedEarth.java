@@ -1,41 +1,20 @@
 
-import static javax.swing.GroupLayout.Alignment.LEADING;
-
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Queue;
-import java.util.Stack;
-
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.MouseInputAdapter;
 
 /**
  * 
@@ -44,7 +23,7 @@ import javax.swing.event.MouseInputAdapter;
  *
  */
 
-public class ScorchedEarth {
+public class ScorchedEarth implements MouseListener {
 
 	JLabel p1Name;
 	JLabel p2Name;
@@ -60,8 +39,8 @@ public class ScorchedEarth {
 	JPanel filler2 = new JPanel();
 	JPanel scorchedArena = new JPanel();
 	JPanel scorchedTurns = new JPanel();
-	JSlider powerSlider = new JSlider();
-	JSlider angleSlider = new JSlider();
+	JSlider powerSlider;
+	JSlider angleSlider;
 	JLabel next = new JLabel("Next");
 	JLabel power = new JLabel();
 	JLabel angle = new JLabel();
@@ -132,16 +111,18 @@ public class ScorchedEarth {
 		powerSlider.setMajorTickSpacing(10);
 		powerSlider.setPaintTicks(true);
 		powerSlider.setPaintLabels(true);
-		powerListener powerListener = new powerListener();
-		powerSlider.addChangeListener(powerListener);
+		powerSlider.setForeground(Color.WHITE);
+
+
 		powerSlider.setPreferredSize(new Dimension (400, 40));
 
 		angleSlider = new JSlider(JSlider.HORIZONTAL, 0, 90, 0);
 		angleSlider.setMajorTickSpacing(5);
 		angleSlider.setPaintTicks(true);
 		angleSlider.setPaintLabels(true);
-		angleListener p1AngleListener = new angleListener();
-		angleSlider.addChangeListener(p1AngleListener);
+		angleSlider.setForeground(Color.WHITE);
+
+
 		angleSlider.setPreferredSize(new Dimension (400, 40));
 
 		turnIndicator = new JLabel("P1 - Turn " + turn);
@@ -168,84 +149,87 @@ public class ScorchedEarth {
 		scorchedTurns.add(powerSlider);
 		scorchedTurns.add(next);
 		scorchedTurns.add(angleSlider);
-		next.addMouseListener(new MouseInputAdapter(){
-
-			public void mousePressed(MouseEvent e){
-				if (click < 10){
-					click++;
-					
-					theMoves.add(new Moves(p1PowerSlider.getPower(), intAngle));
-
-
-					if (click == 9){
-						next.setText("Play!");
-
-						turnIndicator.setText("P2 - Turn 5");
-					}
-					else if (click == 10){
-						turnIndicator.setForeground(Color.black);
-						this.playGame();
-					}
-					else if (click % 2 == 0){
-						turn++;
-						turnIndicator.setText("P1 - Turn " + turn);
-					}
-					else{
-						turnIndicator.setText("P2 - Turn " + turn);
-					}
-				}
-			}
-			public void mouseEntered(MouseEvent e){
-				next.setForeground(Color.red);
-			}
-			public void mouseExited(MouseEvent e){
-				next.setForeground(Color.white);
-			}
-
-			public void playGame(){
-				switchTurn = true;
-
-				do{
-					this.getMove(theMoves.poll());
-
-				} while(!(theMoves.peek().equals(null)));
-
-			}
-
-			public void getMove(Moves theMove){
-
-				intPower = theMove.getX();
-				intAngle = theMove.getY();
-				xVelocity = intPower*Math.cos(intAngle);
-				yVelocity = intPower*Math.sin(intAngle);
-				int leftX, rightX, topY, bottomY;
-				y = 340;
-
-				if (switchTurn == true){
-					leftX = archer1X;
-					rightX = leftX + 71;
-					topY = 338;
-					bottomY = topY + 100;
-				
-					do{
-						x = x + xVelocity * time;
-						y = y +  yVelocity * time;
-						if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
-							p1Num = p1Num - 2;
-							p1HealthNum.setText("" + p1Num);
-						}
-							
-					}while(y < 850);
-				}
-				
-				else{
-					
-				}
-
-			}
-
-		});
+		next.addMouseListener(this);
 	}
+	
+	
+	public void mousePressed(MouseEvent e){
+		if (click < 10){
+			click++;
+
+			theMoves.add(new Moves(powerSlider.getValue(), angleSlider.getValue()));
+
+
+			if (click == 9){
+				next.setText("Play!");
+
+				turnIndicator.setText("P2 - Turn 5");
+			}
+			else if (click == 10){
+				turnIndicator.setForeground(Color.black);
+				this.playGame();
+			}
+			else if (click % 2 == 0){
+				turn++;
+				turnIndicator.setText("P1 - Turn " + turn);
+			}
+			else{
+				turnIndicator.setText("P2 - Turn " + turn);
+			}
+		}
+	}
+	public void mouseEntered(MouseEvent e){
+		next.setForeground(Color.red);
+	}
+	public void mouseExited(MouseEvent e){
+		next.setForeground(Color.white);
+	}
+
+	public void playGame(){
+		switchTurn = true;
+
+		do{
+			this.getMove(theMoves.poll());
+
+		} while(!(theMoves.peek().equals(null)));
+
+	}
+
+	public void getMove(Moves theMove){
+
+		int intPower = theMove.getX();
+		int intAngle = theMove.getY();
+
+		xVelocity = intPower*Math.cos(intAngle);
+		yVelocity = intPower*Math.sin(intAngle);
+		int leftX, rightX, topY, bottomY;
+		y = 340;
+
+		if (switchTurn == true){
+			leftX = archer1X;
+			rightX = leftX + 71;
+			topY = 338;
+			bottomY = topY + 100;
+
+			do{
+				x = x + xVelocity * time;
+				y = y +  yVelocity * time;
+				if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
+					p1Num = p1Num - 2;
+					p1HealthNum.setText("" + p1Num);
+				}
+
+			}while(y < 850);
+		}
+
+		else{
+
+		}
+
+	}
+
+
+
 
 	public void setArena() {
 		archersX();
@@ -299,7 +283,7 @@ public class ScorchedEarth {
 
 	public void setInfo() {
 
-		
+
 		p1Name = new JLabel("Player 1");
 		p1Name.setFont(new Font("Andalus", Font.BOLD, 40));
 		p1Name.setForeground(Color.black);
@@ -343,33 +327,19 @@ public class ScorchedEarth {
 
 	}
 
-	public class powerListener implements ChangeListener {
-		int intPower;
-		public void stateChanged (ChangeEvent event) {
-			intPower = powerSlider.getValue();
-		}
-		public int getPower(){
-			return intPower;
-		}
+
+
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// unused
 	}
 
-	public class angleListener implements ChangeListener {
-		int intAngle;
-		
-		public void stateChanged (ChangeEvent event) {
-			intAngle = angleSlider.getValue();
-		}
-		public int getAngle(){
-			return intAngle;
-		}
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// unused
+
 	}
-
-
-
-
-
 }
-
-
 
 
