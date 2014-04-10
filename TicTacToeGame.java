@@ -194,7 +194,8 @@ public class TicTacToeGame implements MouseListener, KeyListener
 			theX = 600; theY= 400; charArray[2][2] = '_'; 
 		}
 
-		
+
+		//if it is the circle's turn
 		if( theFlag == false){
 
 			//draw a circle
@@ -203,7 +204,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 			theGraphics2D.setStroke(new BasicStroke(10.0F));
 			moreGraphics.drawOval(theX + 40,theY+ 40, 120, 120);
 
-
+			//if it is the x's turn
 		}else{
 
 
@@ -214,8 +215,8 @@ public class TicTacToeGame implements MouseListener, KeyListener
 			theGraphics2D.drawLine(theX + 10,theY + 40,theX + 170,theY+ 130);
 			theGraphics2D.drawLine(theX + 170,theY + 40,theX+ 10,theY+ 160);
 
-		
-	}
+
+		}
 
 	}
 
@@ -453,9 +454,9 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		}
 		System.out.println();
 	}
-	
-	*/
-	 
+
+	 */
+
 
 	//*************************************************
 	//the following methods are form their respective interfaces
@@ -469,7 +470,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		int x = e.getX();
 		int y = e.getY();
 
-	
+
 		//do not count count if the press is out of the board
 		if(x > 900 || x< 0 || y < 0 || y > 600 ){
 			return;

@@ -29,7 +29,7 @@ public class MainMenu {
 	}
 
 	public void drawMenu() {
-		
+
 		mainMenu.setBounds(0, 0, 1000, 850);
 		mainMenu.setBackground(Color.white);
 		mainMenu.setLayout(new BoxLayout(mainMenu, BoxLayout.Y_AXIS));
@@ -96,7 +96,7 @@ public class MainMenu {
 				ticTacToe.setForeground(Color.black);
 			}
 		});
-		
+
 		exit.addMouseListener(new MouseInputAdapter(){
 			//recursive method that calls itself whenever the shape is pressed, the majority of the game happens in this method
 			public void mousePressed(MouseEvent e){
@@ -110,6 +110,6 @@ public class MainMenu {
 			}
 		});
 	}
-	
-	
+
+
 }
