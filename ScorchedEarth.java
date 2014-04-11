@@ -2,6 +2,9 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -10,7 +13,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import javax.swing.Timer;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -50,6 +56,8 @@ public class ScorchedEarth implements MouseListener {
 	private JLabel wallLabel;
 	private JLabel p1ArcherLabel;
 	private JLabel p2ArcherLabel;
+	private JLabel p1ArrowLabel;
+	private JLabel p2ArrowLabel;
 	private int archerHeight = 100;
 	private final int archerWidth = 71;
 	private final int archerY = 338;
@@ -59,18 +67,21 @@ public class ScorchedEarth implements MouseListener {
 	private int turn = 1;
 	private int p1Num = 9;
 	private int p2Num = 9;
+	private int leftX, rightX, topY, bottomY, x, y = 397;
+	private double currentTime;
+	private int count = 0;
+	private double gravity = 9.8;
 	private Queue<Moves> theMoves = new LinkedList();
-
-	double xVelocity, yVelocity, x, y, velocity;
-	int gravity = 10;
-	int time = 0;
+	private double xVelocity, yVelocity;
+	private double time;
 	boolean switchTurn;
+
 
 
 	public ScorchedEarth(){
 		initializeGame();
 	}
-	
+
 	//initializes the game board, which includes the info panel on the top, the arena panel which is in the middle and the 
 	//turns panel which is on the bottom
 	public void initializeGame() {
@@ -154,18 +165,12 @@ public class ScorchedEarth implements MouseListener {
 		scorchedTurns.add(angleSlider);
 		next.addMouseListener(this);
 	}
-	
-	//where the game actually takes place, after the last turn is put in
-	//the game begins and goes through the queue to display to turns
+
 	public void mousePressed(MouseEvent e){
 		if (click < 10){
 			click++;
-			System.out.println("Power value " + powerSlider.getValue());
-			System.out.println("Angle value " + angleSlider.getValue());
 			Moves theMove = new Moves(powerSlider.getValue(), angleSlider.getValue());
-			
 			theMoves.add(theMove);
-
 
 			if (click == 9){
 				next.setText("Play!");
@@ -185,59 +190,14 @@ public class ScorchedEarth implements MouseListener {
 			}
 		}
 	}
-	
+
 	public void mouseEntered(MouseEvent e){
 		next.setForeground(Color.red);
 	}
-	
+
 	public void mouseExited(MouseEvent e){
 		next.setForeground(Color.white);
 	}
-
-	public void playGame(){
-		switchTurn = true;
-
-		do{
-			this.getMove(theMoves.poll());
-
-		} while(!(theMoves.peek().equals(null)));
-
-	}
-
-	public void getMove(Moves theMove){
-
-		int intPower = theMove.getX();
-		int intAngle = theMove.getY();
-
-		xVelocity = intPower*Math.cos(intAngle);
-		yVelocity = intPower*Math.sin(intAngle);
-		int leftX, rightX, topY, bottomY;
-		y = 340;
-
-		if (switchTurn == true){
-			leftX = archer1X;
-			rightX = leftX + 71;
-			topY = 338;
-			bottomY = topY + 100;
-
-			do{
-				x = x + xVelocity * time;
-				y = y +  yVelocity * time;
-				if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
-					p1Num = p1Num - 2;
-					p1HealthNum.setText("" + p1Num);
-				}
-
-			}while(y < 850);
-		}
-
-		else{
-
-		}
-
-	}
-
-
 
 
 	public void setArena() {
@@ -250,6 +210,11 @@ public class ScorchedEarth implements MouseListener {
 		p1ArcherLabel.setBounds(archer1X, 386, 71, 100);
 		scorchedArena.add(p2ArcherLabel);
 		p2ArcherLabel.setBounds(archer2X, 386, 71, 100);
+		importArrows();
+		scorchedArena.add(p1ArrowLabel);
+		p1ArrowLabel.setBounds(archer1X, 397, 64, 32);
+		scorchedArena.add(p2ArrowLabel);
+		p2ArrowLabel.setBounds(archer2X, 397, 64, 32);
 
 	}
 
@@ -282,6 +247,24 @@ public class ScorchedEarth implements MouseListener {
 		p1ArcherLabel.setPreferredSize(new Dimension (75, 100));
 
 	}
+	public void importArrows(){
+
+		BufferedImage arrow1 = null;
+		BufferedImage arrow2 = null;
+		try {
+			arrow1 = ImageIO.read(new File("arrow1.png"));
+			arrow2 = ImageIO.read(new File("arrow2.png"));	
+		} catch (IOException e) {
+			//do nothing
+		}
+
+		p2ArrowLabel = new JLabel(new ImageIcon(arrow2));
+		p2ArrowLabel.setPreferredSize(new Dimension (64, 32));
+		p1ArrowLabel = new JLabel(new ImageIcon(arrow1));
+		p1ArrowLabel.setPreferredSize(new Dimension (64, 32));
+
+	}
+
 
 	public void archersX (){
 		archer1X = (int)(Math.random() * ((350) + 1));
@@ -291,7 +274,6 @@ public class ScorchedEarth implements MouseListener {
 
 
 	public void setInfo() {
-
 
 		p1Name = new JLabel("Player 1");
 		p1Name.setFont(new Font("Andalus", Font.BOLD, 40));
@@ -336,19 +318,133 @@ public class ScorchedEarth implements MouseListener {
 
 	}
 
+	public void playGame(){
+		switchTurn = true;
+		int theCounter = 0;
+
+		do{
+			this.getMove(theMoves.poll());
+			theCounter++;
+
+		} while(theCounter < 10);
+
+	}
+
+	/*where the game actually takes place, after the last turn is put in
+	the game begins and goes through the queue to display to turns'
+	I got all of the math right for it, it needs to just set the location of the arrow1 and arrow2 images
+	 */
+	public void getMove(Moves theMove){
+		y = 397;
+
+		//the next 4 lines print out to tell me which turn it was on odd numbers are player 1, even numbers are player 2
+		count++;
+		System.out.println("");
+		System.out.println("" + count);
+		System.out.println("");
+		int intPower = theMove.getX();
+		int intAngle = theMove.getY();
+		double rad = Math.toRadians(intAngle);
+		xVelocity = intPower*Math.cos(rad);
+		yVelocity = intPower*Math.sin(rad);
+
+		//an if statement to decide which player it is. It is p1 if switchturn is true 
+		if (switchTurn == true){
+			x = archer1X;
+			leftX = archer1X;
+			rightX = leftX + 71;
+			topY = 400;
+			bottomY = topY + 100;
+			time = 0;
+
+			while(y < 500){
+				yVelocity = yVelocity - gravity * time;
+				x = (int) (x + xVelocity * time);
+				y = (int) (y -  yVelocity * time);
+				timer.start();
+			}
+			switchTurn = false;
+		}
+
+		//this is for p2
+		if (switchTurn == false){
+			x = archer2X;
+			leftX = archer2X;
+			rightX = leftX + 71;
+			topY = 400;
+			bottomY = topY + 100;
+			time = 0;
 
 
+			while(y < 500){
+				yVelocity = yVelocity - gravity * time;
+				x = (int) (x + xVelocity * time);
+				y = (int) (y -  yVelocity * time);
+				timer.start();
+			}
+			switchTurn = true;	
+		}
+	}
 
-	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// unused
 	}
 
-	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// unused
+	}
+
+	TimerListener listen = new TimerListener();
+	Timer timer = new Timer(1000, listen);
+
+	private class TimerListener implements ActionListener {
+
+		public void actionPerformed (ActionEvent event) {
+
+			if (switchTurn == true){
+				leftX = archer1X;
+				rightX = leftX + 71;
+				topY = 338;
+				bottomY = topY + 100;
+
+				p1ArrowLabel.setLocation(x, y);
+
+				//this isnt right, it is supposed to be the 4 corners of the other player
+				if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
+					p2Num = p2Num - 2;
+					p2HealthNum.setText("" + p2Num);
+				}
+
+			}
+			else{
+				leftX = archer2X;
+				rightX = leftX - 71;
+				topY = 338;
+				bottomY = topY + 100;
+
+				while(y < 500){
+					p2ArrowLabel.setLocation(x, y);
+
+					//this isnt right, it is supposed to be the 4 corners of the other player
+					if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
+						p1Num = p1Num - 2;
+						p1HealthNum.setText("" + p1Num);
+					}
+				}
+
+			}
+		}
 
 	}
 }
+
+
+//what we need to do
+//make it so that after the round ends, it plays another round, up to 5 round
+//then ask if they want to play again
+
+//we need to update the round title at the top, its just a set text command
+//I think that is all, but I would second check me with the projects sheet to see if we missed anything
+
 
 
