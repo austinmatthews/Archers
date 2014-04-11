@@ -248,6 +248,7 @@ public class ScorchedEarth implements MouseListener {
 	public void importWall(){
 
 		BufferedImage wall = null;
+
 		try {
 			wall = ImageIO.read(new File("wall.png"));
 		} catch (IOException e) {
@@ -367,6 +368,8 @@ public class ScorchedEarth implements MouseListener {
      I got all of the math right for it, it needs to just set the location of the arrow1 and arrow2 images
 	 */
 	public void getMove(Moves theMove){
+
+		//why y = 397? comment here
 		y = 397;
 
 		//the next 4 lines print out to tell me which turn it was on odd numbers are player 1, even numbers are player 2
@@ -374,6 +377,8 @@ public class ScorchedEarth implements MouseListener {
 		System.out.println("");
 		System.out.println("" + count);
 		System.out.println("");
+
+		// Initialize variables
 		int intPower = theMove.getX();
 		int intAngle = theMove.getY();
 		double rad = Math.toRadians(intAngle);
@@ -388,16 +393,50 @@ public class ScorchedEarth implements MouseListener {
 			topY = 400;
 			bottomY = topY + 100;
 			time = 0;
-
+	
+			
+			//loop through time, redisplaying the arrow image at 
+			//appropriate location
 			while(y < 500){
-				yVelocity = yVelocity - gravity * time;
+				
+				//calculate the x and y coordinates
+				
+				//radians - 9.8 * time, will always be negative
+				yVelocity = yVelocity + gravity * time;
 				x = (int) (x + xVelocity * time);
 				y = (int) (y -  yVelocity * time);
-				timer.start();
+				//timer.start();
+
+				leftX = archer1X;
+				rightX = leftX + 71;
+				topY = 338;
+				bottomY = topY + 100;
+
+				p1ArrowLabel.setLocation(x, y);
+
+				//this isnt right, it is supposed to be the 4 corners of the other player
+				if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
+					p2Num = p2Num - 2;
+					p2HealthNum.setText("" + p2Num);
+					
+					//end the loop, a hit occured
+					break;
+				}
+				
+				//add to the time add the end of each loop
+				//time is arbitrary. we can control it
+				time = time + 10;
+				
+				//repeat the loop
 			}
+			
+			//it is now player 2's turn
 			switchTurn = false;
+			
 		}
 
+		
+		// p2 calculations are different ? why?
 		//this is for p2
 		if (switchTurn == false){
 			x = archer2X;
@@ -408,13 +447,34 @@ public class ScorchedEarth implements MouseListener {
 			time = 0;
 
 
+			//loop through time, redisplaying the arrow image at 
+			//appropriate location
 			while(y < 500){
 				yVelocity = yVelocity - gravity * time;
 				x = (int) (x + xVelocity * time);
 				y = (int) (y -  yVelocity * time);
-				timer.start();
+				//timer.start();
+
+				leftX = archer2X;
+				rightX = leftX - 71;
+				topY = 338;
+				bottomY = topY + 100;
+
+				while(y < 500){
+					p2ArrowLabel.setLocation(x, y);
+
+					//this isnt right, it is supposed to be the 4 corners of the other player
+					if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
+						p1Num = p1Num - 2;
+						p1HealthNum.setText("" + p1Num);
+					}
+
+
+				}
+
+				//it is now player 1's turn
+				switchTurn = true;
 			}
-			switchTurn = true;
 		}
 	}
 
@@ -422,18 +482,21 @@ public class ScorchedEarth implements MouseListener {
 	public void mouseClicked(MouseEvent arg0) {
 		// unused
 	}
+
+
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// unused
 	}
 
+	/*
 	//import a the a time listener
-	TimerListener listen = new TimerListener();
-	Timer timer = new Timer(1000, listen);
+	//TimerListener listen = new TimerListener();
+	//Timer timer = new Timer(1000, listen);
 
-	private class TimerListener implements ActionListener {
+	//private class TimerListener implements ActionListener {
 
-		public void actionPerformed (ActionEvent event) {
+		//public void actionPerformed (ActionEvent event) {
 
 			if (switchTurn == true){
 				leftX = archer1X;
@@ -468,8 +531,11 @@ public class ScorchedEarth implements MouseListener {
 			}
 		}
 
-	}
-}
+	//} timer
+	 * 
+	 */
+} 
+
 
 
 //what we need to do
