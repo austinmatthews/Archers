@@ -25,9 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 /**
- * 
+ *
  * @author Matthew Vollkommer and Austin Matthews
- * 
+ *
  *
  */
 
@@ -82,7 +82,7 @@ public class ScorchedEarth implements MouseListener {
 		initializeGame();
 	}
 
-	//initializes the game board, which includes the info panel on the top, the arena panel which is in the middle and the 
+	//initializes the game board, which includes the info panel on the top, the arena panel which is in the middle and the
 	//turns panel which is on the bottom
 	public void initializeGame() {
 
@@ -105,7 +105,7 @@ public class ScorchedEarth implements MouseListener {
 		scorchedTurns.setBackground(Color.black);
 		scorchedTurns.setLocation(0,754);
 
-		//adds the game panels to the main game panel, and switches from the menu panel to the game panel 
+		//adds the game panels to the main game panel, and switches from the menu panel to the game panel
 		scorchedGame.setLayout(new BoxLayout(scorchedGame, BoxLayout.Y_AXIS));
 		P4Arcade.mainPanel.add(scorchedGame, "scorchedGame");
 		scorchedGame.add(scorchedInfo);
@@ -166,40 +166,66 @@ public class ScorchedEarth implements MouseListener {
 		next.addMouseListener(this);
 	}
 
+	//detects the mouse being pressed in the button area
 	public void mousePressed(MouseEvent e){
+
+		//are there less than ten click?
 		if (click < 10){
+			//yes, add one to the click, get the values from the sliders, and add it to the que
 			click++;
 			Moves theMove = new Moves(powerSlider.getValue(), angleSlider.getValue());
 			theMoves.add(theMove);
 
+			//is this the tenth click? 
 			if (click == 9){
+
+				//yes, set the button text to play
 				next.setText("Play!");
 
+				//and then update the turn indicator
 				turnIndicator.setText("P2 - Turn 5");
 			}
+
+			//if it is the tenth click
 			else if (click == 10){
+				//set the foreground to black
 				turnIndicator.setForeground(Color.black);
+
+				//and play the game
 				this.playGame();
 			}
+
+			//if it is an even turn
 			else if (click % 2 == 0){
+
+				//add one to turns counter
 				turn++;
+
+				//and tell p1 that it is their turn
 				turnIndicator.setText("P1 - Turn " + turn);
 			}
+
+			//else
 			else{
+
+				//tell p2 it is their turn
 				turnIndicator.setText("P2 - Turn " + turn);
 			}
 		}
 	}
 
+	//when mouse is entered, turn the foreground to red
 	public void mouseEntered(MouseEvent e){
 		next.setForeground(Color.red);
 	}
 
+	//when the mouse exit, turn the foreground to white
 	public void mouseExited(MouseEvent e){
 		next.setForeground(Color.white);
 	}
 
 
+	//initialize the arena
 	public void setArena() {
 		archersX();
 		importWall();
@@ -218,6 +244,7 @@ public class ScorchedEarth implements MouseListener {
 
 	}
 
+	//import the wall image
 	public void importWall(){
 
 		BufferedImage wall = null;
@@ -230,13 +257,14 @@ public class ScorchedEarth implements MouseListener {
 		wallLabel.setPreferredSize(new Dimension (100, 275));
 	}
 
+	//import the archer images
 	public void importArchers(){
 
 		BufferedImage archer1 = null;
 		BufferedImage archer2 = null;
 		try {
 			archer1 = ImageIO.read(new File("archer1.jpg"));
-			archer2 = ImageIO.read(new File("archer2.jpg"));	
+			archer2 = ImageIO.read(new File("archer2.jpg"));
 		} catch (IOException e) {
 			//do nothing
 		}
@@ -247,13 +275,15 @@ public class ScorchedEarth implements MouseListener {
 		p1ArcherLabel.setPreferredSize(new Dimension (75, 100));
 
 	}
+
+	//import the arrow images
 	public void importArrows(){
 
 		BufferedImage arrow1 = null;
 		BufferedImage arrow2 = null;
 		try {
 			arrow1 = ImageIO.read(new File("arrow1.png"));
-			arrow2 = ImageIO.read(new File("arrow2.png"));	
+			arrow2 = ImageIO.read(new File("arrow2.png"));
 		} catch (IOException e) {
 			//do nothing
 		}
@@ -266,13 +296,14 @@ public class ScorchedEarth implements MouseListener {
 	}
 
 
+	//place the archers on the board and set their x Coordinates
 	public void archersX (){
 		archer1X = (int)(Math.random() * ((350) + 1));
 		archer2X =  650 + (int)(Math.random() * ((929 - 650) + 1));
 
 	}
 
-
+	//initialize the info panel at the top of the frame
 	public void setInfo() {
 
 		p1Name = new JLabel("Player 1");
@@ -318,6 +349,7 @@ public class ScorchedEarth implements MouseListener {
 
 	}
 
+	//play the game, looping through the queue of submitted turns
 	public void playGame(){
 		switchTurn = true;
 		int theCounter = 0;
@@ -331,8 +363,8 @@ public class ScorchedEarth implements MouseListener {
 	}
 
 	/*where the game actually takes place, after the last turn is put in
-	the game begins and goes through the queue to display to turns'
-	I got all of the math right for it, it needs to just set the location of the arrow1 and arrow2 images
+     the game begins and goes through the queue to display to turns'
+     I got all of the math right for it, it needs to just set the location of the arrow1 and arrow2 images
 	 */
 	public void getMove(Moves theMove){
 		y = 397;
@@ -348,7 +380,7 @@ public class ScorchedEarth implements MouseListener {
 		xVelocity = intPower*Math.cos(rad);
 		yVelocity = intPower*Math.sin(rad);
 
-		//an if statement to decide which player it is. It is p1 if switchturn is true 
+		//an if statement to decide which player it is. It is p1 if switchturn is true
 		if (switchTurn == true){
 			x = archer1X;
 			leftX = archer1X;
@@ -382,18 +414,20 @@ public class ScorchedEarth implements MouseListener {
 				y = (int) (y -  yVelocity * time);
 				timer.start();
 			}
-			switchTurn = true;	
+			switchTurn = true;
 		}
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// unused
 	}
-
+	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// unused
 	}
 
+	//import a the a time listener
 	TimerListener listen = new TimerListener();
 	Timer timer = new Timer(1000, listen);
 
@@ -415,8 +449,7 @@ public class ScorchedEarth implements MouseListener {
 					p2HealthNum.setText("" + p2Num);
 				}
 
-			}
-			else{
+			}else{
 				leftX = archer2X;
 				rightX = leftX - 71;
 				topY = 338;
