@@ -2,9 +2,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -13,10 +10,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import javax.swing.Timer;
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -58,9 +52,6 @@ public class ScorchedEarth implements MouseListener {
 	private JLabel p2ArcherLabel;
 	private JLabel p1ArrowLabel;
 	private JLabel p2ArrowLabel;
-	private int archerHeight = 100;
-	private final int archerWidth = 71;
-	private final int archerY = 338;
 	private int archer1X;
 	private int archer2X;
 	private int click = 0;
@@ -68,13 +59,12 @@ public class ScorchedEarth implements MouseListener {
 	private int p1Num = 9;
 	private int p2Num = 9;
 	private int leftX, rightX, topY, bottomY, x, y = 397;
-	private double currentTime;
 	private int count = 0;
 	private double gravity = 9.8;
-	private Queue<Moves> theMoves = new LinkedList();
+	private Queue<Moves> theMoves = new LinkedList<Moves>();
 	private double xVelocity, yVelocity;
 	private double time;
-	boolean switchTurn;
+	private boolean switchTurn;
 
 
 
@@ -319,22 +309,27 @@ public class ScorchedEarth implements MouseListener {
 		round.setFont(new Font("Andalus", Font.BOLD, 40));
 		round.setForeground(Color.black);
 
+		//set p1 one health
 		p1Health = new JLabel("P1 Health - ");
 		p1Health.setFont(new Font("Andalus", Font.BOLD, 40));
 		p1Health.setForeground(Color.black);
 
+		//set p2 health
 		p2Health = new JLabel("P2 Health - ");
 		p2Health.setFont(new Font("Andalus", Font.BOLD, 40));
 		p2Health.setForeground(Color.black);
 
+		//set p1 health
 		p1HealthNum = new JLabel("" + p1Num);
 		p1HealthNum.setFont(new Font("Andalus", Font.BOLD, 40));
 		p1HealthNum.setForeground(Color.black);
 
+		//set p2 health
 		p2HealthNum = new JLabel("" + p2Num);
 		p2HealthNum.setFont(new Font("Andalus", Font.BOLD, 40));
 		p2HealthNum.setForeground(Color.black);
 
+		//add the labels
 		scorchedInfo.add(Box.createRigidArea(new Dimension(100,5)));
 		scorchedInfo.add(p1Name);
 		scorchedInfo.add(Box.createRigidArea(new Dimension(130,5)));
@@ -405,6 +400,20 @@ public class ScorchedEarth implements MouseListener {
 				yVelocity = yVelocity + gravity * time;
 				x = (int) (x + xVelocity * time);
 				y = (int) (y -  yVelocity * time);
+				
+				/*
+				 * instead of formula, we can do our own arbitrary math
+				 * this is not realife
+				 * power will determine where the apex is
+				 * power 50 = apex is 500 pixels away
+				 * power = 10, apex is 100 pixels away and so on
+				 * 
+				 * angle would be the number of the pixels sorounding the archer.
+				 * lowest is a straight shot
+				 * highest is perpendicular with the ground
+				 * once the apex is reached, it will then repeat the loop in the opposite direction
+				 * we can do this by implementing a stack.
+				 */
 				//timer.start();
 
 				leftX = archer1X;

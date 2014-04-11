@@ -442,7 +442,7 @@ public class CPUTicTacToe implements MouseListener, KeyListener
 	}
 
 	//print the 2D char array for testing purposes
-	
+	/*
 	 public void printArray(){
 
 		for(int counter = 0; counter < 3; counter++){
@@ -455,7 +455,7 @@ public class CPUTicTacToe implements MouseListener, KeyListener
 		System.out.println();
 	}
 
-	 
+	 */
 
 
 	//*************************************************
