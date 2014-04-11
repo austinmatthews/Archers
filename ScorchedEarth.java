@@ -489,51 +489,6 @@ public class ScorchedEarth implements MouseListener {
 		// unused
 	}
 
-	/*
-	//import a the a time listener
-	//TimerListener listen = new TimerListener();
-	//Timer timer = new Timer(1000, listen);
-
-	//private class TimerListener implements ActionListener {
-
-		//public void actionPerformed (ActionEvent event) {
-
-			if (switchTurn == true){
-				leftX = archer1X;
-				rightX = leftX + 71;
-				topY = 338;
-				bottomY = topY + 100;
-
-				p1ArrowLabel.setLocation(x, y);
-
-				//this isnt right, it is supposed to be the 4 corners of the other player
-				if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
-					p2Num = p2Num - 2;
-					p2HealthNum.setText("" + p2Num);
-				}
-
-			}else{
-				leftX = archer2X;
-				rightX = leftX - 71;
-				topY = 338;
-				bottomY = topY + 100;
-
-				while(y < 500){
-					p2ArrowLabel.setLocation(x, y);
-
-					//this isnt right, it is supposed to be the 4 corners of the other player
-					if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
-						p1Num = p1Num - 2;
-						p1HealthNum.setText("" + p1Num);
-					}
-				}
-
-			}
-		}
-
-	//} timer
-	 * 
-	 */
 } 
 
 
