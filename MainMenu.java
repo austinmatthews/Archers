@@ -7,8 +7,6 @@
 
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
@@ -19,21 +17,6 @@ import javax.swing.event.MouseInputAdapter;
 public class MainMenu {
 
 	
-	//constansts
-	public static final int UP_KEY = 38;
-	public static final int DOWN_KEY = 40;
-	public static final int LEFT_KEY = 37;
-	public static final int RIGHT_KEY = 39;
-	public static final int B_KEY = 66;
-	public static final int A_KEY = 65;
-
-	//class variables
-	public static int leftKeyPress;
-	public static int rightKeyPress;
-	public static int upKeyPress;
-	public static int downKeyPress;
-	public static int aKeyPress;
-	public static int bKeyPress;
 
 	//make mainMenu panel
 	public static JPanel mainMenu = new JPanel();
@@ -111,7 +94,8 @@ public class MainMenu {
 		ticTacToe.addMouseListener(new MouseInputAdapter(){
 			//recursive method that calls itself whenever the shape is pressed, the majority of the game happens in this method
 			public void mousePressed(MouseEvent e){
-				new TicTacToeGame();
+				//new TicTacToeGame(); makes a new tic tac toe game
+				new TicTacMenu();
 			}
 			public void mouseEntered(MouseEvent e){
 				ticTacToe.setForeground(Color.red);
