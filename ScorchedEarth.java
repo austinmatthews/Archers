@@ -1,4 +1,5 @@
 
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,7 +18,9 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
@@ -35,8 +38,12 @@ public class ScorchedEarth implements MouseListener {
 	public JLabel round;
 	public JLabel p1Health;
 	public JLabel p2Health;
+	public JLabel p1Wins;
+	public JLabel p2Wins;
 	public JLabel p1HealthNum;
 	public JLabel p2HealthNum;
+	public JLabel p1WinNum;
+	public JLabel p2WinNum;
 	public JPanel scorchedMenu = new JPanel();
 	public JPanel scorchedGame = new JPanel();
 	public JPanel scorchedInfo = new JPanel();
@@ -57,8 +64,11 @@ public class ScorchedEarth implements MouseListener {
 	private int archer2X;
 	private int click = 0;
 	private int turn = 1;
-	private int p1Num = 9;
-	private int p2Num = 9;
+	private int p1Num = 5;
+	private int roundNum = 1;
+	private int p2Num = 5;
+	private int p1NumWins = 0;
+	private int p2NumWins = 0;
 	private int x, y = 397;
 	private int count = 0;
 	private double gravity = 9.8;
@@ -66,8 +76,10 @@ public class ScorchedEarth implements MouseListener {
 	private double xVelocity, yVelocity, initialYVelocity;
 	private double time;
 	private boolean switchTurn;
-
-
+	Graphics archer1Arrow;
+	Graphics archer2Arrow;
+	BufferedImage arrow1 = null;
+	BufferedImage arrow2 = null;
 
 	public ScorchedEarth(){
 		initializeGame();
@@ -159,50 +171,55 @@ public class ScorchedEarth implements MouseListener {
 
 	//detects the mouse being pressed in the button area
 	public void mousePressed(MouseEvent e){
+		
 
-		//are there less than ten click?
-		if (click < 10){
-			//yes, add one to the click, get the values from the sliders, and add it to the que
-			click++;
-			Round theRound = new Round(powerSlider.getValue(), angleSlider.getValue());
-			theRounds.add(theRound);
+		if(roundNum <= 5){
+			//are there less than ten click?
+			if (click < 10){
+				//yes, add one to the click, get the values from the sliders, and add it to the que
+				click++;
+				Round theRound = new Round(powerSlider.getValue(), angleSlider.getValue());
+				theRounds.add(theRound);
 
-			//is this the tenth click? 
-			if (click == 9){
+				//is this the tenth click? 
+				if (click == 9){
 
-				//yes, set the button text to play
-				next.setText("Play!");
+					//yes, set the button text to play
+					next.setText("Play!");
 
-				//and then update the turn indicator
-				turnIndicator.setText("P2 - Turn 5");
-			}
+					//and then update the turn indicator
+					turnIndicator.setText("P2 - Turn 5");
+				}
 
-			//if it is the tenth click
-			else if (click == 10){
-				//set the foreground to black
-				turnIndicator.setForeground(Color.black);
+				//if it is the tenth click
+				else if (click == 10){
+					//set the foreground to black
+					turnIndicator.setForeground(Color.black);
+					turnIndicator.paintImmediately(turnIndicator.getVisibleRect());
 
-				//and play the game
-				this.playGame();
-			}
+					//and play the game
+					this.playGame();
+				}
 
-			//if it is an even turn
-			else if (click % 2 == 0){
+				//if it is an even turn
+				else if (click % 2 == 0){
 
-				//add one to turns counter
-				turn++;
+					//add one to turns counter
+					turn++;
 
-				//and tell p1 that it is their turn
-				turnIndicator.setText("P1 - Turn " + turn);
-			}
+					//and tell p1 that it is their turn
+					turnIndicator.setText("P1 - Turn " + turn);
+				}
 
-			//else
-			else{
+				//else
+				else{
 
-				//tell p2 it is their turn
-				turnIndicator.setText("P2 - Turn " + turn);
+					//tell p2 it is their turn
+					turnIndicator.setText("P2 - Turn " + turn);
+				}
 			}
 		}
+	
 	}
 
 	//when mouse is entered, turn the foreground to red
@@ -223,6 +240,7 @@ public class ScorchedEarth implements MouseListener {
 		scorchedArena.add(wallLabel);
 		wallLabel.setBounds(450, 200, 100, 300);
 		importArchers();
+
 		scorchedArena.add(p1ArcherLabel);
 		p1ArcherLabel.setBounds(archer1X, 386, 71, 100);
 		scorchedArena.add(p2ArcherLabel);
@@ -266,8 +284,8 @@ public class ScorchedEarth implements MouseListener {
 
 	//place the archers on the board and set their x Coordinates
 	private void archersX (){
-		archer1X = 350 ;//(int)(Math.random() * ((350) + 1));
-		archer2X =  650 ;//650 + (int)(Math.random() * ((929 - 650) + 1));
+		archer1X = (int)(Math.random() * ((350) + 1));
+		archer2X =  650 + (int)(Math.random() * ((929 - 650) + 1));
 
 	}
 
@@ -282,29 +300,49 @@ public class ScorchedEarth implements MouseListener {
 		p2Name.setFont(new Font("Andalus", Font.BOLD, 40));
 		p2Name.setForeground(Color.black);
 
-		round = new JLabel("Round 1");
+		round = new JLabel("Round " + roundNum);
 		round.setFont(new Font("Andalus", Font.BOLD, 40));
 		round.setForeground(Color.black);
 
 		//set p1 one health
 		p1Health = new JLabel("P1 Health - ");
-		p1Health.setFont(new Font("Andalus", Font.BOLD, 40));
+		p1Health.setFont(new Font("Andalus", Font.BOLD, 25));
 		p1Health.setForeground(Color.black);
 
 		//set p2 health
 		p2Health = new JLabel("P2 Health - ");
-		p2Health.setFont(new Font("Andalus", Font.BOLD, 40));
+		p2Health.setFont(new Font("Andalus", Font.BOLD, 25));
 		p2Health.setForeground(Color.black);
+
+		//set p1 one health
+		p1Wins = new JLabel("P1 Wins - ");
+		p1Wins.setFont(new Font("Andalus", Font.BOLD, 25));
+		p1Wins.setForeground(Color.black);
+
+		//set p2 health
+		p2Wins = new JLabel("P2 Wins - ");
+		p2Wins.setFont(new Font("Andalus", Font.BOLD, 25));
+		p2Wins.setForeground(Color.black);
 
 		//set p1 health
 		p1HealthNum = new JLabel("" + p1Num);
-		p1HealthNum.setFont(new Font("Andalus", Font.BOLD, 40));
+		p1HealthNum.setFont(new Font("Andalus", Font.BOLD, 25));
 		p1HealthNum.setForeground(Color.black);
 
 		//set p2 health
 		p2HealthNum = new JLabel("" + p2Num);
-		p2HealthNum.setFont(new Font("Andalus", Font.BOLD, 40));
+		p2HealthNum.setFont(new Font("Andalus", Font.BOLD, 25));
 		p2HealthNum.setForeground(Color.black);
+
+		//set p1 health
+		p1WinNum = new JLabel("" + p1NumWins);
+		p1WinNum.setFont(new Font("Andalus", Font.BOLD, 25));
+		p1WinNum.setForeground(Color.black);
+
+		//set p2 health
+		p2WinNum = new JLabel("" + p2NumWins);
+		p2WinNum.setFont(new Font("Andalus", Font.BOLD, 25));
+		p2WinNum.setForeground(Color.black);
 
 		//add the labels
 		scorchedInfo.add(Box.createRigidArea(new Dimension(100,5)));
@@ -316,7 +354,13 @@ public class ScorchedEarth implements MouseListener {
 		scorchedInfo.add(Box.createRigidArea(new Dimension(100,5)));
 		scorchedInfo.add(p1Health);
 		scorchedInfo.add(p1HealthNum);
-		scorchedInfo.add(Box.createRigidArea(new Dimension(300,5)));
+		scorchedInfo.add(Box.createRigidArea(new Dimension(80,5)));
+		scorchedInfo.add(p1Wins);
+		scorchedInfo.add(p1WinNum);
+		scorchedInfo.add(Box.createRigidArea(new Dimension(140,5)));
+		scorchedInfo.add(p2Wins);
+		scorchedInfo.add(p2WinNum);
+		scorchedInfo.add(Box.createRigidArea(new Dimension(80,5)));
 		scorchedInfo.add(p2Health);
 		scorchedInfo.add(p2HealthNum);
 
@@ -332,20 +376,23 @@ public class ScorchedEarth implements MouseListener {
 			theCounter++;
 
 		} while(theCounter < 10);
-
+		initialize();
 	}
+
+
 
 	//delay the game
 	private void delay(){
 		long start = System.currentTimeMillis();
-		long end = start + 15;
+		long end = start + 20;
+		//long end = start + 1;
 		while (System.currentTimeMillis() < end)
 		{
 			// run
 		}
 	}
-	
-	
+
+
 	/*where the game actually takes place, after the last turn is put in
      the game begins and goes through the queue to display to turns'
      I got all of the math right for it, it needs to just set the location of the arrow1 and arrow2 images
@@ -366,10 +413,6 @@ public class ScorchedEarth implements MouseListener {
 
 		//the next 4 lines print out to tell me which turn it was on odd numbers are player 1, even numbers are player 2
 
-		count++;
-		System.out.println("" + count);
-		System.out.println("");
-
 
 		// Initialize variables
 		int intPower = theRound.getX() /4;
@@ -383,7 +426,7 @@ public class ScorchedEarth implements MouseListener {
 		//p1's turn
 		if (switchTurn == true){
 			x = archer1X;
-			
+
 
 
 
@@ -407,8 +450,6 @@ public class ScorchedEarth implements MouseListener {
 				x = (int) (x + xVelocity * time);
 				y = (int) (y -  yVelocity * time);
 
-				System.out.println(x + ", " + y);
-
 
 
 				//draw the arrow
@@ -416,11 +457,11 @@ public class ScorchedEarth implements MouseListener {
 				theGraphics2D.drawLine(x + 50, y + 20, x+50, y + 20);
 
 
-				if( hitP2(x+50, y+20) == true  || hitWall(x+50, y+20) == true || x+50 < -20 || x+50 > 1000 || y+20 > 500){
+				if( hitP2(x+50, y+20) == true  || hitWall(x+50, y+20) == true || x+50 < -20 || x+50 > 1000){
 
 					moreGraphics.setColor(Color.RED);
 					theGraphics2D.drawLine(x + 50, y+20, x+50, y + 20);
-					
+
 					//end the loop, a hit occured
 					break;
 
@@ -444,12 +485,12 @@ public class ScorchedEarth implements MouseListener {
 		else{
 
 			x = archer2X;
-			
+
 			//loop through time, redisplaying the arrow image at 
 			//appropriate location
 			while(y < 500){
 
-				
+
 				delay();
 
 
@@ -466,8 +507,6 @@ public class ScorchedEarth implements MouseListener {
 				x = (int) (x - xVelocity * time);
 				y = (int) (y -  yVelocity * time);
 
-				System.out.println(x + ", " + y);
-
 
 
 				//draw the arrow
@@ -478,7 +517,7 @@ public class ScorchedEarth implements MouseListener {
 				if(hitP1(x, y+20) == true  || hitWall(x, y+20) == true || x< -20 || y + 20 >500){
 					moreGraphics.setColor(Color.RED);
 					theGraphics2D.drawLine(x, y+20, x, y + 20);
-					
+
 					//end the loop, a hit occured
 					break;
 
@@ -516,12 +555,14 @@ public class ScorchedEarth implements MouseListener {
 		//was P1 hit?
 		if((arrowX < archer1X + 71) && (arrowX > archer1X) && (arrowY < 386 + 100) && (arrowY > 386)){
 			//yes, deduct health
-			p1Num = p1Num - 2;
+			p1Num = p1Num - 1;
 			p1HealthNum.setText("" + p1Num);
 			p1HealthNum.paintImmediately(p1HealthNum.getVisibleRect());
 			hit = true;
-			
-		
+			if(p1Num == 0){
+				winner2();
+			}
+
 
 		}
 
@@ -539,11 +580,14 @@ public class ScorchedEarth implements MouseListener {
 		if((arrowX < archer2X + 71) && (arrowX > archer2X) && (arrowY < 386+100) && (arrowY > 386)){
 
 			//yes deduct health
-			p2Num = p2Num - 2;
+			p2Num = p2Num - 1;
 			p2HealthNum.setText("" + p2Num);
 			p2HealthNum.paintImmediately(p2HealthNum.getVisibleRect());
 			hit = true;
-		
+			if(p2Num == 0){
+				winner1();
+			}
+
 		}
 
 		//return hit
@@ -552,6 +596,57 @@ public class ScorchedEarth implements MouseListener {
 
 
 
+	private void winner1(){
+		
+		int theWinner = 1;
+		int dialogButton = JOptionPane.YES_NO_OPTION;
+		int dialogResult = JOptionPane.showConfirmDialog(new JFrame(), "Play again?", "P3 Wins", dialogButton);
+
+		//play again?
+		if(dialogResult==0){
+
+			//start a new game
+			initializeNextGame(theWinner);
+
+			
+
+
+		}else{
+
+			//end the game
+			System.exit(0);
+
+		}
+
+	
+	}
+	
+	private void winner2(){
+		
+		int theWinner = 2;
+		int dialogButton = JOptionPane.YES_NO_OPTION;
+		int dialogResult = JOptionPane.showConfirmDialog(new JFrame(), "Play again?", "P2 Wins", dialogButton);
+
+		//play again?
+		if(dialogResult==0){
+
+			//start a new game
+			initializeNextGame( theWinner);
+
+			
+
+
+		}else{
+
+			//end the game
+			System.exit(0);
+
+		}
+
+	
+	}
+	
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// unused
@@ -562,16 +657,61 @@ public class ScorchedEarth implements MouseListener {
 	public void mouseReleased(MouseEvent arg0) {
 		// unused
 	}
+	public void initialize(){
+		roundNum++;
+		if(roundNum > 5){
+			initializeNextGame(0);
+		}
+		round.setText("Round " + roundNum);
+		turnIndicator.setText("P1 - Turn " + 1);
+		next.setText("Next");
+		turn = 1;
+		turnIndicator.setForeground(Color.white);
+		click = 0;
+	}
+	
+	public void initializeNextGame(int theWinner){
+		roundNum = 1;
+		round.setText("Round " + roundNum);
+		turnIndicator.setText("P1 - Turn " + 1);
+		next.setText("Next");
+		turn = 1;
+		turnIndicator.setForeground(Color.white);
+		click = 0;
+		p1Num = 5;
+		p2Num = 5;
+		archersX();
+		
+		if(theWinner == 1){
+			//give p1 a win
+			p1NumWins++;
+			p1Wins.setText("P1 Wins - " + p1NumWins);
+		}else if(theWinner == 2){
+			p2NumWins++;
+			p2Wins.setText("P2 Wins - " + p2NumWins);
+		}else{
+			//tie give no wins
+		
+			int dialogButton = JOptionPane.YES_NO_OPTION;
+			int dialogResult = JOptionPane.showConfirmDialog(new JFrame(), "Play again?", "Tie Game", dialogButton);
+			//play again?
+			if(dialogResult==0){
+
+			//close dialog  box
+			//do nothing, play game
+				
+
+
+			}else{
+
+				//end the game
+				System.exit(0);
+
+			}
+
+		}
+		
+	}
 
 } 
-
-
-
-//what we need to do
-//make it so that after the round ends, it plays another round, up to 5 round
-//then ask if they want to play again
-
-//we need to update the round title at the top, its just a set text command
-//I think that is all, but I would second check me with the projects sheet to see if we missed anything
-
 
