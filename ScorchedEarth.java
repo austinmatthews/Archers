@@ -361,6 +361,17 @@ public class ScorchedEarth implements MouseListener {
 
 	}
 
+	//delay the game
+	private void delay(){
+		long start = System.currentTimeMillis();
+		long end = start + 15;
+		while (System.currentTimeMillis() < end)
+		{
+			// run
+		}
+	}
+	
+	
 	/*where the game actually takes place, after the last turn is put in
      the game begins and goes through the queue to display to turns'
      I got all of the math right for it, it needs to just set the location of the arrow1 and arrow2 images
@@ -406,13 +417,7 @@ public class ScorchedEarth implements MouseListener {
 			//appropriate location
 			while(y < 500){
 
-
-				long start = System.currentTimeMillis();
-				long end = start + 50;
-				while (System.currentTimeMillis() < end)
-				{
-					// run
-				}
+				delay();
 
 
 				//erase the last arrow
@@ -450,7 +455,7 @@ public class ScorchedEarth implements MouseListener {
 
 				//add to the time add the end of each loop
 				//time is arbitrary. we can control it
-				time = time + .05;
+				time = time + .005;
 
 				//repeat the loop
 			}
@@ -470,13 +475,8 @@ public class ScorchedEarth implements MouseListener {
 			//appropriate location
 			while(y < 500){
 
-
-				long start = System.currentTimeMillis();
-				long end = start + 50;
-				while (System.currentTimeMillis() < end)
-				{
-					// run
-				}
+				
+				delay();
 
 
 				//erase the last arrow
@@ -513,7 +513,7 @@ public class ScorchedEarth implements MouseListener {
 
 				//add to the time add the end of each loop
 				//time is arbitrary. we can control it
-				time = time + .05;
+				time = time + .005;
 
 				//repeat the loop
 			}
