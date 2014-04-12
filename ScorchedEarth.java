@@ -1,7 +1,10 @@
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -391,6 +394,28 @@ public class ScorchedEarth implements MouseListener {
 			//appropriate location
 			while(y < 500){
 
+				
+				long start = System.currentTimeMillis();
+				long end = start + 100;
+				while (System.currentTimeMillis() < end)
+				{
+					// run
+				}
+				
+				//draw the board
+				//scorchedArena.repaint();
+				Graphics2D theGraphics2D;
+
+				//draw the board
+				Graphics moreGraphics = scorchedArena.getGraphics();
+				
+				theGraphics2D = (Graphics2D)moreGraphics;
+				theGraphics2D.setStroke(new BasicStroke(1.0F));
+				moreGraphics.setColor(Color.WHITE);
+				theGraphics2D.drawLine(x + 100, y, x+102, y+2);
+				
+				
+				
 				//calculate the x and y coordinates
 
 				//radians - 9.8 * time, will always be negative
@@ -400,24 +425,26 @@ public class ScorchedEarth implements MouseListener {
 
 				System.out.println(x + ", " + y);
 				
-				long start = System.currentTimeMillis();
-				long end = start + 100;
-				while (System.currentTimeMillis() < end)
-				{
-					// run
-				}
-				
-				p1ArrowLabel.setBounds(x, y, 64, 32);
+				//p1ArrowLabel.setBounds(x, y, 64, 32);
 				
 				//p1ArrowLabel.repaint();
 				
 				
-				//scorchedArena.repaint();
+
 				
+				theGraphics2D = (Graphics2D)moreGraphics;
+				theGraphics2D.setStroke(new BasicStroke(1.0F));
+				moreGraphics.setColor(Color.BLACK);
+				theGraphics2D.drawLine(x + 100, y, x+105, y+5);
+				
+				//delete last line
+				//theGraphics2D.setColor(Color.WHITE);
+				//need to implement a stack here to capture x and y
+				
+			
 				
 				//p1ArrowLabel.setVisible(true);
-				
-				//this isnt right, it is supposed to be the 4 corners of the other player
+
 				
 				
 				if(hitP2(x, y) == true  || hitWall(x, y) == true){
@@ -450,9 +477,34 @@ public class ScorchedEarth implements MouseListener {
 			//loop through time, redisplaying the arrow image at 
 			//appropriate location
 			while(y < 500){
+				
+
+	
+				Graphics2D theGraphics2D;
+
+				//draw the board
+				Graphics moreGraphics = scorchedArena.getGraphics();
+				
+				theGraphics2D = (Graphics2D)moreGraphics;
+				theGraphics2D.setStroke(new BasicStroke(1.0F));
+				moreGraphics.setColor(Color.WHITE);
+				theGraphics2D.drawLine(x, y, x - 2, y+2);
 
 				//calculate the x and y coordinates
+				long start = System.currentTimeMillis();
+				long end = start + 100;
+				while (System.currentTimeMillis() < end)
+				{
+					// run
+				}
+				
 
+				
+				theGraphics2D = (Graphics2D)moreGraphics;
+				theGraphics2D.setStroke(new BasicStroke(1.0F));
+				moreGraphics.setColor(Color.BLACK);
+				theGraphics2D.drawLine(x, y, x - 2, y+2);
+				
 				//radians - 9.8 * time, will always be negative
 				yVelocity = initialYVelocity - gravity * time;
 				x = (int) (x - xVelocity * time);
@@ -460,14 +512,8 @@ public class ScorchedEarth implements MouseListener {
 
 				System.out.println(x + ", " + y);
 				
-				
-				long start = System.currentTimeMillis();
-				long end = start + 100;
-				while (System.currentTimeMillis() < end)
-				{
-					// run
-				}
-				p2ArrowLabel.setLocation(x,y);
+
+
 
 				//this isnt right, it is supposed to be the 4 corners of the other player
 				if(hitP1(x,y) == true || hitWall(x, y) == true){
