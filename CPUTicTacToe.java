@@ -56,7 +56,7 @@ public class CPUTicTacToe implements MouseListener, KeyListener
 	private char[][] charArray = new char[3][3];
 
 	//stack to keep track of moves
-	private Stack<Moves> theMoves = new Stack<Moves>(); 
+	private Stack<Round> theRound = new Stack<Round>(); 
 
 
 	//constructor
@@ -138,7 +138,7 @@ public class CPUTicTacToe implements MouseListener, KeyListener
 	}
 
 	//undoes a move
-	private void undoMove(Moves pMove){
+	private void undoMove(Round pMove){
 
 
 		int x = pMove.getX();
@@ -349,7 +349,7 @@ public class CPUTicTacToe implements MouseListener, KeyListener
 
 
 		//push the turn to the stack
-		theMoves.push(new Moves(x, y));
+		theRound.push(new Round(x, y));
 
 		//check to see if the game has ended
 		this.winner();
@@ -423,8 +423,8 @@ public class CPUTicTacToe implements MouseListener, KeyListener
 
 
 				//loop through the stack, undoing all moves and reseting the board
-				for(int counter = theMoves.size(); counter > 0; counter --){
-					this.undoMove(theMoves.pop());
+				for(int counter = theRound.size(); counter > 0; counter --){
+					this.undoMove(theRound.pop());
 
 				}
 
@@ -541,9 +541,9 @@ public class CPUTicTacToe implements MouseListener, KeyListener
 		{
 
 			//are there moves in the stack?
-			if (theMoves.isEmpty() == false){
+			if (theRound.isEmpty() == false){
 				//yes, undo last move
-				this.undoMove(theMoves.pop());
+				this.undoMove(theRound.pop());
 			}
 		}
 

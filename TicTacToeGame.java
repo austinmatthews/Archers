@@ -56,7 +56,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	private char[][] charArray = new char[3][3];
 
 	//stack to keep track of moves
-	private Stack<Moves> theMoves = new Stack<Moves>(); 
+	private Stack<Round> theRounds = new Stack<Round>(); 
 
 
 	//constructor
@@ -138,11 +138,11 @@ public class TicTacToeGame implements MouseListener, KeyListener
 	}
 
 	//undoes a move
-	private void undoMove(Moves pMove){
+	private void undoRound(Round pRound){
 
 
-		int x = pMove.getX();
-		int y = pMove.getY();
+		int x = pRound.getX();
+		int y = pRound.getY();
 
 
 		Graphics2D theGraphics2D;
@@ -220,7 +220,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 	}
 
-	private void makeMove(int x, int y){
+	private void makeRound(int x, int y){
 
 
 		Graphics2D theGraphics2D;
@@ -228,90 +228,90 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		//draw the board
 		Graphics moreGraphics = theJFrame.getGraphics();
 
-		char theMove = 'X';
+		char theRound = 'X';
 		//if the flag is false, draw a circle
 		if (theFlag == false){ 
-			theMove = 'O';
+			theRound = 'O';
 		}
 
 
 		if ((x < 300) && (y < 200)) {
 			if (charArray[0][0] != '_'){
-				theJFrame.setTitle("player "+ theMove +" that space already is taken");
+				theJFrame.setTitle("player "+ theRound +" that space already is taken");
 				return;
 			}
 
-			theX = 0; theY = 0; charArray[0][0] = theMove; 
+			theX = 0; theY = 0; charArray[0][0] = theRound; 
 		}
 
 		if ((x > 300) && (x < 600) && (y < 200)) { 
 			if (charArray[0][1] != '_'){
-				theJFrame.setTitle("player "+ theMove +" that space already is taken");
+				theJFrame.setTitle("player "+ theRound +" that space already is taken");
 				return;
 			}
 
-			theX = 300; theY= 0; charArray[0][1] = theMove; 
+			theX = 300; theY= 0; charArray[0][1] = theRound; 
 		}
 
 		if ((x > 600) && (x < 900) && (y < 200)) { 
 			if (charArray[0][2] != '_'){
-				theJFrame.setTitle("player "+ theMove +" that space already is taken");
+				theJFrame.setTitle("player "+ theRound +" that space already is taken");
 				return;
 			}
 
-			theX = 600; theY= 0; charArray[0][2] = theMove; 
+			theX = 600; theY= 0; charArray[0][2] = theRound; 
 
 		}
 		if ((x < 300) && (y > 200) && (y < 400)) { 
 			if (charArray[1][0] != '_'){
-				theJFrame.setTitle("player "+ theMove +" that space already is taken");
+				theJFrame.setTitle("player "+ theRound +" that space already is taken");
 				return;
 			}
 
-			theX = 0; theY= 200; charArray[1][0] = theMove; 
+			theX = 0; theY= 200; charArray[1][0] = theRound; 
 
 
 		}
 		if ((x > 300) && (x < 600) && (y > 200) && (y < 400)) { 
 			if (charArray[1][1] != '_'){
-				theJFrame.setTitle("player "+ theMove +" that space already is taken");
+				theJFrame.setTitle("player "+ theRound +" that space already is taken");
 				return;
 			}
 
-			theX = 300; theY= 200; charArray[1][1] = theMove; 
+			theX = 300; theY= 200; charArray[1][1] = theRound; 
 		}
 
 		if ((x > 600) && (x < 900) && (y > 200) && (y < 400)) { 
 			if (charArray[1][2] != '_'){
-				theJFrame.setTitle("player "+ theMove +" that space already is taken");
+				theJFrame.setTitle("player "+ theRound +" that space already is taken");
 				return;
 			}
 
-			theX = 600; theY= 200; charArray[1][2] = theMove; 
+			theX = 600; theY= 200; charArray[1][2] = theRound; 
 		}
 
 		if ((x < 300) && (y > 400) && (y < 600)) { 
 			if (charArray[2][0] != '_'){
-				theJFrame.setTitle("player "+ theMove +" that space already is taken");
+				theJFrame.setTitle("player "+ theRound +" that space already is taken");
 				return;
 			}
 
-			theX = 0; theY= 400; charArray[2][0] = theMove; 
+			theX = 0; theY= 400; charArray[2][0] = theRound; 
 		}
 		if ((x > 300) && (x < 600) && (y > 400) && (y < 600)) { 
 			if (charArray[2][1] != '_'){
-				theJFrame.setTitle("player "+ theMove +" that space already is taken");
+				theJFrame.setTitle("player "+ theRound +" that space already is taken");
 				return;
 			}
-			theX = 300; theY= 400; charArray[2][1] = theMove; 
+			theX = 300; theY= 400; charArray[2][1] = theRound; 
 
 		}
 		if ((x > 600) && (x < 900) && (y > 400) && (y < 600)) { 
 			if (charArray[2][2] != '_'){
-				theJFrame.setTitle("player "+ theMove +" that space already is taken");
+				theJFrame.setTitle("player "+ theRound +" that space already is taken");
 				return;
 			}
-			theX = 600; theY= 400; charArray[2][2] = theMove; 
+			theX = 600; theY= 400; charArray[2][2] = theRound; 
 		}
 
 		if( theFlag == false){
@@ -349,7 +349,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 
 		//push the turn to the stack
-		theMoves.push(new Moves(x, y));
+		theRounds.push(new Round(x, y));
 
 		//check to see if the game has ended
 		this.winner();
@@ -423,8 +423,8 @@ public class TicTacToeGame implements MouseListener, KeyListener
 
 
 				//loop through the stack, undoing all moves and reseting the board
-				for(int counter = theMoves.size(); counter > 0; counter --){
-					this.undoMove(theMoves.pop());
+				for(int counter = theRounds.size(); counter > 0; counter --){
+					this.undoRound(theRounds.pop());
 
 				}
 
@@ -476,7 +476,7 @@ public class TicTacToeGame implements MouseListener, KeyListener
 			return;
 		}
 
-		this.makeMove(x, y);
+		this.makeRound(x, y);
 	}
 
 
@@ -506,9 +506,9 @@ public class TicTacToeGame implements MouseListener, KeyListener
 		{
 
 			//are there moves in the stack?
-			if (theMoves.isEmpty() == false){
+			if (theRounds.isEmpty() == false){
 				//yes, undo last move
-				this.undoMove(theMoves.pop());
+				this.undoRound(theRounds.pop());
 			}
 		}
 

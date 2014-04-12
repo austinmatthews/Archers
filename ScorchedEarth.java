@@ -53,8 +53,6 @@ public class ScorchedEarth implements MouseListener {
 	public JLabel wallLabel;
 	public JLabel p1ArcherLabel;
 	public JLabel p2ArcherLabel;
-	public JLabel p1ArrowLabel;
-	public JLabel p2ArrowLabel;
 	private int archer1X;
 	private int archer2X;
 	private int click = 0;
@@ -64,7 +62,7 @@ public class ScorchedEarth implements MouseListener {
 	private int x, y = 397;
 	private int count = 0;
 	private double gravity = 9.8;
-	private Queue<Moves> theMoves = new LinkedList<Moves>();
+	private Queue<Round> theRounds = new LinkedList<Round>();
 	private double xVelocity, yVelocity, initialYVelocity;
 	private double time;
 	private boolean switchTurn;
@@ -166,8 +164,8 @@ public class ScorchedEarth implements MouseListener {
 		if (click < 10){
 			//yes, add one to the click, get the values from the sliders, and add it to the que
 			click++;
-			Moves theMove = new Moves(powerSlider.getValue(), angleSlider.getValue());
-			theMoves.add(theMove);
+			Round theRound = new Round(powerSlider.getValue(), angleSlider.getValue());
+			theRounds.add(theRound);
 
 			//is this the tenth click? 
 			if (click == 9){
@@ -229,11 +227,6 @@ public class ScorchedEarth implements MouseListener {
 		p1ArcherLabel.setBounds(archer1X, 386, 71, 100);
 		scorchedArena.add(p2ArcherLabel);
 		p2ArcherLabel.setBounds(archer2X, 386, 71, 100);
-		importArrows();
-		scorchedArena.add(p1ArrowLabel);
-		p1ArrowLabel.setBounds(archer1X, 397, 64, 32);
-		scorchedArena.add(p2ArrowLabel);
-		p2ArrowLabel.setBounds(archer2X, 397, 64, 32);
 
 	}
 
@@ -267,25 +260,6 @@ public class ScorchedEarth implements MouseListener {
 		p2ArcherLabel.setPreferredSize(new Dimension (75, 100));
 		p1ArcherLabel = new JLabel(new ImageIcon(archer1));
 		p1ArcherLabel.setPreferredSize(new Dimension (75, 100));
-
-	}
-
-	//import the arrow images
-	private void importArrows(){
-
-		BufferedImage arrow1 = null;
-		BufferedImage arrow2 = null;
-		try {
-			arrow1 = ImageIO.read(new File("arrow1.png"));
-			arrow2 = ImageIO.read(new File("arrow2.png"));
-		} catch (IOException e) {
-			//do nothing
-		}
-
-		p2ArrowLabel = new JLabel(new ImageIcon(arrow2));
-		p2ArrowLabel.setPreferredSize(new Dimension (64, 32));
-		p1ArrowLabel = new JLabel(new ImageIcon(arrow1));
-		p1ArrowLabel.setPreferredSize(new Dimension (64, 32));
 
 	}
 
@@ -354,7 +328,7 @@ public class ScorchedEarth implements MouseListener {
 		int theCounter = 0;
 
 		do{
-			this.getMove(theMoves.poll());
+			this.getMove(theRounds.poll());
 			theCounter++;
 
 		} while(theCounter < 10);
@@ -376,7 +350,7 @@ public class ScorchedEarth implements MouseListener {
      the game begins and goes through the queue to display to turns'
      I got all of the math right for it, it needs to just set the location of the arrow1 and arrow2 images
 	 */
-	private void getMove(Moves theMove){
+	private void getMove(Round theRound){
 
 		//this is where both of the archers' bows are on the game panel
 		y = 397;
@@ -398,8 +372,8 @@ public class ScorchedEarth implements MouseListener {
 
 
 		// Initialize variables
-		int intPower = theMove.getX() /4;
-		int intAngle = theMove.getY();
+		int intPower = theRound.getX() /4;
+		int intAngle = theRound.getY();
 		double rad = Math.toRadians(intAngle);
 		xVelocity = intPower*Math.cos(rad);
 		initialYVelocity = intPower*Math.sin(rad);
