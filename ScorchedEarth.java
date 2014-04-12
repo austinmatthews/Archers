@@ -509,5 +509,12 @@ public class ScorchedEarth implements MouseListener {
 //we need to update the round title at the top, its just a set text command
 //I think that is all, but I would second check me with the projects sheet to see if we missed anything
 
-
+/*
+long start = System.currentTimeMillis();
+long end = start + 60*1000; // 60 seconds * 1000 ms/sec
+while (System.currentTimeMillis() < end)
+{
+// run
+}
+*/
 
