@@ -292,8 +292,8 @@ public class ScorchedEarth implements MouseListener {
 
 	//place the archers on the board and set their x Coordinates
 	private void archersX (){
-		archer1X = (int)(Math.random() * ((350) + 1));
-		archer2X =  650 + (int)(Math.random() * ((929 - 650) + 1));
+		archer1X = 0 ;//(int)(Math.random() * ((350) + 1));
+		archer2X =  900 ;//650 + (int)(Math.random() * ((929 - 650) + 1));
 
 	}
 
@@ -387,17 +387,18 @@ public class ScorchedEarth implements MouseListener {
 
 
 		// Initialize variables
-		int intPower = theMove.getX();
+		int intPower = theMove.getX() /4;
 		int intAngle = theMove.getY();
 		double rad = Math.toRadians(intAngle);
 		xVelocity = intPower*Math.cos(rad);
 		initialYVelocity = intPower*Math.sin(rad);
+		time = 0;
 
 		//an if statement to decide which player it is. It is p1 if switchturn is true
 		//p1's turn
 		if (switchTurn == true){
 			x = archer1X;
-			time = 0;
+			
 
 
 
@@ -407,7 +408,7 @@ public class ScorchedEarth implements MouseListener {
 
 
 				long start = System.currentTimeMillis();
-				long end = start + 100;
+				long end = start + 50;
 				while (System.currentTimeMillis() < end)
 				{
 					// run
@@ -432,12 +433,15 @@ public class ScorchedEarth implements MouseListener {
 
 
 				//draw the arrow
-				moreGraphics.setColor(Color.BLACK);
+				moreGraphics.setColor(Color.RED);
 				theGraphics2D.drawLine(x + 50, y + 20, x+50, y + 20);
 
 
-				if(hitP2(x, y) == true  || hitWall(x, y) == true){
+				if( hitP2(x+50, y+20) == true  || hitWall(x+50, y+20) == true || x+50 < -20 || x+50 > 1000 || y+20 > 500){
 
+					moreGraphics.setColor(Color.RED);
+					theGraphics2D.drawLine(x + 50, y+20, x+50, y + 20);
+					
 					//end the loop, a hit occured
 					break;
 
@@ -460,13 +464,15 @@ public class ScorchedEarth implements MouseListener {
 		//this is for p2
 		else{
 
+			x = archer2X;
+			
 			//loop through time, redisplaying the arrow image at 
 			//appropriate location
 			while(y < 500){
 
 
 				long start = System.currentTimeMillis();
-				long end = start + 100;
+				long end = start + 50;
 				while (System.currentTimeMillis() < end)
 				{
 					// run
@@ -475,7 +481,7 @@ public class ScorchedEarth implements MouseListener {
 
 				//erase the last arrow
 				moreGraphics.setColor(Color.WHITE);
-				theGraphics2D.drawLine(x - 50, y - 20, x - 50, y - 20);
+				theGraphics2D.drawLine(x, y+20, x, y + 20);
 
 
 
@@ -483,7 +489,7 @@ public class ScorchedEarth implements MouseListener {
 
 				//radians - 9.8 * time, will always be negative
 				yVelocity = initialYVelocity - gravity * time;
-				x = (int) (x + xVelocity * time);
+				x = (int) (x - xVelocity * time);
 				y = (int) (y -  yVelocity * time);
 
 				System.out.println(x + ", " + y);
@@ -491,12 +497,14 @@ public class ScorchedEarth implements MouseListener {
 
 
 				//draw the arrow
-				moreGraphics.setColor(Color.BLACK);
-				theGraphics2D.drawLine(x - 50, y - 20, x - 50, y - 20);
+				moreGraphics.setColor(Color.RED);
+				theGraphics2D.drawLine(x, y+20, x, y + 20);
 
 
-				if(hitP1(x, y) == true  || hitWall(x, y) == true){
-
+				if(hitP1(x, y+20) == true  || hitWall(x, y+20) == true || x< -20 || y + 20 >500){
+					moreGraphics.setColor(Color.RED);
+					theGraphics2D.drawLine(x, y+20, x, y + 20);
+					
 					//end the loop, a hit occured
 					break;
 
@@ -518,7 +526,7 @@ public class ScorchedEarth implements MouseListener {
 	//was the wall hit?
 	private boolean hitWall(int arrowX, int arrowY){
 		boolean hit = false;
-		if((arrowX < 550) && (arrowX > 450) && (arrowY < 500) && (arrowY > 200)){
+		if(((arrowX < 550) && (arrowX > 450) && (arrowY < 550) && (arrowY > 200) )){
 			hit = true;
 		}
 
@@ -536,7 +544,10 @@ public class ScorchedEarth implements MouseListener {
 			//yes, deduct health
 			p1Num = p1Num - 2;
 			p1HealthNum.setText("" + p1Num);
+			p1HealthNum.paintImmediately(p1HealthNum.getVisibleRect());
 			hit = true;
+			
+		
 
 		}
 
@@ -556,7 +567,9 @@ public class ScorchedEarth implements MouseListener {
 			//yes deduct health
 			p2Num = p2Num - 2;
 			p2HealthNum.setText("" + p2Num);
+			p2HealthNum.paintImmediately(p2HealthNum.getVisibleRect());
 			hit = true;
+		
 		}
 
 		//return hit
