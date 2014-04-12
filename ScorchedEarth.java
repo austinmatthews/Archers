@@ -266,8 +266,8 @@ public class ScorchedEarth implements MouseListener {
 
 	//place the archers on the board and set their x Coordinates
 	private void archersX (){
-		archer1X = 0 ;//(int)(Math.random() * ((350) + 1));
-		archer2X =  900 ;//650 + (int)(Math.random() * ((929 - 650) + 1));
+		archer1X = 350 ;//(int)(Math.random() * ((350) + 1));
+		archer2X =  650 ;//650 + (int)(Math.random() * ((929 - 650) + 1));
 
 	}
 

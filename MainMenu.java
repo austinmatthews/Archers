@@ -41,7 +41,7 @@ public class MainMenu {
 		mainMenu.setLayout(new BoxLayout(mainMenu, BoxLayout.Y_AXIS));
 		final JLabel archers;
 		final JLabel ticTacToe;
-		final JLabel exit;
+		final JLabel instructions;
 		JLabel title;
 
 		//A label is created and displayed prompting the user to choose a game"
@@ -69,11 +69,11 @@ public class MainMenu {
 
 		//displays the archers game button
 		mainMenu.add(Box.createRigidArea(new Dimension(5,50)));	
-		exit = new JLabel("Exit");
-		exit.setFont(new Font("Andalus", Font.BOLD, 60));
-		exit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		instructions = new JLabel("Archer Instructions");
+		instructions.setFont(new Font("Andalus", Font.BOLD, 60));
+		instructions.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainMenu.add(Box.createRigidArea(new Dimension(5,50)));
-		mainMenu.add(exit);
+		mainMenu.add(instructions);
 
 		P4Arcade.mainPanel.add(mainMenu, "MainMenu");
 
@@ -105,16 +105,17 @@ public class MainMenu {
 			}
 		});
 
-		exit.addMouseListener(new MouseInputAdapter(){
+		//show the instructions
+		instructions.addMouseListener(new MouseInputAdapter(){
 			//recursive method that calls itself whenever the shape is pressed, the majority of the game happens in this method
 			public void mousePressed(MouseEvent e){
-				System.exit(0);
+				new TheInstructions();
 			}
 			public void mouseEntered(MouseEvent e){
-				exit.setForeground(Color.red);
+				instructions.setForeground(Color.red);
 			}
 			public void mouseExited(MouseEvent e){
-				exit.setForeground(Color.black);
+				instructions.setForeground(Color.black);
 			}
 		});
 	}

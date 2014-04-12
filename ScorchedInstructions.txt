@@ -1,0 +1,34 @@
+Archers! Instructions
+
+In Archers!, two archers face off against each other.
+
+The archer that hits the opposing archer 5 times first wins the game.
+
+Each archer has 5 health that decreases by 1 each time they are hit.
+
+Each game consists of 5 rounds.
+
+Each round consists of 5 turns per archer.
+
+Each archer will take turn inputting the angle and power of their shot.
+
+Player 1 will put in his angle and power first using the sliders, then click the next button.
+
+Player 2 will then use the sliders to enter the power and angle of his shot and click next.
+
+This will happen 5 times and on the 5th time, Player 2 will click play.
+
+The Round will then be played updating as it goes along.
+
+If someone wins during the round, the round and game will immediately end.
+
+You will be asked if you want to play again or quit.
+
+If no one wins during the round, another round will begin. 
+
+You will then enter new shot variable just like before.
+
+If o one wins after 5 rounds, the game is a tie.
+
+
+You will then be asked if you want to play again or not.
