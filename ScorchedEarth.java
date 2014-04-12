@@ -27,38 +27,38 @@ import javax.swing.JSlider;
 
 public class ScorchedEarth implements MouseListener {
 
-	private JLabel p1Name;
-	private JLabel p2Name;
-	private JLabel round;
-	private JLabel p1Health;
-	private JLabel p2Health;
-	private JLabel p1HealthNum;
-	private JLabel p2HealthNum;
-	private JPanel scorchedMenu = new JPanel();
-	private JPanel scorchedGame = new JPanel();
-	private JPanel scorchedInfo = new JPanel();
-	private JPanel filler = new JPanel();
-	private JPanel filler2 = new JPanel();
-	private JPanel scorchedArena = new JPanel();
-	private JPanel scorchedTurns = new JPanel();
-	private JSlider powerSlider;
-	private JSlider angleSlider;
-	private JLabel next = new JLabel("Next");
-	private JLabel power = new JLabel();
-	private JLabel angle = new JLabel();
-	private JLabel turnIndicator = new JLabel();
-	private JLabel wallLabel;
-	private JLabel p1ArcherLabel;
-	private JLabel p2ArcherLabel;
-	private JLabel p1ArrowLabel;
-	private JLabel p2ArrowLabel;
+	public JLabel p1Name;
+	public JLabel p2Name;
+	public JLabel round;
+	public JLabel p1Health;
+	public JLabel p2Health;
+	public JLabel p1HealthNum;
+	public JLabel p2HealthNum;
+	public JPanel scorchedMenu = new JPanel();
+	public JPanel scorchedGame = new JPanel();
+	public JPanel scorchedInfo = new JPanel();
+	public JPanel filler = new JPanel();
+	public JPanel filler2 = new JPanel();
+	public JPanel scorchedArena = new JPanel();
+	public JPanel scorchedTurns = new JPanel();
+	public JSlider powerSlider;
+	public JSlider angleSlider;
+	public JLabel next = new JLabel("Next");
+	public JLabel power = new JLabel();
+	public JLabel angle = new JLabel();
+	public JLabel turnIndicator = new JLabel();
+	public JLabel wallLabel;
+	public JLabel p1ArcherLabel;
+	public JLabel p2ArcherLabel;
+	public JLabel p1ArrowLabel;
+	public JLabel p2ArrowLabel;
 	private int archer1X;
 	private int archer2X;
 	private int click = 0;
 	private int turn = 1;
 	private int p1Num = 9;
 	private int p2Num = 9;
-	private int leftX, rightX, topY, bottomY, x, y = 397;
+	private int x, y = 397;
 	private int count = 0;
 	private double gravity = 9.8;
 	private Queue<Moves> theMoves = new LinkedList<Moves>();
@@ -74,7 +74,7 @@ public class ScorchedEarth implements MouseListener {
 
 	//initializes the game board, which includes the info panel on the top, the arena panel which is in the middle and the
 	//turns panel which is on the bottom
-	public void initializeGame() {
+	private void initializeGame() {
 
 		//sets the bounds of the game panels
 		scorchedGame.setBounds(0, 0, 1000, 850);
@@ -111,7 +111,7 @@ public class ScorchedEarth implements MouseListener {
 	}
 
 	//sets up all of the things on the turns panel, which is on the bottom of the frame
-	public void setTurns() {
+	private void setTurns() {
 
 		powerSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
 		powerSlider.setMajorTickSpacing(10);
@@ -216,7 +216,7 @@ public class ScorchedEarth implements MouseListener {
 
 
 	//initialize the arena
-	public void setArena() {
+	private void setArena() {
 		archersX();
 		importWall();
 		scorchedArena.add(wallLabel);
@@ -235,7 +235,7 @@ public class ScorchedEarth implements MouseListener {
 	}
 
 	//import the wall image
-	public void importWall(){
+	private void importWall(){
 
 		BufferedImage wall = null;
 
@@ -249,7 +249,7 @@ public class ScorchedEarth implements MouseListener {
 	}
 
 	//import the archer images
-	public void importArchers(){
+	private void importArchers(){
 
 		BufferedImage archer1 = null;
 		BufferedImage archer2 = null;
@@ -268,7 +268,7 @@ public class ScorchedEarth implements MouseListener {
 	}
 
 	//import the arrow images
-	public void importArrows(){
+	private void importArrows(){
 
 		BufferedImage arrow1 = null;
 		BufferedImage arrow2 = null;
@@ -288,14 +288,14 @@ public class ScorchedEarth implements MouseListener {
 
 
 	//place the archers on the board and set their x Coordinates
-	public void archersX (){
+	private void archersX (){
 		archer1X = (int)(Math.random() * ((350) + 1));
 		archer2X =  650 + (int)(Math.random() * ((929 - 650) + 1));
 
 	}
 
 	//initialize the info panel at the top of the frame
-	public void setInfo() {
+	private void setInfo() {
 
 		p1Name = new JLabel("Player 1");
 		p1Name.setFont(new Font("Andalus", Font.BOLD, 40));
@@ -346,7 +346,7 @@ public class ScorchedEarth implements MouseListener {
 	}
 
 	//play the game, looping through the queue of submitted turns
-	public void playGame(){
+	private void playGame(){
 		switchTurn = true;
 		int theCounter = 0;
 
@@ -362,16 +362,19 @@ public class ScorchedEarth implements MouseListener {
      the game begins and goes through the queue to display to turns'
      I got all of the math right for it, it needs to just set the location of the arrow1 and arrow2 images
 	 */
-	public void getMove(Moves theMove){
+	private void getMove(Moves theMove){
 
 		//this is where both of the archers' bows are on the game panel
 		y = 397;
 
+		
 		//the next 4 lines print out to tell me which turn it was on odd numbers are player 1, even numbers are player 2
+		 
 		count++;
 		System.out.println("" + count);
 		System.out.println("");
-
+	
+		
 		// Initialize variables
 		int intPower = theMove.getX();
 		int intAngle = theMove.getY();
@@ -383,11 +386,6 @@ public class ScorchedEarth implements MouseListener {
 		if (switchTurn == true){
 			x = archer1X;
 			time = 0;
-			leftX = archer2X;
-			rightX = leftX + 71;
-			topY = 386;
-			bottomY = topY + 100;
-
 
 			//loop through time, redisplaying the arrow image at 
 			//appropriate location
@@ -400,23 +398,35 @@ public class ScorchedEarth implements MouseListener {
 				x = (int) (x + xVelocity * time);
 				y = (int) (y -  yVelocity * time);
 
+				System.out.println(x + ", " + y);
+				
 				long start = System.currentTimeMillis();
 				long end = start + 100;
 				while (System.currentTimeMillis() < end)
 				{
 					// run
 				}
-				p1ArrowLabel.setLocation(x,y);
-
+				
+				p1ArrowLabel.setBounds(x, y, 64, 32);
+				
+				//p1ArrowLabel.repaint();
+				
+				
+				//scorchedArena.repaint();
+				
+				
+				//p1ArrowLabel.setVisible(true);
+				
 				//this isnt right, it is supposed to be the 4 corners of the other player
-				if((x < rightX) && (x > leftX) && (y > bottomY) && (y < topY)){
-					p2Num = p2Num - 2;
-					p2HealthNum.setText("" + p2Num);
+				
+				
+				if(hitP2(x, y) == true  || hitWall(x, y) == true){
 
 					//end the loop, a hit occured
 					break;
 
 				}
+				
 				
 				//add to the time add the end of each loop
 				//time is arbitrary. we can control it
@@ -435,11 +445,7 @@ public class ScorchedEarth implements MouseListener {
 		else{
 
 			x = archer2X;
-			time = 0;
-			leftX = archer1X;
-			rightX = leftX + 71;
-			topY = 386;
-			bottomY = topY + 100;
+
 			
 			//loop through time, redisplaying the arrow image at 
 			//appropriate location
@@ -452,6 +458,9 @@ public class ScorchedEarth implements MouseListener {
 				x = (int) (x - xVelocity * time);
 				y = (int) (y -  yVelocity * time);
 
+				System.out.println(x + ", " + y);
+				
+				
 				long start = System.currentTimeMillis();
 				long end = start + 100;
 				while (System.currentTimeMillis() < end)
@@ -461,9 +470,7 @@ public class ScorchedEarth implements MouseListener {
 				p2ArrowLabel.setLocation(x,y);
 
 				//this isnt right, it is supposed to be the 4 corners of the other player
-				if((x < rightX) && (x > leftX) && (y > bottomY) && (y < topY)){
-					p1Num = p1Num - 2;
-					p1HealthNum.setText("" + p1Num);
+				if(hitP1(x,y) == true || hitWall(x, y) == true){
 
 					//end the loop, a hit occured
 					break;
@@ -483,6 +490,56 @@ public class ScorchedEarth implements MouseListener {
 
 	}
 
+	//was the wall hit?
+	private boolean hitWall(int arrowX, int arrowY){
+		boolean hit = false;
+		if((arrowX < 550) && (arrowX > 450) && (arrowY < 500) && (arrowY > 200)){
+			hit = true;
+		}
+		
+		return hit;
+	}
+	
+	//was p1 hit?
+	private boolean hitP1(int arrowX, int arrowY){
+		
+		//initialize hit variable
+		boolean hit = false;
+		
+		//was P1 hit?
+		if((arrowX < archer1X + 71) && (arrowX > archer1X) && (arrowY < 386 + 100) && (arrowY > 386)){
+			//yes, deduct health
+			p1Num = p1Num - 2;
+			p1HealthNum.setText("" + p1Num);
+			hit = true;
+			
+		}
+		
+		return hit;
+	}
+	
+	//was p2 hit?
+	private boolean hitP2(int arrowX, int arrowY){
+		
+		//initialize hit
+		boolean hit = false;
+		
+		
+		//did the arrow hit p2?
+		if((arrowX < archer2X + 71) && (arrowX > archer2X) && (arrowY < 386+100) && (arrowY > 386)){
+			
+			//yes deduct health
+			p2Num = p2Num - 2;
+			p2HealthNum.setText("" + p2Num);
+			hit = true;
+		}
+
+		//return hit
+		return hit;
+	}
+	
+	
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// unused
@@ -504,4 +561,5 @@ public class ScorchedEarth implements MouseListener {
 
 //we need to update the round title at the top, its just a set text command
 //I think that is all, but I would second check me with the projects sheet to see if we missed anything
+
 
