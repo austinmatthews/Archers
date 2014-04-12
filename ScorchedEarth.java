@@ -62,7 +62,7 @@ public class ScorchedEarth implements MouseListener {
 	private int count = 0;
 	private double gravity = 9.8;
 	private Queue<Moves> theMoves = new LinkedList<Moves>();
-	private double xVelocity, yVelocity;
+	private double xVelocity, yVelocity, initialYVelocity;
 	private double time;
 	private boolean switchTurn;
 
@@ -364,12 +364,11 @@ public class ScorchedEarth implements MouseListener {
 	 */
 	public void getMove(Moves theMove){
 
-		//why y = 397? comment here
+		//this is where both of the archers' bows are on the game panel
 		y = 397;
 
 		//the next 4 lines print out to tell me which turn it was on odd numbers are player 1, even numbers are player 2
 		count++;
-		System.out.println("");
 		System.out.println("" + count);
 		System.out.println("");
 
@@ -378,113 +377,110 @@ public class ScorchedEarth implements MouseListener {
 		int intAngle = theMove.getY();
 		double rad = Math.toRadians(intAngle);
 		xVelocity = intPower*Math.cos(rad);
-		yVelocity = intPower*Math.sin(rad);
+		initialYVelocity = intPower*Math.sin(rad);
 
 		//an if statement to decide which player it is. It is p1 if switchturn is true
 		if (switchTurn == true){
 			x = archer1X;
-			leftX = archer1X;
-			rightX = leftX + 71;
-			topY = 400;
-			bottomY = topY + 100;
 			time = 0;
-	
-			
+			leftX = archer2X;
+			rightX = leftX + 71;
+			topY = 386;
+			bottomY = topY + 100;
+
+
 			//loop through time, redisplaying the arrow image at 
 			//appropriate location
 			while(y < 500){
-				
+
 				//calculate the x and y coordinates
-				
+
 				//radians - 9.8 * time, will always be negative
-				yVelocity = yVelocity + gravity * time;
+				yVelocity = initialYVelocity - gravity * time;
 				x = (int) (x + xVelocity * time);
 				y = (int) (y -  yVelocity * time);
-				
-				/*
-				 * instead of formula, we can do our own arbitrary math
-				 * this is not realife
-				 * power will determine where the apex is
-				 * power 50 = apex is 500 pixels away
-				 * power = 10, apex is 100 pixels away and so on
-				 * 
-				 * angle would be the number of the pixels sorounding the archer.
-				 * lowest is a straight shot
-				 * highest is perpendicular with the ground
-				 * once the apex is reached, it will then repeat the loop in the opposite direction
-				 * we can do this by implementing a stack.
-				 */
-				//timer.start();
 
-				leftX = archer1X;
-				rightX = leftX + 71;
-				topY = 338;
-				bottomY = topY + 100;
-
-				p1ArrowLabel.setLocation(x, y);
+				long start = System.currentTimeMillis();
+				long end = start + 100;
+				while (System.currentTimeMillis() < end)
+				{
+					// run
+				}
+				p1ArrowLabel.setLocation(x,y);
 
 				//this isnt right, it is supposed to be the 4 corners of the other player
-				if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
+				if((x < rightX) && (x > leftX) && (y > bottomY) && (y < topY)){
 					p2Num = p2Num - 2;
 					p2HealthNum.setText("" + p2Num);
-					
+
 					//end the loop, a hit occured
 					break;
+
 				}
 				
 				//add to the time add the end of each loop
 				//time is arbitrary. we can control it
-				time = time + 10;
-				
+				time = time + .1;
+
 				//repeat the loop
 			}
-			
+
 			//it is now player 2's turn
 			switchTurn = false;
-			
 		}
 
 		
 		// p2 calculations are different ? why?
 		//this is for p2
-		if (switchTurn == false){
+		else{
+
 			x = archer2X;
-			leftX = archer2X;
-			rightX = leftX + 71;
-			topY = 400;
-			bottomY = topY + 100;
 			time = 0;
-
-
+			leftX = archer1X;
+			rightX = leftX + 71;
+			topY = 386;
+			bottomY = topY + 100;
+			
 			//loop through time, redisplaying the arrow image at 
 			//appropriate location
 			while(y < 500){
-				yVelocity = yVelocity - gravity * time;
-				x = (int) (x + xVelocity * time);
+
+				//calculate the x and y coordinates
+
+				//radians - 9.8 * time, will always be negative
+				yVelocity = initialYVelocity - gravity * time;
+				x = (int) (x - xVelocity * time);
 				y = (int) (y -  yVelocity * time);
-				//timer.start();
 
-				leftX = archer2X;
-				rightX = leftX - 71;
-				topY = 338;
-				bottomY = topY + 100;
+				long start = System.currentTimeMillis();
+				long end = start + 100;
+				while (System.currentTimeMillis() < end)
+				{
+					// run
+				}
+				p2ArrowLabel.setLocation(x,y);
 
-				while(y < 500){
-					p2ArrowLabel.setLocation(x, y);
+				//this isnt right, it is supposed to be the 4 corners of the other player
+				if((x < rightX) && (x > leftX) && (y > bottomY) && (y < topY)){
+					p1Num = p1Num - 2;
+					p1HealthNum.setText("" + p1Num);
 
-					//this isnt right, it is supposed to be the 4 corners of the other player
-					if((x < rightX) && (x > leftX) && (y < bottomY) && (y > topY)){
-						p1Num = p1Num - 2;
-						p1HealthNum.setText("" + p1Num);
-					}
-
+					//end the loop, a hit occured
+					break;
 
 				}
+				
+				//add to the time add the end of each loop
+				//time is arbitrary. we can control it
+				time = time + .1;
 
-				//it is now player 1's turn
-				switchTurn = true;
+				//repeat the loop
 			}
+
+			//it is now player 1's turn
+			switchTurn = true;
 		}
+
 	}
 
 	@Override
@@ -508,13 +504,4 @@ public class ScorchedEarth implements MouseListener {
 
 //we need to update the round title at the top, its just a set text command
 //I think that is all, but I would second check me with the projects sheet to see if we missed anything
-
-/*
-long start = System.currentTimeMillis();
-long end = start + 60*1000; // 60 seconds * 1000 ms/sec
-while (System.currentTimeMillis() < end)
-{
-// run
-}
-*/
 
