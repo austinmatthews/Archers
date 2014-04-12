@@ -370,14 +370,22 @@ public class ScorchedEarth implements MouseListener {
 		//this is where both of the archers' bows are on the game panel
 		y = 397;
 
-		
+
+		//set graphics
+
+		Graphics2D theGraphics2D;
+		Graphics moreGraphics = scorchedArena.getGraphics();
+		theGraphics2D = (Graphics2D)moreGraphics;
+		theGraphics2D.setStroke(new BasicStroke(5.0F));
+
+
 		//the next 4 lines print out to tell me which turn it was on odd numbers are player 1, even numbers are player 2
-		 
+
 		count++;
 		System.out.println("" + count);
 		System.out.println("");
-	
-		
+
+
 		// Initialize variables
 		int intPower = theMove.getX();
 		int intAngle = theMove.getY();
@@ -386,36 +394,32 @@ public class ScorchedEarth implements MouseListener {
 		initialYVelocity = intPower*Math.sin(rad);
 
 		//an if statement to decide which player it is. It is p1 if switchturn is true
+		//p1's turn
 		if (switchTurn == true){
 			x = archer1X;
 			time = 0;
+
+
 
 			//loop through time, redisplaying the arrow image at 
 			//appropriate location
 			while(y < 500){
 
-				
+
 				long start = System.currentTimeMillis();
 				long end = start + 100;
 				while (System.currentTimeMillis() < end)
 				{
 					// run
 				}
-				
-				//draw the board
-				//scorchedArena.repaint();
-				Graphics2D theGraphics2D;
 
-				//draw the board
-				Graphics moreGraphics = scorchedArena.getGraphics();
-				
-				theGraphics2D = (Graphics2D)moreGraphics;
-				theGraphics2D.setStroke(new BasicStroke(1.0F));
+
+				//erase the last arrow
 				moreGraphics.setColor(Color.WHITE);
-				theGraphics2D.drawLine(x + 100, y, x+102, y+2);
-				
-				
-				
+				theGraphics2D.drawLine(x + 50, y + 20, x+50, y + 20);
+
+
+
 				//calculate the x and y coordinates
 
 				//radians - 9.8 * time, will always be negative
@@ -424,40 +428,25 @@ public class ScorchedEarth implements MouseListener {
 				y = (int) (y -  yVelocity * time);
 
 				System.out.println(x + ", " + y);
-				
-				//p1ArrowLabel.setBounds(x, y, 64, 32);
-				
-				//p1ArrowLabel.repaint();
-				
-				
 
-				
-				theGraphics2D = (Graphics2D)moreGraphics;
-				theGraphics2D.setStroke(new BasicStroke(1.0F));
+
+
+				//draw the arrow
 				moreGraphics.setColor(Color.BLACK);
-				theGraphics2D.drawLine(x + 100, y, x+105, y+5);
-				
-				//delete last line
-				//theGraphics2D.setColor(Color.WHITE);
-				//need to implement a stack here to capture x and y
-				
-			
-				
-				//p1ArrowLabel.setVisible(true);
+				theGraphics2D.drawLine(x + 50, y + 20, x+50, y + 20);
 
-				
-				
+
 				if(hitP2(x, y) == true  || hitWall(x, y) == true){
 
 					//end the loop, a hit occured
 					break;
 
 				}
-				
-				
+
+
 				//add to the time add the end of each loop
 				//time is arbitrary. we can control it
-				time = time + .1;
+				time = time + .05;
 
 				//repeat the loop
 			}
@@ -466,74 +455,64 @@ public class ScorchedEarth implements MouseListener {
 			switchTurn = false;
 		}
 
-		
+
 		// p2 calculations are different ? why?
 		//this is for p2
 		else{
 
-			x = archer2X;
-
-			
 			//loop through time, redisplaying the arrow image at 
 			//appropriate location
 			while(y < 500){
-				
 
-	
-				Graphics2D theGraphics2D;
 
-				//draw the board
-				Graphics moreGraphics = scorchedArena.getGraphics();
-				
-				theGraphics2D = (Graphics2D)moreGraphics;
-				theGraphics2D.setStroke(new BasicStroke(1.0F));
-				moreGraphics.setColor(Color.WHITE);
-				theGraphics2D.drawLine(x, y, x - 2, y+2);
-
-				//calculate the x and y coordinates
 				long start = System.currentTimeMillis();
 				long end = start + 100;
 				while (System.currentTimeMillis() < end)
 				{
 					// run
 				}
-				
 
-				
-				theGraphics2D = (Graphics2D)moreGraphics;
-				theGraphics2D.setStroke(new BasicStroke(1.0F));
-				moreGraphics.setColor(Color.BLACK);
-				theGraphics2D.drawLine(x, y, x - 2, y+2);
-				
+
+				//erase the last arrow
+				moreGraphics.setColor(Color.WHITE);
+				theGraphics2D.drawLine(x - 50, y - 20, x - 50, y - 20);
+
+
+
+				//calculate the x and y coordinates
+
 				//radians - 9.8 * time, will always be negative
 				yVelocity = initialYVelocity - gravity * time;
-				x = (int) (x - xVelocity * time);
+				x = (int) (x + xVelocity * time);
 				y = (int) (y -  yVelocity * time);
 
 				System.out.println(x + ", " + y);
-				
 
 
 
-				//this isnt right, it is supposed to be the 4 corners of the other player
-				if(hitP1(x,y) == true || hitWall(x, y) == true){
+				//draw the arrow
+				moreGraphics.setColor(Color.BLACK);
+				theGraphics2D.drawLine(x - 50, y - 20, x - 50, y - 20);
+
+
+				if(hitP1(x, y) == true  || hitWall(x, y) == true){
 
 					//end the loop, a hit occured
 					break;
 
 				}
-				
+
+
 				//add to the time add the end of each loop
 				//time is arbitrary. we can control it
-				time = time + .1;
+				time = time + .05;
 
 				//repeat the loop
 			}
 
-			//it is now player 1's turn
+			//it is now player 2's turn
 			switchTurn = true;
 		}
-
 	}
 
 	//was the wall hit?
@@ -542,38 +521,38 @@ public class ScorchedEarth implements MouseListener {
 		if((arrowX < 550) && (arrowX > 450) && (arrowY < 500) && (arrowY > 200)){
 			hit = true;
 		}
-		
+
 		return hit;
 	}
-	
+
 	//was p1 hit?
 	private boolean hitP1(int arrowX, int arrowY){
-		
+
 		//initialize hit variable
 		boolean hit = false;
-		
+
 		//was P1 hit?
 		if((arrowX < archer1X + 71) && (arrowX > archer1X) && (arrowY < 386 + 100) && (arrowY > 386)){
 			//yes, deduct health
 			p1Num = p1Num - 2;
 			p1HealthNum.setText("" + p1Num);
 			hit = true;
-			
+
 		}
-		
+
 		return hit;
 	}
-	
+
 	//was p2 hit?
 	private boolean hitP2(int arrowX, int arrowY){
-		
+
 		//initialize hit
 		boolean hit = false;
-		
-		
+
+
 		//did the arrow hit p2?
 		if((arrowX < archer2X + 71) && (arrowX > archer2X) && (arrowY < 386+100) && (arrowY > 386)){
-			
+
 			//yes deduct health
 			p2Num = p2Num - 2;
 			p2HealthNum.setText("" + p2Num);
@@ -583,9 +562,9 @@ public class ScorchedEarth implements MouseListener {
 		//return hit
 		return hit;
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// unused
