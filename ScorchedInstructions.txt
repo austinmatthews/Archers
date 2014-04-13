@@ -30,5 +30,7 @@ You will then enter new shot variable just like before.
 
 If o one wins after 5 rounds, the game is a tie.
 
-
 You will then be asked if you want to play again or not.
+
+If the Konami Code is Entered in Windows on the Main Menu, you will
+be given the opportunity to press a button to dodge the shots in one round.
