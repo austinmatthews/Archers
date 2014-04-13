@@ -81,8 +81,8 @@ public class ScorchedKonami implements MouseListener {
 	private Round repel;
 
 	//buttons
-	public JButton b1 = new JButton("P1 Repel");
-	public JButton b2 = new JButton("P2 Repel");
+	public JButton b1 = new JButton("P1 Ninja Dodge");
+	public JButton b2 = new JButton("P2 Ninja Dodge");
 
 	//make button listeners
 	RepelClass b1Listener = new RepelClass();
