@@ -77,13 +77,13 @@ public class ScorchedKonami implements MouseListener {
 	private double xVelocity, yVelocity, initialYVelocity;
 	private double time;
 	private boolean switchTurn;
-	
+
 	private Round repel;
-	
+
 	//buttons
 	public JButton b1 = new JButton("P1 Repel");
 	public JButton b2 = new JButton("P2 Repel");
-	
+
 	//make button listeners
 	RepelClass b1Listener = new RepelClass();
 	RepelClass b2Listener = new RepelClass();
@@ -128,26 +128,25 @@ public class ScorchedKonami implements MouseListener {
 		setTurns();
 		P4Arcade.cardLayout.show(P4Arcade.mainPanel, "scorchedGame");
 		repelButtons();
-		
 	}
 
 	//sets up the repel buttons
 	public void repelButtons(){
-		
-		
+
+
 		//set b1
 		b1.setActionCommand("repel1");
 		b1.setSize(80, 80);
 		b1.setLocation(0, 0);
 		b1.addActionListener(b1Listener);
 		scorchedArena.add(b1);
-		
+
 		//st b2
 		b2.setActionCommand("repel2");
 		b2.setSize(80, 80);
 		b2.setLocation(900, 0);
 		scorchedArena.add(b2);
-		
+
 		//make the buttons visible
 		b1.setVisible(true);
 		b2.setVisible(true);
@@ -402,7 +401,11 @@ public class ScorchedKonami implements MouseListener {
 		int theCounter = 0;
 
 		do{
-			this.getMove(theRounds.poll());
+			try{
+				this.getMove(theRounds.poll());
+			}catch(Exception e){
+				//do nothing
+			}
 			theCounter++;
 
 		} while(theCounter < 10);
@@ -424,11 +427,20 @@ public class ScorchedKonami implements MouseListener {
 
 
 	/*where the game actually takes place, after the last turn is put in
-     the game begins and goes through the queue to display to turns'
-     I got all of the math right for it, it needs to just set the location of the arrow1 and arrow2 images
+	     the game begins and goes through the queue to display to turns'
+	     I got all of the math right for it, it needs to just set the location of the arrow1 and arrow2 images
 	 */
 	private void getMove(Round theRound){
 
+		if(b2Listener.getRepel() == true ){
+			//	getMove(new Round(intPower*4, intAngle));
+			b2.setVisible(false);
+		}
+		
+		if(b1Listener.getRepel() == true){
+			//	getMove(new Round(intPower*4, intAngle));
+			b1.setVisible(false);
+		}
 		//this is where both of the archers' bows are on the game panel
 		y = 397;
 
@@ -445,9 +457,9 @@ public class ScorchedKonami implements MouseListener {
 
 
 		// Initialize variables
+
 		int intPower = theRound.getX() /4;
 		int intAngle = theRound.getY();
-		
 		double rad = Math.toRadians(intAngle);
 		xVelocity = intPower*Math.cos(rad);
 		initialYVelocity = intPower*Math.sin(rad);
@@ -456,7 +468,8 @@ public class ScorchedKonami implements MouseListener {
 		//an if statement to decide which player it is. It is p1 if switchturn is true
 		//p1's turn
 		if (switchTurn == true){
-			x = archer1X;
+			x = archer1X + 71;
+
 
 
 
@@ -469,7 +482,7 @@ public class ScorchedKonami implements MouseListener {
 
 				//erase the last arrow
 				moreGraphics.setColor(Color.WHITE);
-				theGraphics2D.drawLine(x + 50, y + 20, x+50, y + 20);
+				theGraphics2D.drawLine(x, y + 20, x, y + 20);
 
 
 
@@ -484,20 +497,19 @@ public class ScorchedKonami implements MouseListener {
 
 				//draw the arrow
 				moreGraphics.setColor(Color.RED);
-				theGraphics2D.drawLine(x + 50, y + 20, x+50, y + 20);
+				theGraphics2D.drawLine(x, y + 20, x, y + 20);
 
-				//was the other player or the wall hit?
 
-				if( hitP2(x+50, y+20) == true  || hitWall(x+50, y+20) == true || x+50 < -20 || x+50 > 1000){
+				if( hitP2(x, y+20) == true  || hitWall(x, y+20) == true || x < -20 || x > 1000){
 
-					if(hitP2(x+50, y+20) == true){
-						
-					
-					hurtP2(x, y+20, intPower*4, intAngle);
+					//repel if true
+					if(b2Listener.getRepel() == true  &&  hitP2(x, y+20) == true){
+					//	getMove(new Round(intPower*4, intAngle));
+						b2.setVisible(false);
+
 					}
-					
 					moreGraphics.setColor(Color.RED);
-					theGraphics2D.drawLine(x + 50, y+20, x+50, y + 20);
+					theGraphics2D.drawLine(x, y+20, x, y + 20);
 
 					//end the loop, a hit occured
 					break;
@@ -526,7 +538,7 @@ public class ScorchedKonami implements MouseListener {
 			//loop through time, redisplaying the arrow image at 
 			//appropriate location
 			while(y < 500){
-				
+
 
 				delay();
 
@@ -550,16 +562,16 @@ public class ScorchedKonami implements MouseListener {
 				moreGraphics.setColor(Color.RED);
 				theGraphics2D.drawLine(x, y+20, x, y + 20);
 
-				//was the other player or the wall hit?
 
-				if(hitP1(x, y+20) == true  || hitWall(x, y+20) == true || x< -20 || y + 20 >500){
-					
-					if(hitP1(x, y+20) == true){
-						
-						hurtP1(x, y+20, intPower*4, intAngle);
-					}
+				if(hitP1(x, y+20) == true  || hitWall(x, y+20) == true || x< -20 || x + 20 >1000){
 					moreGraphics.setColor(Color.RED);
 					theGraphics2D.drawLine(x, y+20, x, y + 20);
+
+					if(b2Listener.getRepel() == true){
+						//getMove(new Round(intPower*4, intAngle));
+						b1.setVisible(false);
+
+					}
 
 					//end the loop, a hit occured
 					break;
@@ -589,45 +601,6 @@ public class ScorchedKonami implements MouseListener {
 		return hit;
 	}
 
-	private void hurtP1(int arrowX, int arrowY, int power, int angle ){
-		//if repel is on, hide the button and do not heart the player, repel it
-		if(b2Listener.getRepel() == true){
-			b2.setVisible(false);
-			getMove(new Round(power, angle));
-					
-		}else{
-		
-		//yes, deduct health
-		p1Num = p1Num - 1;
-		p1HealthNum.setText("" + p1Num);
-		p1HealthNum.paintImmediately(p1HealthNum.getVisibleRect());
-		
-		if(p1Num == 0){
-			winner2();
-		}
-	}
-	}
-		
-		private void hurtP2(int arrowX, int arrowY, int power, int angle){
-			
-
-			//if repel is on, hide the button and do not heart the player, repel it
-			if(b2Listener.getRepel() == true){
-				b1.setVisible(false);
-				getMove(new Round(power, angle));
-				
-			}else{
-			//yes deduct health
-			p2Num = p2Num - 1;
-			p2HealthNum.setText("" + p2Num);
-			p2HealthNum.paintImmediately(p2HealthNum.getVisibleRect());
-			if(p2Num == 0){
-				winner1();
-			}
-			}
-		
-		}
-	
 	//was p1 hit?
 	private boolean hitP1(int arrowX, int arrowY){
 
@@ -637,9 +610,21 @@ public class ScorchedKonami implements MouseListener {
 		//was P1 hit?
 		if((arrowX < archer1X + 71) && (arrowX > archer1X) && (arrowY < 386 + 100) && (arrowY > 386)){
 
-			hit = true;
-		}
+			if(b1Listener.getRepel() == false){
 
+
+				//yes, deduct health
+				p1Num = p1Num - 1;
+				p1HealthNum.setText("" + p1Num);
+				p1HealthNum.paintImmediately(p1HealthNum.getVisibleRect());
+				hit = true;
+				if(p1Num == 0){
+					theRounds.clear();
+					winner2();
+				}
+
+			}
+		}
 
 		return hit;
 	}
@@ -651,23 +636,34 @@ public class ScorchedKonami implements MouseListener {
 		boolean hit = false;
 
 
+
 		//did the arrow hit p2?
 		if((arrowX < archer2X + 71) && (arrowX > archer2X) && (arrowY < 386+100) && (arrowY > 386)){
-			hit = true;
-		
+
+			if(b1Listener.getRepel() == false){
+				//yes deduct health
+				p2Num = p2Num - 1;
+				p2HealthNum.setText("" + p2Num);
+				p2HealthNum.paintImmediately(p2HealthNum.getVisibleRect());
+				hit = true;
+				if(p2Num == 0){
+					theRounds.clear();
+					winner1();
+				}
+			}
 		}
+
 		//return hit
 		return hit;
 	}
 
 
-	//did p1 win?
 
 	private void winner1(){
 
 		int theWinner = 1;
 		int dialogButton = JOptionPane.YES_NO_OPTION;
-		int dialogResult = JOptionPane.showConfirmDialog(new JFrame(), "Play again?", "P3 Wins", dialogButton);
+		int dialogResult = JOptionPane.showConfirmDialog(new JFrame(), "Play again?", "P1 Wins", dialogButton);
 
 		//play again?
 		if(dialogResult==0){
@@ -688,7 +684,6 @@ public class ScorchedKonami implements MouseListener {
 
 	}
 
-	//did p2 win?
 	private void winner2(){
 
 		int theWinner = 2;
@@ -725,9 +720,6 @@ public class ScorchedKonami implements MouseListener {
 	public void mouseReleased(MouseEvent arg0) {
 		// unused
 	}
-
-
-	//initialize the game
 	public void initialize(){
 		roundNum++;
 		if(roundNum > 5){
@@ -741,11 +733,7 @@ public class ScorchedKonami implements MouseListener {
 		click = 0;
 	}
 
-	//initialize the next game
 	public void initializeNextGame(int theWinner){
-		
-	
-		
 		roundNum = 1;
 		round.setText("Round " + roundNum);
 		turnIndicator.setText("P1 - Turn " + 1);
@@ -756,18 +744,20 @@ public class ScorchedKonami implements MouseListener {
 		p1Num = 5;
 		p2Num = 5;
 		archersX();
+		p1ArcherLabel.setLocation(archer1X, 386);
+		p2ArcherLabel.setLocation(archer2X, 386);
+		p1HealthNum.setText("" + p1Num);
+		p1HealthNum.paintImmediately(p1HealthNum.getVisibleRect());
+		p2HealthNum.setText("" + p2Num);
+		p2HealthNum.paintImmediately(p2HealthNum.getVisibleRect());
 
-		repelButtons();
-		
-		
-		//who won?
 		if(theWinner == 1){
 			//give p1 a win
 			p1NumWins++;
-			p1Wins.setText("P1 Wins - " + p1NumWins);
+			p1WinNum.setText("" + p1NumWins);
 		}else if(theWinner == 2){
 			p2NumWins++;
-			p2Wins.setText("P2 Wins - " + p2NumWins);
+			p2WinNum.setText("" + p2NumWins);
 		}else{
 			//tie give no wins
 
@@ -791,6 +781,7 @@ public class ScorchedKonami implements MouseListener {
 		}
 
 	}
+
 
 
 } 

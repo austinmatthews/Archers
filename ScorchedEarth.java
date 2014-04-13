@@ -122,7 +122,6 @@ public class ScorchedEarth implements MouseListener {
 		P4Arcade.cardLayout.show(P4Arcade.mainPanel, "scorchedGame");
 
 	}
-
 	//sets up all of the things on the turns panel, which is on the bottom of the frame
 	private void setTurns() {
 
@@ -372,9 +371,12 @@ public class ScorchedEarth implements MouseListener {
 		int theCounter = 0;
 
 		do{
-			this.getMove(theRounds.poll());
+			try{
+				this.getMove(theRounds.poll());
+			}catch(Exception e){
+					//do nothing
+			}
 			theCounter++;
-
 		} while(theCounter < 10);
 		initialize();
 	}
@@ -425,7 +427,7 @@ public class ScorchedEarth implements MouseListener {
 		//an if statement to decide which player it is. It is p1 if switchturn is true
 		//p1's turn
 		if (switchTurn == true){
-			x = archer1X;
+			x = archer1X + 71;
 
 
 
@@ -439,7 +441,7 @@ public class ScorchedEarth implements MouseListener {
 
 				//erase the last arrow
 				moreGraphics.setColor(Color.WHITE);
-				theGraphics2D.drawLine(x + 50, y + 20, x+50, y + 20);
+				theGraphics2D.drawLine(x, y + 20, x, y + 20);
 
 
 
@@ -454,13 +456,13 @@ public class ScorchedEarth implements MouseListener {
 
 				//draw the arrow
 				moreGraphics.setColor(Color.RED);
-				theGraphics2D.drawLine(x + 50, y + 20, x+50, y + 20);
+				theGraphics2D.drawLine(x, y + 20, x, y + 20);
 
 
-				if( hitP2(x+50, y+20) == true  || hitWall(x+50, y+20) == true || x+50 < -20 || x+50 > 1000){
+				if( hitP2(x, y+20) == true  || hitWall(x, y+20) == true || x < -20 || x > 1000){
 
 					moreGraphics.setColor(Color.RED);
-					theGraphics2D.drawLine(x + 50, y+20, x+50, y + 20);
+					theGraphics2D.drawLine(x, y+20, x, y + 20);
 
 					//end the loop, a hit occured
 					break;
@@ -514,7 +516,7 @@ public class ScorchedEarth implements MouseListener {
 				theGraphics2D.drawLine(x, y+20, x, y + 20);
 
 
-				if(hitP1(x, y+20) == true  || hitWall(x, y+20) == true || x< -20 || y + 20 >500){
+				if(hitP1(x, y+20) == true  || hitWall(x, y+20) == true || x< -20 || x + 20 >1000){
 					moreGraphics.setColor(Color.RED);
 					theGraphics2D.drawLine(x, y+20, x, y + 20);
 
@@ -560,6 +562,7 @@ public class ScorchedEarth implements MouseListener {
 			p1HealthNum.paintImmediately(p1HealthNum.getVisibleRect());
 			hit = true;
 			if(p1Num == 0){
+				theRounds.clear();
 				winner2();
 			}
 
@@ -585,6 +588,7 @@ public class ScorchedEarth implements MouseListener {
 			p2HealthNum.paintImmediately(p2HealthNum.getVisibleRect());
 			hit = true;
 			if(p2Num == 0){
+				theRounds.clear();
 				winner1();
 			}
 
@@ -600,7 +604,7 @@ public class ScorchedEarth implements MouseListener {
 		
 		int theWinner = 1;
 		int dialogButton = JOptionPane.YES_NO_OPTION;
-		int dialogResult = JOptionPane.showConfirmDialog(new JFrame(), "Play again?", "P3 Wins", dialogButton);
+		int dialogResult = JOptionPane.showConfirmDialog(new JFrame(), "Play again?", "P1 Wins", dialogButton);
 
 		//play again?
 		if(dialogResult==0){
@@ -681,14 +685,20 @@ public class ScorchedEarth implements MouseListener {
 		p1Num = 5;
 		p2Num = 5;
 		archersX();
+		p1ArcherLabel.setLocation(archer1X, 386);
+		p2ArcherLabel.setLocation(archer2X, 386);
+		p1HealthNum.setText("" + p1Num);
+		p1HealthNum.paintImmediately(p1HealthNum.getVisibleRect());
+		p2HealthNum.setText("" + p2Num);
+		p2HealthNum.paintImmediately(p2HealthNum.getVisibleRect());
 		
 		if(theWinner == 1){
 			//give p1 a win
 			p1NumWins++;
-			p1Wins.setText("P1 Wins - " + p1NumWins);
+			p1WinNum.setText("" + p1NumWins);
 		}else if(theWinner == 2){
 			p2NumWins++;
-			p2Wins.setText("P2 Wins - " + p2NumWins);
+			p2WinNum.setText("" + p2NumWins);
 		}else{
 			//tie give no wins
 		

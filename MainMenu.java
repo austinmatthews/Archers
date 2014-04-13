@@ -90,8 +90,8 @@ public class MainMenu {
 					new ScorchedKonami();
 
 				}else{
-					new ScorchedEarth();
-					// testing new ScorchedKonami();
+					//new ScorchedEarth();
+					new ScorchedKonami();
 				}
 			}
 			

@@ -16,6 +16,10 @@ public class RepelClass implements ActionListener{
 	}
 
 	public boolean getRepel(){
+		
+		
 		return repel;
+		
+
 	}
 }
