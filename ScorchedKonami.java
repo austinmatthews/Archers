@@ -136,15 +136,15 @@ public class ScorchedKonami implements MouseListener {
 
 		//set b1
 		b1.setActionCommand("repel1");
-		b1.setSize(80, 80);
+		b1.setSize(160, 80);
 		b1.setLocation(0, 0);
 		b1.addActionListener(b1Listener);
 		scorchedArena.add(b1);
 
 		//st b2
 		b2.setActionCommand("repel2");
-		b2.setSize(80, 80);
-		b2.setLocation(900, 0);
+		b2.setSize(160, 80);
+		b2.setLocation(800, 0);
 		scorchedArena.add(b2);
 
 		//make the buttons visible
