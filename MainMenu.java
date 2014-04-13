@@ -13,26 +13,28 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 
-//this class makes the main menu
+
 public class MainMenu {
 
-	
+
 
 	//make mainMenu panel
 	public static JPanel mainMenu = new JPanel();
-	
+
+	public  KonamiCode konamiListener = new KonamiCode ();
 	//constructor
 	public MainMenu(){
 
-		mainMenu.addKeyListener(new KonamiCode());
+
+		mainMenu.addKeyListener(konamiListener);
 		mainMenu.setFocusable(true);
 		mainMenu.requestFocusInWindow();
-		
+
 		//draw the menu when the constructor is called
 		drawMenu();
 	}
 
-	
+
 	//this method draws and displays the menu
 	public void drawMenu() {
 
@@ -80,17 +82,28 @@ public class MainMenu {
 		archers.addMouseListener(new MouseInputAdapter(){
 			//recursive method that calls itself whenever the shape is pressed, the majority of the game happens in this method
 			public void mousePressed(MouseEvent e){
-				new ScorchedEarth();
-			}
-			public void mouseEntered(MouseEvent e){
-				archers.setForeground(Color.red);
-			}
-			public void mouseExited(MouseEvent e){
-				archers.setForeground(Color.black);
-			}
-		});
 
-		
+
+				if(konamiListener.getKonami() == true){
+				
+					
+					new ScorchedKonami();
+
+				}else{
+					//new ScorchedEarth();
+					new ScorchedKonami();
+				}
+			}
+			
+				public void mouseEntered(MouseEvent e){
+					archers.setForeground(Color.red);
+				}
+				public void mouseExited(MouseEvent e){
+					archers.setForeground(Color.black);
+				}
+			});
+
+
 		ticTacToe.addMouseListener(new MouseInputAdapter(){
 			//recursive method that calls itself whenever the shape is pressed, the majority of the game happens in this method
 			public void mousePressed(MouseEvent e){
@@ -118,7 +131,7 @@ public class MainMenu {
 				instructions.setForeground(Color.black);
 			}
 		});
-	}
+		}
 
-		
+
 }	

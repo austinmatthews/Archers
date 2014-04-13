@@ -714,4 +714,3 @@ public class ScorchedEarth implements MouseListener {
 	}
 
 } 
-
